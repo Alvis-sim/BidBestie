@@ -6,6 +6,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -25,14 +27,18 @@ public class UserProfileServelet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String id = request.getParameter("accountID");
-		String fname = request.getParameter("fname");
-		String lname = request.getParameter("lname");
-		String username = request.getParameter("username");
-		String email = request.getParameter("email");
-		String password = request.getParameter("pass");
-		String repassword = request.getParameter("re_pass");
-		String mobile = request.getParameter("contact");
+		class login extends HttpServlet {
+		    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		        HttpSession session = request.getSession(false);
+		        if (session != null) {
+		            int userId = (Integer) session.getAttribute("userId");
+		            response.getWriter().println("User ID: " + userId);
+		        } else {
+		            response.getWriter().println("User ID not found in session.");
+		        }
+		    }
+		}
+
 		
 		RequestDispatcher dispatcher = null;
 		Connection con = null;
@@ -43,29 +49,23 @@ public class UserProfileServelet extends HttpServlet {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC","root", "root");
-			pst = con.prepareStatement("SELECT * FROM users WHERE accountID = userID ");
+			pst = con.prepareStatement("SELECT * FROM users WHERE accountID = 1 ");
 			rs = pst.executeQuery();
 			
 
 			 if (rs.next()) {
-	                String name = rs.getString("name");
-	                String email1 = rs.getString("email");
-	                String phone = rs.getString("phone");
+	                String fname = rs.getString("fname");
+	                String lname = rs.getString("lname");
+	                String email = rs.getString("email");
+	                String mobile = rs.getString("phone");
 
-	                request.setAttribute("name", name);
-	                request.setAttribute("email", email1);
-	                request.setAttribute("phone", phone);
+	                request.setAttribute("fname", fname);
+	                request.setAttribute("lname", lname);
+	                request.setAttribute("email", email);
+	                request.setAttribute("mobile", mobile);
 	            }
 			
-			int rowCount = pst.executeUpdate();
-			dispatcher = request.getRequestDispatcher("registration.jsp");
-			if (rowCount > 0) {
-				request.setAttribute("status", "success");	
-			}else {
-				request.setAttribute("status", "failed");
-			}
 			
-			dispatcher.forward(request, response);
 		}catch (Exception e) {
 			e.printStackTrace();
 		}finally {
@@ -79,7 +79,7 @@ public class UserProfileServelet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		request.getRequestDispatcher("/showData.jsp").forward(request, response);
+		request.getRequestDispatcher("/userprofile.jsp").forward(request, response);
 	}
 	
 

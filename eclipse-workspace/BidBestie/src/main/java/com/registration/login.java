@@ -49,21 +49,27 @@ public class login extends HttpServlet {
 			ResultSet rs = pst.executeQuery();
 			
 			if(rs.next()) {
+				
 				session.setAttribute("name", rs.getString("username"));
+				
+				int userId = rs.getInt("accountID");
+                //Store user ID in session
+                session.setAttribute("userId", userId);
+                
 				dispatcher = request.getRequestDispatcher("index.jsp"); /* direct page after login*/
-				int userId = rs.getInt("id");
-
-                // Store user ID in session
-                //session.setAttribute("userId", userId);
-
+				
 				
 			}else {
 				request.setAttribute("status", "failed");
 				dispatcher = request.getRequestDispatcher("login.jsp");
 			}
 			dispatcher.forward(request, response);
-		} catch (Exception e) {
 			
+			rs.close();
+			pst.close();
+			con.close();
+		} catch (Exception e) {
+			dispatcher = request.getRequestDispatcher("login.jsp");
 		}
 	}
 
