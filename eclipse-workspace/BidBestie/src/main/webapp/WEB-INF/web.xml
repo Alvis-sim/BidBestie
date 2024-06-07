@@ -54,4 +54,14 @@
     <servlet-name>ImageServlet</servlet-name>
     <url-pattern>/ImageServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UserProfileServelet</display-name>
+    <servlet-name>UserProfileServelet</servlet-name>
+    <servlet-class>UserProfileServelet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserProfileServelet</servlet-name>
+    <url-pattern>/UserProfileServelet</url-pattern>
+  </servlet-mapping>
 </web-app>

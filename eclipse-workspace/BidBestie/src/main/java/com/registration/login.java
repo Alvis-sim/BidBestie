@@ -51,6 +51,11 @@ public class login extends HttpServlet {
 			if(rs.next()) {
 				session.setAttribute("name", rs.getString("username"));
 				dispatcher = request.getRequestDispatcher("index.jsp"); /* direct page after login*/
+				int userId = rs.getInt("id");
+
+                // Store user ID in session
+                //session.setAttribute("userId", userId);
+
 				
 			}else {
 				request.setAttribute("status", "failed");
