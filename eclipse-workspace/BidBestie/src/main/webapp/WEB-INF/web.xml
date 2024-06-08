@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xmlns="https://jakarta.ee/xml/ns/jakartaee" 
+xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
   <display-name>signup</display-name>
   <welcome-file-list>
     <welcome-file>home.jsp</welcome-file>
@@ -58,10 +60,18 @@
     <description></description>
     <display-name>UserProfileServelet</display-name>
     <servlet-name>UserProfileServelet</servlet-name>
-    <servlet-class>UserProfileServelet</servlet-class>
+    <servlet-class>com.registration.UserProfileServelet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>UserProfileServelet</servlet-name>
     <url-pattern>/UserProfileServelet</url-pattern>
   </servlet-mapping>
+  
+  <!-- Enable JSP version and EL -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jsp</url-pattern>
+            <el-ignored>false</el-ignored>
+        </jsp-property-group>
+    </jsp-config>
 </web-app>

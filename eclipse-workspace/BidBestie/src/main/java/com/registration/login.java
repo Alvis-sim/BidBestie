@@ -24,6 +24,7 @@ public class login extends HttpServlet {
 
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		
 		HttpSession session = request.getSession();
 		RequestDispatcher dispatcher = null;
 		
@@ -50,11 +51,19 @@ public class login extends HttpServlet {
 			
 			if(rs.next()) {
 				
-				session.setAttribute("name", rs.getString("username"));
+				int accountID = rs.getInt("accountID");
+			    String fname = rs.getString("fname");
+			    String lname = rs.getString("lname");
+			    String email = rs.getString("email");
+			    String mobile = rs.getString("mobile");
 				
-				int userId = rs.getInt("accountID");
-                //Store user ID in session
-                session.setAttribute("userId", userId);
+				session.setAttribute("name", rs.getString("username"));
+                //Store user data in session
+                session.setAttribute("userId", rs.getInt("accountID"));
+                session.setAttribute("fname", rs.getString("fname"));
+                session.setAttribute("lname", rs.getString("lname"));
+                session.setAttribute("email", rs.getString("email"));
+                session.setAttribute("mobile", rs.getString("mobile"));
                 
 				dispatcher = request.getRequestDispatcher("index.jsp"); /* direct page after login*/
 				
