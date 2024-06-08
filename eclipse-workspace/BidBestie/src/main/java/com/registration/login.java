@@ -53,7 +53,7 @@ public class login extends HttpServlet {
 				
 				int accountID = rs.getInt("accountID");
 			    String fname = rs.getString("fname");
-			    String lname = rs.getString("lname");
+			    String lname = rs.getString("lname");		    
 			    String email = rs.getString("email");
 			    String mobile = rs.getString("mobile");
 				
@@ -62,10 +62,12 @@ public class login extends HttpServlet {
                 session.setAttribute("userId", rs.getInt("accountID"));
                 session.setAttribute("fname", rs.getString("fname"));
                 session.setAttribute("lname", rs.getString("lname"));
+                session.setAttribute("username", rs.getString("username"));
+                session.setAttribute("password", rs.getString("password"));
                 session.setAttribute("email", rs.getString("email"));
                 session.setAttribute("mobile", rs.getString("mobile"));
                 
-				dispatcher = request.getRequestDispatcher("index.jsp"); /* direct page after login*/
+				dispatcher = request.getRequestDispatcher("UserLanding.jsp"); /* direct page after login*/
 				
 				
 			}else {

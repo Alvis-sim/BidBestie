@@ -18,7 +18,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="index.jsp">Home</a></li>
+                <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="UserLanding.jsp">Home</a></li>
                 <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded" href="logout">Logout</a></li>                
             </ul>
         </div>
@@ -46,6 +46,12 @@
             <label for="mobile"><i class="zmdi zmdi-lock-outline"></i></label>
             <input type="number" name="mobile" id="mobile" value="${mobile}" readonly/>
         </div>
+        <a href="updateprofile.jsp">Update Profile</a>
+        <a href="changepass.jsp">Reset Password</a>
+    
+</button>
+</a>
+
     </div>
 </section>
 </body>
