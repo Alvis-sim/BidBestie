@@ -22,17 +22,33 @@ public class ProcessSellProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String productName = request.getParameter("productName");
-        String description = request.getParameter("description");
-        String category = request.getParameter("category");
-        double startingPrice = Double.parseDouble(request.getParameter("startingPrice"));
-        InputStream inputStream = null; // input stream of the upload file
-
-        // obtains the upload file part in this multipart request
-        Part filePart = request.getPart("productImage");
-        if (filePart != null) {
-            // obtains input stream of the upload file
-            inputStream = filePart.getInputStream();
+    	 // Collect form data
+        String productName = request.getParameter("name");
+        String productCategory = request.getParameter("categories");
+        String productDescription = request.getParameter("description");
+        String quantity = request.getParameter("quantity");
+        String buyNowPrice = request.getParameter("buyitnow");
+        String shipping = request.getParameter("shipping");
+        Part imagePart = request.getPart("image");
+        
+        // Auction fields
+        String auctionToggle = request.getParameter("auctionToggle");
+        String startingBidPrice = null;
+        String sDate = null;
+        String eDate = null;
+        String duration = null;
+        
+        if (auctionToggle != null && auctionToggle.equals("on")) {
+            startingBidPrice = request.getParameter("startingBidPrice");
+            sDate = request.getParameter("startdate");
+            eDate = request.getParameter("enddate");
+            duration = request.getParameter("auctionDuration");
+            }
+        
+        
+        InputStream inputStream = null;
+        if (imagePart != null) {
+            inputStream = imagePart.getInputStream();
         }
 
         Connection con = null; // connection to the database
@@ -40,27 +56,49 @@ public class ProcessSellProductServlet extends HttpServlet {
 
         try {
             // connects to the database
-            DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
+        	Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC","root", "root");
 
             // constructs SQL statement
-            String sql = "INSERT INTO products (name, description, category, starting_price, image) values (?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO product (accountID, productName, productCatagory, productDescription, Quantity, buyNowPrice, sDate, eDate, "
+            		+ "duration, Shipping, Image, startingBidPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, productName);
-            statement.setString(2, description);
-            statement.setString(3, category);
-            statement.setDouble(4, startingPrice);
-            
-            if (inputStream != null) {
-                // fetches input stream of the upload file for the blob column
-                statement.setBlob(5, inputStream);
+            statement.setInt(1, 1); // Assuming accountID is 1 for now
+            statement.setString(2, productName);
+            statement.setString(3, productCategory);
+            statement.setString(4, productDescription);
+            statement.setString(5, quantity);
+            statement.setString(6, buyNowPrice);
+            statement.setString(7, sDate);
+            statement.setString(8, eDate);
+
+            // Set the duration if auction is selected, otherwise set NULL
+            if (duration != null && !duration.isEmpty()) {
+                statement.setInt(9, Integer.parseInt(duration));
+            } else {
+                statement.setNull(9, java.sql.Types.INTEGER);
             }
 
-            // sends the statement to the database server
+            statement.setString(10, shipping);
+
+            if (inputStream != null) {
+                statement.setBlob(11, inputStream);
+            } else {
+                statement.setNull(11, java.sql.Types.BLOB);
+            }
+
+            // Set the starting bid price if auction is selected, otherwise set NULL
+            if (startingBidPrice != null && !startingBidPrice.isEmpty()) {
+                statement.setString(12, startingBidPrice);
+            } else {
+                statement.setNull(12, java.sql.Types.VARCHAR);
+            }
+
             int row = statement.executeUpdate();
             if (row > 0) {
-                message = "Product uploaded and saved into database";
+                message = "File uploaded and saved into database";
             }
+
         } catch (Exception ex) {
             message = "ERROR: " + ex.getMessage();
             ex.printStackTrace();

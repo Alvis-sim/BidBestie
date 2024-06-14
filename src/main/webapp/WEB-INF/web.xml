@@ -72,13 +72,13 @@
   </jsp-config>
   <servlet>
     <description></description>
-    <display-name>ProcessSell</display-name>
-    <servlet-name>ProcessSell</servlet-name>
-    <servlet-class>ProcessSell</servlet-class>
+    <display-name>ProcessSellProductServlet</display-name>
+    <servlet-name>ProcessSellProductServlet</servlet-name>
+    <servlet-class>ProcessSellProductServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ProcessSell</servlet-name>
-    <url-pattern>/ProcessSell</url-pattern>
+    <servlet-name>ProcessSellProductServlet</servlet-name>
+    <url-pattern>/ProcessSellProductServlet</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
