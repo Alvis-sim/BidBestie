@@ -66,6 +66,7 @@ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/n
     <servlet-name>UserProfileServelet</servlet-name>
     <url-pattern>/UserProfileServelet</url-pattern>
   </servlet-mapping>
+<<<<<<< Updated upstream:eclipse-workspace/BidBestie/src/main/webapp/WEB-INF/web.xml
   
   <!-- Enable JSP version and EL -->
     <jsp-config>
@@ -74,4 +75,53 @@ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/n
             <el-ignored>false</el-ignored>
         </jsp-property-group>
     </jsp-config>
+=======
+  <jsp-config>
+    <jsp-property-group>
+      <url-pattern>*.jsp</url-pattern>
+      <el-ignored>false</el-ignored>
+    </jsp-property-group>
+  </jsp-config>
+  <servlet>
+    <description></description>
+    <display-name>ProcessSellProductServlet</display-name>
+    <servlet-name>ProcessSellProductServlet</servlet-name>
+    <servlet-class>ProcessSellProductServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProcessSellProductServlet</servlet-name>
+    <url-pattern>/ProcessSellProductServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductService</display-name>
+    <servlet-name>ProductService</servlet-name>
+    <servlet-class>ProductService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductService</servlet-name>
+    <url-pattern>/ProductService</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductServlet</display-name>
+    <servlet-name>ProductServlet</servlet-name>
+    <servlet-class>ProductServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductServlet</servlet-name>
+    <url-pattern>/ProductServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ProductServlet2</display-name>
+    <servlet-name>ProductServlet2</servlet-name>
+    <servlet-class>com.registration.ProductServlet2</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ProductServlet2</servlet-name>
+    <url-pattern>/ProductServlet2</url-pattern>
+  </servlet-mapping>
+  
+>>>>>>> Stashed changes:src/main/webapp/WEB-INF/web.xml
 </web-app>
