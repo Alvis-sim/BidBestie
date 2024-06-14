@@ -27,6 +27,7 @@
 						</figure>
 						<a href="registration.jsp" class="signup-image-link">Create an
 							account</a>
+						
 					</div>
 
 					<div class="signin-form">
@@ -54,6 +55,10 @@
 								<input type="submit" name="signin" id="signin"
 									class="form-submit" value="Log in" />
 							</div>
+							<div>
+								<a href="Landingpage.jsp" class="form-group form-button">Cancel</a>
+							</div>
+							
 						</form>
 						<div class="social-login">
 							<span class="social-label">Or login with</span>

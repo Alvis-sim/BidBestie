@@ -9,7 +9,7 @@
 <head>
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
     <link href="css/Landingpage.css" rel="stylesheet" />
-    <title>Document</title>
+    <title>BidBestie | Home</title>
 </head>
 <body>
     <div class="top">
@@ -40,6 +40,7 @@
         <div class="links">
             <a href="userprofile.jsp">My Account</a>
             <a href="logout">Logout</a>
+            <a href="createListing2.jsp">Sell</a>
             <a href="#"><img src="images/bell.png" alt="Image 1"></a>
             <a href="#"><img src="images/heart.png" alt="Image 2"></a>
             <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>

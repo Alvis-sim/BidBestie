@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns="https://jakarta.ee/xml/ns/jakartaee" 
-xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:jsp="http://java.sun.com/xml/ns/javaee/jsp" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd" id="WebApp_ID" version="6.0">
   <display-name>signup</display-name>
   <welcome-file-list>
     <welcome-file>Landingpage.jsp</welcome-file>
@@ -66,16 +64,6 @@ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/n
     <servlet-name>UserProfileServelet</servlet-name>
     <url-pattern>/UserProfileServelet</url-pattern>
   </servlet-mapping>
-<<<<<<< Updated upstream:eclipse-workspace/BidBestie/src/main/webapp/WEB-INF/web.xml
-  
-  <!-- Enable JSP version and EL -->
-    <jsp-config>
-        <jsp-property-group>
-            <url-pattern>*.jsp</url-pattern>
-            <el-ignored>false</el-ignored>
-        </jsp-property-group>
-    </jsp-config>
-=======
   <jsp-config>
     <jsp-property-group>
       <url-pattern>*.jsp</url-pattern>
@@ -84,13 +72,13 @@ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/n
   </jsp-config>
   <servlet>
     <description></description>
-    <display-name>ProcessSellProductServlet</display-name>
-    <servlet-name>ProcessSellProductServlet</servlet-name>
-    <servlet-class>ProcessSellProductServlet</servlet-class>
+    <display-name>ProcessSell</display-name>
+    <servlet-name>ProcessSell</servlet-name>
+    <servlet-class>ProcessSell</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>ProcessSellProductServlet</servlet-name>
-    <url-pattern>/ProcessSellProductServlet</url-pattern>
+    <servlet-name>ProcessSell</servlet-name>
+    <url-pattern>/ProcessSell</url-pattern>
   </servlet-mapping>
   <servlet>
     <description></description>
@@ -122,6 +110,4 @@ xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/n
     <servlet-name>ProductServlet2</servlet-name>
     <url-pattern>/ProductServlet2</url-pattern>
   </servlet-mapping>
-  
->>>>>>> Stashed changes:src/main/webapp/WEB-INF/web.xml
 </web-app>

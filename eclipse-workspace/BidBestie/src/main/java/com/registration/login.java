@@ -59,7 +59,7 @@ public class login extends HttpServlet {
 				
 				session.setAttribute("name", rs.getString("username"));
                 //Store user data in session
-                session.setAttribute("accountID", rs.getInt("accountID"));
+                session.setAttribute("userId", rs.getInt("accountID"));
                 session.setAttribute("fname", rs.getString("fname"));
                 session.setAttribute("lname", rs.getString("lname"));
                 session.setAttribute("username", rs.getString("username"));

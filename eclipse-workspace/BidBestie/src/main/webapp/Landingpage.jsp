@@ -1,10 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="java.util.ArrayList" %>
+<%@ page import="com.registration.Product" %>
 <!DOCTYPE html>
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
     <link href="css/Landingpage.css" rel="stylesheet" />
-    <title>Document</title>
+    <title>BidBestie | Home</title>
 </head>
 <body>
     <div class="top">
@@ -19,7 +21,7 @@
                 <option value="men-fashion">Men Fashion</option>
                 <option value="living">Living</option>
                 <option value="accessories">Accessories</option>
-                <option value="beauty-health">Beauty & Health</option>
+                <option value="beauty-health">Beauty and Health</option>
                 <option value="travel">Travel</option>
                 <option value="sporting-goods">Sporting Goods</option>
                 <option value="pet-supplies">Pet Supplies</option>
@@ -35,6 +37,7 @@
         <div class="links">
             <a href="registration.jsp">Register</a>
             <a href="login.jsp">Login</a>
+            <a href="login.jsp">Sell</a>
             <a href="#"><img src="images/bell.png" alt="Image 1"></a>
             <a href="#"><img src="images/heart.png" alt="Image 2"></a>
             <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>
@@ -48,7 +51,7 @@
         <li><a href="men-fashion">Men Fashion</a></li>
         <li><a href="Living">Living</a></li>
         <li><a href="Accessories">Accessories</a></li>
-        <li><a href="B&H">Beauty & Health</a></li>
+        <li><a href="B&H">Beauty and Health</a></li>
         <li><a href="Travel">Travel</a></li>
         <li><a href="Sporting Goods">Sporting Goods</a></li>
         <li><a href="Pet Supplies">Pet Supplies</a></li>
@@ -72,25 +75,23 @@
         </div>
     </div>
 
-    <div class="section top-products">
-        <h2>Top Products</h2>
-        <div class="items">
-            <div class="item">
-                <img src="images/laptop.jpg" alt="Flergump">
-                <p>Laptop</p>
-                <span>$123.45</span>
-            </div>
-            <div class="item">
-                <img src="images/tv.jpg" alt="Wibblo">
-                <p>Television</p>
-                <span>$98.76</span>
-            </div>
-            <div class="item">
-                <img src="images/keyboard.jpeg" alt="iphone15">
-                <p>keyboard</p>
-                <span>$1222.34</span>
-            </div>
-        </div>
+<div class="section top-products">
+    <h2>Top Products</h2>
+    <div class="items">
+    <% 
+        ArrayList<Product> products = (ArrayList<Product>) request.getAttribute("products");
+        if (products == null || products.isEmpty()) { %>
+            <p>No products available</p>
+    <% } else {
+            for (Product product : products) { %>
+                <div class="item">
+                    <a href="viewProduct.jsp?product=<%= product.getName() %>"><%= product.getName() %></a>
+                    <span>$<%= product.getPrice() %></span>
+                </div>
+    <%      }
+        }
+    %>
     </div>
+</div>
 </body>
 </html>
