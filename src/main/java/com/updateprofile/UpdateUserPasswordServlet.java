@@ -13,7 +13,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
-@WebServlet("/UpdateUserPasswordServlet")
 public class UpdateUserPasswordServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
