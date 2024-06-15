@@ -120,4 +120,14 @@
     <servlet-name>UpdateProfileServlet</servlet-name>
     <url-pattern>/UpdateProfileServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateUserPasswordServlet</display-name>
+    <servlet-name>UpdateUserPasswordServlet</servlet-name>
+    <servlet-class>UpdateUserPasswordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateUserPasswordServlet</servlet-name>
+    <url-pattern>/UpdateUserPasswordServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

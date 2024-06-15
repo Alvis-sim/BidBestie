@@ -23,6 +23,8 @@ public class ProcessSellProductServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	 // Collect form data
+    	String userIDStr = request.getParameter("userID");
+    	int userID = Integer.parseInt(userIDStr);
         String productName = request.getParameter("name");
         String productCategory = request.getParameter("categories");
         String productDescription = request.getParameter("description");
@@ -30,6 +32,7 @@ public class ProcessSellProductServlet extends HttpServlet {
         String buyNowPrice = request.getParameter("buyitnow");
         String shipping = request.getParameter("shipping");
         Part imagePart = request.getPart("image");
+        
         
         // Auction fields
         String auctionToggle = request.getParameter("auctionToggle");
@@ -63,7 +66,7 @@ public class ProcessSellProductServlet extends HttpServlet {
             String sql = "INSERT INTO product (accountID, productName, productCatagory, productDescription, Quantity, buyNowPrice, sDate, eDate, "
             		+ "duration, Shipping, Image, startingBidPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, 1); // Assuming accountID is 1 for now
+            statement.setInt(1, userID); // Assuming accountID is 1 for now
             statement.setString(2, productName);
             statement.setString(3, productCategory);
             statement.setString(4, productDescription);
