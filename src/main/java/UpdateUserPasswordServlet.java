@@ -3,6 +3,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -41,8 +43,9 @@ public class UpdateUserPasswordServlet extends HttpServlet {
                             updateStmt.setInt(2, accountID);
 
                             int rowsUpdated = updateStmt.executeUpdate();
-                            if (rowsUpdated > 0) {
-                                response.getWriter().println("Password updated successfully!");
+                            if (rowsUpdated > 0) {                            	
+                            	response.sendRedirect(request.getContextPath() + "/userprofile.jsp?profileUpdated=true");                                                               
+                                //response.getWriter().println("Password updated successfully!");
                             } else {
                                 response.getWriter().println("Failed to update password. User not found.");
                             }

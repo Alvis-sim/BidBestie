@@ -14,7 +14,7 @@
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Update Password</h2>
 
         <form action="${pageContext.request.contextPath}/UpdateUserPasswordServlet" method="post">
-    		<input type="text" name="accountID" value="${accountID}" />
+    		<input type="hidden" name="accountID" value="${accountID}" />
 
     		<div class="form-group">
         		<label for="oldPassword"><i class="zmdi zmdi-lock"></i> Old Password</label>

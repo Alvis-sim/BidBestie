@@ -3,6 +3,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -46,7 +47,14 @@ public class UpdateProfileServlet extends HttpServlet {
 
                 int rowsUpdated = preparedStatement.executeUpdate();
                 if (rowsUpdated > 0) {
-                    response.getWriter().println("Profile updated successfully!");
+                	// Store updated email and mobile in session
+                    HttpSession session = request.getSession();
+                    session.setAttribute("email", email);
+                    session.setAttribute("mobile", mobile);
+                    //response.getWriter().println("Profile updated successfully!");
+                	// Redirect to userprofile.jsp upon successful update
+                    response.sendRedirect(request.getContextPath() + "/userprofile.jsp?profileUpdated=true");
+                    return; // Exit from the servlet method after redirection
                 } else {
                     response.getWriter().println("Failed to update profile. User not found.");
                 }
