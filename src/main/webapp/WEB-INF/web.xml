@@ -110,4 +110,24 @@
     <servlet-name>ProductServlet2</servlet-name>
     <url-pattern>/ProductServlet2</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateProfileServlet</display-name>
+    <servlet-name>UpdateProfileServlet</servlet-name>
+    <servlet-class>UpdateProfileServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateProfileServlet</servlet-name>
+    <url-pattern>/UpdateProfileServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>UpdateUserPasswordServlet</display-name>
+    <servlet-name>UpdateUserPasswordServlet</servlet-name>
+    <servlet-class>UpdateUserPasswordServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UpdateUserPasswordServlet</servlet-name>
+    <url-pattern>/UpdateUserPasswordServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -47,7 +47,7 @@
             <input type="number" name="mobile" id="mobile" value="${mobile}" readonly/>
         </div>
         <a href="updateprofile.jsp">Update Profile</a>
-        <a href="changepass.jsp">Reset Password</a>
+        <a href="updatepass.jsp">Change Password</a>
     
 </button>
 </a>
