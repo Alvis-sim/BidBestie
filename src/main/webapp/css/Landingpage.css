@@ -164,3 +164,7 @@ ul.categories li a:hover {
   color: black;
   font-weight: bold;
 }
+header-link {
+      text-decoration: none;
+      color: inherit;
+    }
