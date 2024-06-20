@@ -1,0 +1,250 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: white;
+    font-family: 'Inter', sans-serif;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #edffd3;
+    color: black;
+    padding: 10px 20px;
+}
+
+.logo {
+    text-align: left;
+}
+
+.logo h1 {
+    font-size: 3vw; /* Relative font size based on viewport width */
+    letter-spacing: 0.1em; /* Optional: Adjust letter spacing */
+    color: #555555;
+}
+
+.search {
+    display: flex;
+    align-items: center;
+}
+
+.search select, .search input, .search button {
+    margin-right: 10px;
+    padding: 5px;
+    font-weight: bold;
+}
+
+.search input {
+    flex: 1;
+    font-weight: bold;
+}
+
+.search button {
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search button:hover {
+    background-color: #555;
+}
+
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #edffd3;
+    padding: 10px 20px;
+}
+
+.user-info span {
+    margin-right: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.user-info .links {
+    display: flex;
+    gap: 10px;
+}
+
+.user-info a {
+    text-decoration: none; /* Remove the underline from the links */
+    font-weight: bold;
+    color: black;
+}
+
+.user-info .links a img {
+    width: 30px; /* Adjust the width of the images */
+    height: auto;
+}
+
+.main-container {
+    display: flex;
+}
+
+/* Fixed sidenav, full height */
+.sidenav {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 1;
+  top: 130;
+  left: 0;
+  background-color: #ddd;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Style the sidenav links and the dropdown button */
+.sidenav a, .dropdown-btn {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: #818181;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* On mouse-over */
+.sidenav a:hover, .dropdown-btn:hover {
+  color: black;
+}
+
+/* Add an active class to the active dropdown button */
+.active {
+  background-color: #818181;
+  color: black;
+}
+
+/* Dropdown container (hidden by default).*/
+.dropdown-container {
+  display: none;
+  background-color: #ddd;
+  padding-left: 8px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+.purchases-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.purchases-table th, .purchases-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.purchases-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.purchases-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.purchases-table th, .purchases-table td {
+    padding: 20px;
+}
+
+/* Optional: Style the caret down icon */
+.fa-caret-down {
+  float: right;
+  padding-right: 8px;
+}
+
+/* Some media queries for responsiveness */
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+main {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content {
+    max-width: 1000px;
+    width: 100%;
+    background-color: white;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content h1 {
+    font-size: 24px;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Profile section styles */
+.profile-info {
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.profile-info h2 {
+    text-decoration: underline;
+}
+
+.profile-info label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.profile-info span {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.profile-info button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #333;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.profile-info button:hover {
+    background-color: #555;
+}
+
+/* Section visibility */
+.section {
+    display: none; /* Hide all sections by default */
+}
+
+#profile {
+    display: block; /* Show profile section by default */
+}
+
+

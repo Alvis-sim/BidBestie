@@ -38,6 +38,7 @@
             <a href="registration.jsp">Register</a>
             <a href="login.jsp">Login</a>
             <a href="login.jsp">Sell</a>
+            <a href="Product">Load</a>
             <a href="#"><img src="images/bell.png" alt="Image 1"></a>
             <a href="#"><img src="images/heart.png" alt="Image 2"></a>
             <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>

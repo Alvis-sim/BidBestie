@@ -12,7 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
-@WebServlet("/products")
+@WebServlet("/Product")
 public class ProductServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
