@@ -57,42 +57,69 @@
         <li><a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a></li>
         <li><a href="DisplayCategoryServlet?category=Pet Supplies">Pet Supplies</a></li>
     </ul>
-
-    <div class="section popular-destinations">
-        <h2>Popular Destinations</h2>
+        <div class="Categories">
+        <h2>Categories</h2>
         <div class="items">
             <div class="item">
-                <img src="images/smartwatch.jpg" alt="smartwatch">
-                <p>Smartwatch</p>
+            	<a href="DisplayCategoryServlet?category=electronics">
+          			<img src="images/smartwatch.jpg" alt="smartwatch">
+        		</a>
+                <p>Electronics</p>
             </div>
             <div class="item">
-                <img src="images/iphone15.jpg" alt="iphone15">
-                <p>Iphone 15</p>
+            	<a href="DisplayCategoryServlet?category=Women Fashion">
+                	<img src="images/womenfashion.jpg" alt="iphone15">
+                </a>
+                <p>Women Fashion</p>
             </div>
             <div class="item">
-                <img src="images/pc.jpg" alt="pc">
-                <p>PC</p>
+            	<a href="DisplayCategoryServlet?category=men-fashion">
+                	<img src="images/menfashion.jpg" alt="menfashion">
+                	</a>
+                <p>Men Fashion</p>
+            </div>
+            
+        </div>
+        <div class="items">
+            <div class="item">
+            	<a href="DisplayCategoryServlet?category=Living">
+                	<img src="images/living.jpg" alt="living">
+                </a>
+                <p>Living</p>
+            </div>
+            <div class="item">
+            	<a href="DisplayCategoryServlet?category=Accessories">
+                	<img src="images/accessories.jpg" alt="accessories">
+                </a>
+                <p>Accessories</p>
+            </div>
+            <div class="item">
+            	<a href="DisplayCategoryServlet?category=B&H">
+                	<img src="images/beauty.jpg" alt="beauty&health">
+                </a>
+                <p>Beauty & Health</p>
+            </div>            
+        </div>
+        <div class="items">            
+            <div class="item">
+            	<a href="DisplayCategoryServlet?category=Travel">
+                	<img src="images/travel.jpg" alt="travel">
+             	</a>
+                <p>Travel</p>
+            </div>
+            <div class="item">
+            	<a href="DisplayCategoryServlet?category=sporting-goods">
+                	<img src="images/sporting.jpg" alt="sporting">
+                </a>
+                <p>Sporting Goods</p>
+            </div>
+             <div class="item">
+             	<a href="DisplayCategoryServlet?category=Pet Supplies">
+                	<img src="images/petsupplies.jpg" alt="smartwatch">
+                </a>
+                <p>Pet Supplies</p>
             </div>
         </div>
     </div>
-
-<div class="section top-products">
-    <h2>Top Products</h2>
-    <div class="items">
-    <% 
-        ArrayList<Product> products = (ArrayList<Product>) request.getAttribute("products");
-        if (products == null || products.isEmpty()) { %>
-            <p>No products available</p>
-    <% } else {
-            for (Product product : products) { %>
-                <div class="item">
-                    <a href="viewProduct.jsp?product=<%= product.getName() %>"><%= product.getName() %></a>
-                    <span>$<%= product.getPrice() %></span>
-                </div>
-    <%      }
-        }
-    %>
-    </div>
-</div>
 </body>
 </html>
