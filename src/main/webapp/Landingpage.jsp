@@ -44,19 +44,8 @@
             <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>
         </div>
         
-    </div>
+   </div>
 
-    <ul class="categories">
-        <li><a href="DisplayCategoryServlet?category=electronics">Electronics</a></li>
-        <li><a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a></li>
-        <li><a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a></li>
-        <li><a href="DisplayCategoryServlet?category=living">Living</a></li>
-        <li><a href="DisplayCategoryServlet?category=accessories">Accessories</a></li>
-        <li><a href="DisplayCategoryServlet?category=beauty-health">Beauty and Health</a></li>
-        <li><a href="DisplayCategoryServlet?category=travel">travel</a></li>
-        <li><a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a></li>
-        <li><a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a></li>
-    </ul>
         <div class="Categories">
         <h2>Categories</h2>
         <div class="items">
@@ -67,7 +56,7 @@
                 <p>Electronics</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Women Fashion">
+            	<a href="DisplayCategoryServlet?category=women-fashion">
                 	<img src="images/womenfashion.jpg" alt="iphone15">
                 </a>
                 <p>Women Fashion</p>
@@ -82,19 +71,19 @@
         </div>
         <div class="items">
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Living">
+            	<a href="DisplayCategoryServlet?category=living">
                 	<img src="images/living.jpg" alt="living">
                 </a>
                 <p>Living</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Accessories">
+            	<a href="DisplayCategoryServlet?category=accessories">
                 	<img src="images/accessories.jpg" alt="accessories">
                 </a>
                 <p>Accessories</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=B&H">
+            	<a href="DisplayCategoryServlet?category=beauty-health">
                 	<img src="images/beauty.jpg" alt="beauty&health">
                 </a>
                 <p>Beauty & Health</p>
@@ -102,7 +91,7 @@
         </div>
         <div class="items">            
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Travel">
+            	<a href="DisplayCategoryServlet?category=travel">
                 	<img src="images/travel.jpg" alt="travel">
              	</a>
                 <p>Travel</p>
@@ -114,8 +103,8 @@
                 <p>Sporting Goods</p>
             </div>
              <div class="item">
-             	<a href="DisplayCategoryServlet?category=Pet Supplies">
-                	<img src="images/petsupplies.jpg" alt="smartwatch">
+             	<a href="DisplayCategoryServlet?category=pet-supplies">
+                	<img src="images/petsupplies.jpg" alt="petsupplies">
                 </a>
                 <p>Pet Supplies</p>
             </div>

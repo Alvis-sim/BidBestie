@@ -59,7 +59,7 @@
                 <p>Electronics</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Women Fashion">
+            	<a href="DisplayCategoryServlet?category=women-fashion">
                 	<img src="images/womenfashion.jpg" alt="iphone15">
                 </a>
                 <p>Women Fashion</p>
@@ -74,13 +74,13 @@
         </div>
         <div class="items">
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Living">
+            	<a href="DisplayCategoryServlet?category=living">
                 	<img src="images/living.jpg" alt="living">
                 </a>
                 <p>Living</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Accessories">
+            	<a href="DisplayCategoryServlet?category=accessories">
                 	<img src="images/accessories.jpg" alt="accessories">
                 </a>
                 <p>Accessories</p>
@@ -94,7 +94,7 @@
         </div>
         <div class="items">            
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=Travel">
+            	<a href="DisplayCategoryServlet?category=travel">
                 	<img src="images/travel.jpg" alt="travel">
              	</a>
                 <p>Travel</p>
@@ -106,7 +106,7 @@
                 <p>Sporting Goods</p>
             </div>
              <div class="item">
-             	<a href="DisplayCategoryServlet?category=Pet Supplies">
+             	<a href="DisplayCategoryServlet?category=pet-supplies">
                 	<img src="images/petsupplies.jpg" alt="smartwatch">
                 </a>
                 <p>Pet Supplies</p>
