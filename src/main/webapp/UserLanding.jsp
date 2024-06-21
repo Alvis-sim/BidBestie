@@ -51,14 +51,14 @@
 
     <ul class="categories">
         <li><a href="DisplayCategoryServlet?category=electronics">Electronics</a></li>
-        <li><a href="DisplayCategoryServlet?category=Women Fashion">Women Fashion</a></li>
+        <li><a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a></li>
         <li><a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a></li>
-        <li><a href="DisplayCategoryServlet?category=Living">Living</a></li>
-        <li><a href="DisplayCategoryServlet?category=Accessories">Accessories</a></li>
-        <li><a href="DisplayCategoryServlet?category=B&H">Beauty and Health</a></li>
-        <li><a href="DisplayCategoryServlet?category=Travel">Travel</a></li>
+        <li><a href="DisplayCategoryServlet?category=living">Living</a></li>
+        <li><a href="DisplayCategoryServlet?category=accessories">Accessories</a></li>
+        <li><a href="DisplayCategoryServlet?category=beauty-health">Beauty and Health</a></li>
+        <li><a href="DisplayCategoryServlet?category=travel">travel</a></li>
         <li><a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a></li>
-        <li><a href="DisplayCategoryServlet?category=Pet Supplies">Pet Supplies</a></li>
+        <li><a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a></li>
     </ul>
 
         <div class="Categories">
