@@ -23,8 +23,8 @@ public class ProcessSellProductServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	 // Collect form data
-    	String userIDStr = request.getParameter("userID");
-    	int userID = Integer.parseInt(userIDStr);
+    	//String userIDStr = request.getParameter("userID");
+    	//int userID = Integer.parseInt(userIDStr);
         String productName = request.getParameter("name");
         String productCategory = request.getParameter("categories");
         String productDescription = request.getParameter("description");
@@ -63,10 +63,10 @@ public class ProcessSellProductServlet extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC","root", "root");
 
             // constructs SQL statement
-            String sql = "INSERT INTO product (accountID, productName, productCatagory, productDescription, Quantity, buyNowPrice, sDate, eDate, "
+            String sql = "INSERT INTO product (accountID, productName, productCategory, productDescription, Quantity, buyNowPrice, sDate, eDate, "
             		+ "duration, Shipping, Image, startingBidPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, userID); // Assuming accountID is 1 for now
+            statement.setInt(1, 1); // Assuming accountID is 1 for now
             statement.setString(2, productName);
             statement.setString(3, productCategory);
             statement.setString(4, productDescription);

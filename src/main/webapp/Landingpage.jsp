@@ -47,7 +47,7 @@
     </div>
 
     <ul class="categories">
-        <li><a href="Electronics">Electronics</a></li>
+        <li><a href="viewCategory.jsp">Electronics</a></li>
         <li><a href="Women Fashion">Women Fashion</a></li>
         <li><a href="men-fashion">Men Fashion</a></li>
         <li><a href="Living">Living</a></li>

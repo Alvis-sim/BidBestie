@@ -8,6 +8,6 @@
 </head>
 <body>
     <h2>${Message}</h2>
-    <a href="sellProduct.jsp">Sell Another Product</a>
+    <a href="creatinglisting2.jsp">Sell Another Product</a>
 </body>
 </html>
