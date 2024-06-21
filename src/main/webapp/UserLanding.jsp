@@ -49,18 +49,6 @@
         
     </div>
 
-    <ul class="categories">
-        <li><a href="DisplayCategoryServlet?category=electronics">Electronics</a></li>
-        <li><a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a></li>
-        <li><a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a></li>
-        <li><a href="DisplayCategoryServlet?category=living">Living</a></li>
-        <li><a href="DisplayCategoryServlet?category=accessories">Accessories</a></li>
-        <li><a href="DisplayCategoryServlet?category=beauty-health">Beauty and Health</a></li>
-        <li><a href="DisplayCategoryServlet?category=travel">travel</a></li>
-        <li><a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a></li>
-        <li><a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a></li>
-    </ul>
-
         <div class="Categories">
         <h2>Categories</h2>
         <div class="items">
@@ -98,7 +86,7 @@
                 <p>Accessories</p>
             </div>
             <div class="item">
-            	<a href="DisplayCategoryServlet?category=B&H">
+            	<a href="DisplayCategoryServlet?category=beauty-health">
                 	<img src="images/beauty.jpg" alt="beauty&health">
                 </a>
                 <p>Beauty & Health</p>
