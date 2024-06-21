@@ -13,7 +13,7 @@
     <body>
         <div class="top">
             <div class="logo">
-                <a href="userLanding.jsp"><h1>BidBestie</h1></a>
+                <a href="UserLanding.jsp"><h1>BidBestie</h1></a>
             </div>
             <div class="search">
                 <select id="category">
@@ -39,7 +39,7 @@
             <div class="links">
                 <a href="viewaccount.jsp">My Account</a>
                 <a href="register.jsp">Register</a>
-                <a href="#" id="logoutLink">Logout</a>
+                <a href="logout">Logout</a>
                 <a href="#"><i class="fa fa-bell"></i></a>
                 <a href="#"><i class="fa fa-heart"></i></a>
                 <a href="#"><i class="fa fa-shopping-cart"></i></a>

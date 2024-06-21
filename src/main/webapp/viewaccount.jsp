@@ -39,7 +39,7 @@
         <div class="links">
             <a href="viewaccount.jsp">My Account</a>
             <a href="register.jsp">Register</a>
-            <a href="#" id="logoutLink">Logout</a> <!-- Updated logout link -->
+            <a href="logout">Logout</a> <!-- Updated logout link -->
             <a href="#"><i class="fa fa-bell"></i></a>
             <a href="#"><i class="fa fa-heart"></i></a>
             <a href="#"><i class="fa fa-shopping-cart"></i></a>

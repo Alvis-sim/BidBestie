@@ -11,7 +11,7 @@
 <body>
       <div class="top">
         <div class="logo">
-            <a href="userLanding.jsp"><h1>BidBestie</h1></a>
+            <a href="UserLanding.jsp"><h1>BidBestie</h1></a>
         </div>
         <div class="search">
             <select id="category">
