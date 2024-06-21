@@ -1,9 +1,10 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>
-
+<%@ page import="jakarta.servlet.*" %>
+<%@ page import="jakarta.servlet.http.*" %>
 <html>
 <head>
-    <title>Electronics Products</title>
+    <title>Products</title>
     <style>
         table {
             width: 100%;
@@ -22,7 +23,7 @@
     </style>
 </head>
 <body>
-    <h1>Electronics Products</h1>
+    <h1>Products</h1>
     <table>
         <tr>
             <th>Product Name</th>
@@ -30,21 +31,23 @@
             <th>Buy Now Price</th>
         </tr>
         <%
-            Connection conn = null;
-            Statement stmt = null;
-            ResultSet rs = null;
+            String category = request.getParameter("category");
+            if (category != null && !category.isEmpty()) {
+                Connection conn = null;
+                Statement stmt = null;
+                ResultSet rs = null;
 
-            try {
-            	Class.forName("com.mysql.cj.jdbc.Driver");
-                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC","root", "root");
-                stmt = conn.createStatement();
-                String sql = "SELECT productName, image, buyNowPrice FROM product WHERE productCategory='electronics'";
-                rs = stmt.executeQuery(sql);
+                try {
+                    Class.forName("com.mysql.cj.jdbc.Driver");
+                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+                    stmt = conn.createStatement();
+                    String sql = "SELECT productName, image, buyNowPrice FROM product WHERE productCategory='" + category + "'";
+                    rs = stmt.executeQuery(sql);
 
-                while (rs.next()) {
-                    String productName = rs.getString("productName");
-                    byte[] image = rs.getBytes("image");
-                    double buyNowPrice = rs.getDouble("buyNowPrice");
+                    while (rs.next()) {
+                        String productName = rs.getString("productName");
+                        byte[] image = rs.getBytes("image");
+                        double buyNowPrice = rs.getDouble("buyNowPrice");
         %>
         <tr>
             <td><%= productName %></td>
@@ -61,17 +64,20 @@
             <td><%= buyNowPrice %></td>
         </tr>
         <%
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (rs != null) rs.close();
-                    if (stmt != null) stmt.close();
-                    if (conn != null) conn.close();
-                } catch (SQLException e) {
+                    }
+                } catch (Exception e) {
                     e.printStackTrace();
+                } finally {
+                    try {
+                        if (rs != null) rs.close();
+                        if (stmt != null) stmt.close();
+                        if (conn != null) conn.close();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
                 }
+            } else {
+                out.println("Category not specified.");
             }
         %>
     </table>

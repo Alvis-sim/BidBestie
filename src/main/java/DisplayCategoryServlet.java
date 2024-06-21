@@ -1,0 +1,21 @@
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/DisplayCategoryServlet")
+public class DisplayCategoryServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String category = request.getParameter("category");
+        if (category != null && !category.isEmpty()) {
+            request.setAttribute("selectedCategory", category);
+            request.getRequestDispatcher("viewCategory.jsp").forward(request, response);
+        } else {
+            response.getWriter().write("Category not specified.");
+        }
+    }
+}

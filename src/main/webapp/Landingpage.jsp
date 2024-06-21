@@ -47,15 +47,15 @@
     </div>
 
     <ul class="categories">
-        <li><a href="viewCategory.jsp">Electronics</a></li>
-        <li><a href="Women Fashion">Women Fashion</a></li>
-        <li><a href="men-fashion">Men Fashion</a></li>
-        <li><a href="Living">Living</a></li>
-        <li><a href="Accessories">Accessories</a></li>
-        <li><a href="B&H">Beauty and Health</a></li>
-        <li><a href="Travel">Travel</a></li>
-        <li><a href="Sporting Goods">Sporting Goods</a></li>
-        <li><a href="Pet Supplies">Pet Supplies</a></li>
+        <li><a href="DisplayCategoryServlet?category=electronics">Electronics</a></li>
+        <li><a href="DisplayCategoryServlet?category=Women Fashion">Women Fashion</a></li>
+        <li><a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a></li>
+        <li><a href="DisplayCategoryServlet?category=Living">Living</a></li>
+        <li><a href="DisplayCategoryServlet?category=Accessories">Accessories</a></li>
+        <li><a href="DisplayCategoryServlet?category=B&H">Beauty and Health</a></li>
+        <li><a href="DisplayCategoryServlet?category=Travel">Travel</a></li>
+        <li><a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a></li>
+        <li><a href="DisplayCategoryServlet?category=Pet Supplies">Pet Supplies</a></li>
     </ul>
 
     <div class="section popular-destinations">
