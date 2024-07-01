@@ -13,7 +13,7 @@
 <body>
     <div class="top">
         <div class="logo">
-            <h1>BidBestie</h1>
+            <a href="UserLanding.jsp"><h1>BidBestie</h1></a>
         </div>
         <div class="search">
             <select id="category">
@@ -35,10 +35,9 @@
     </div>
 
     <div class="user-info">
-        <span>User!</span>
+        <span>${fname} ${lname}</span>
         <div class="links">
             <a href="viewaccount.jsp">My Account</a>
-            <a href="register.jsp">Register</a>
             <a href="logout">Logout</a> <!-- Updated logout link -->
             <a href="#"><i class="fa fa-bell"></i></a>
             <a href="#"><i class="fa fa-heart"></i></a>
@@ -68,27 +67,22 @@
                 <div class="profile-info">
                     <h2>Personal Information</h2>
                     <label for="first-name">First Name</label>
-                    <span id="first-name">Lorem</span>
+                    <span id="first-name">${fname}</span>
                     
                     <label for="last-name">Last Name</label>
-                    <span id="last-name">Ipsum</span>
+                    <span id="last-name">${lname}</span>
                     
                     <label for="username">Username</label>
-                    <span id="username">Lorem Ipsum</span>
+                    <span id="username">${username} </span>
                     
                     <label for="email">Email</label>
-                    <span id="email">LoremIpsum@ymail.com</span>
+                    <span id="email">${email}</span>
                     
                     <label for="phone">Phone number</label>
-                    <span id="phone">98765432</span>
-                    
-                    <label for="password">Password</label>
-                    <span id="password">*********</span>
-                    
-                    <label for="shipping">Shipping Information</label>
-                    <span id="shipping">987654<br>Blk 123, ABC Avenue 4, #01-234</span>
-                    
-                    <button onclick="window.location.href = 'updateaccount.jsp';">Edit</button>
+                    <span id="phone">${mobile}</span>
+                                        
+                    <button onclick="window.location.href = 'updateprofile.jsp';">Edit Profile</button>
+                    <button onclick="window.location.href = 'updatepass.jsp';">Change Password</button>
                 </div>
             </div>
         </main>

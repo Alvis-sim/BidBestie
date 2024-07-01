@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="user-info">
-            <span>User!</span>
+            <span>${fname} ${lname}</span>
             <div class="links">
                 <a href="viewaccount.jsp">My Account</a>
                 <a href="register.jsp">Register</a>

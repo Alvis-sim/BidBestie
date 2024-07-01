@@ -34,10 +34,10 @@
     </div>
 
     <div class="user-info">
-        <span>User!</span>
+        <span>${fname} ${lname}</span>
         <div class="links">
             <a href="viewaccount.jsp">My Account</a>
-            <a href="register.jsp">Register</a>
+            
             <a href="logout">Logout</a>
             <a href="#"><i class="fa fa-bell"></i></a>
             <a href="#"><i class="fa fa-heart"></i></a>

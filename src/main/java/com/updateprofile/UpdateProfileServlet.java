@@ -55,7 +55,7 @@ public class UpdateProfileServlet extends HttpServlet {
                     session.setAttribute("mobile", mobile);
                     //response.getWriter().println("Profile updated successfully!");
                 	// Redirect to userprofile.jsp upon successful update
-                    response.sendRedirect(request.getContextPath() + "/userprofile.jsp?profileUpdated=true");
+                    response.sendRedirect(request.getContextPath() + "/viewaccount.jsp?profileUpdated=true");
                     return; // Exit from the servlet method after redirection
                 } else {
                     response.getWriter().println("Failed to update profile. User not found.");

@@ -45,7 +45,7 @@ public class UpdateUserPasswordServlet extends HttpServlet {
 
                             int rowsUpdated = updateStmt.executeUpdate();
                             if (rowsUpdated > 0) {                            	
-                            	response.sendRedirect(request.getContextPath() + "/userprofile.jsp?profileUpdated=true");                                                               
+                            	response.sendRedirect(request.getContextPath() + "/viewaccount.jsp?profileUpdated=true");                                                               
                                 //response.getWriter().println("Password updated successfully!");
                             } else {
                                 response.getWriter().println("Failed to update password. User not found.");

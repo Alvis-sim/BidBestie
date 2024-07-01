@@ -38,7 +38,7 @@
     <div class="user-info">
         <span>Hi, ${fname} ${lname} !</span>
         <div class="links">
-            <a href="userprofile.jsp">My Account</a>
+            <a href="viewaccount.jsp">My Account</a>
             <a href="logout">Logout</a>
             <a href="createListing2.jsp">Sell</a>
             <a href="viewlisting.jsp">View listing</a>
@@ -54,19 +54,19 @@
         <div class="items">
             <div class="item">
             	<a href="DisplayCategoryServlet?category=electronics">
-          			<img src="images/smartwatch.jpg" alt="smartwatch">
+          			<img src="images/smartwatch.jpg" alt="smartwatch" width="200" height="200">
         		</a>
                 <p>Electronics</p>
             </div>
             <div class="item">
             	<a href="DisplayCategoryServlet?category=women-fashion">
-                	<img src="images/womenfashion.jpg" alt="iphone15">
+                	<img src="images/womenfashion.jpg" alt="iphone15" width="200" height="200">
                 </a>
                 <p>Women Fashion</p>
             </div>
             <div class="item">
             	<a href="DisplayCategoryServlet?category=men-fashion">
-                	<img src="images/menfashion.jpg" alt="menfashion">
+                	<img src="images/menfashion.jpg" alt="menfashion" width="250" height="200">
                 	</a>
                 <p>Men Fashion</p>
             </div>
@@ -75,19 +75,19 @@
         <div class="items">
             <div class="item">
             	<a href="DisplayCategoryServlet?category=living">
-                	<img src="images/living.jpg" alt="living">
+                	<img src="images/living.jpg" alt="living" width="200" height="200">
                 </a>
                 <p>Living</p>
             </div>
             <div class="item">
             	<a href="DisplayCategoryServlet?category=accessories">
-                	<img src="images/accessories.jpg" alt="accessories">
+                	<img src="images/accessories.jpg" alt="accessories" width="300" height="200">
                 </a>
                 <p>Accessories</p>
             </div>
             <div class="item">
             	<a href="DisplayCategoryServlet?category=beauty-health">
-                	<img src="images/beauty.jpg" alt="beauty&health">
+                	<img src="images/beauty.jpg" alt="beauty&health" width="300" height="200">
                 </a>
                 <p>Beauty & Health</p>
             </div>            
@@ -95,19 +95,19 @@
         <div class="items">            
             <div class="item">
             	<a href="DisplayCategoryServlet?category=travel">
-                	<img src="images/travel.jpg" alt="travel">
+                	<img src="images/travel.jpg" alt="travel" width="300" height="200">
              	</a>
                 <p>Travel</p>
             </div>
             <div class="item">
             	<a href="DisplayCategoryServlet?category=sporting-goods">
-                	<img src="images/sporting.jpg" alt="sporting">
+                	<img src="images/sporting.jpg" alt="sporting" width="300" height="200">
                 </a>
                 <p>Sporting Goods</p>
             </div>
              <div class="item">
              	<a href="DisplayCategoryServlet?category=pet-supplies">
-                	<img src="images/petsupplies.jpg" alt="smartwatch">
+                	<img src="images/petsupplies.jpg" alt="petsupplies" width="300" height="200">
                 </a>
                 <p>Pet Supplies</p>
             </div>

@@ -6,6 +6,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 
 import java.io.IOException;
@@ -23,8 +24,10 @@ public class ProcessSellProductServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     	 // Collect form data
-    	//String userIDStr = request.getParameter("userID");
-    	//int userID = Integer.parseInt(userIDStr);
+    	HttpSession session = request.getSession();
+    	String accountIDStr = request.getParameter("accountID");
+    	int accountID = Integer.parseInt(accountIDStr);
+    	//int accountID = (int) session.getAttribute("accountID");
         String productName = request.getParameter("name");
         String productCategory = request.getParameter("categories");
         String productDescription = request.getParameter("description");
@@ -66,7 +69,7 @@ public class ProcessSellProductServlet extends HttpServlet {
             String sql = "INSERT INTO product (accountID, productName, productCategory, productDescription, Quantity, buyNowPrice, sDate, eDate, "
             		+ "duration, Shipping, Image, startingBidPrice) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, 1); // Assuming accountID is 1 for now
+            statement.setInt(1, accountID); // Assuming accountID is 1 for now
             statement.setString(2, productName);
             statement.setString(3, productCategory);
             statement.setString(4, productDescription);

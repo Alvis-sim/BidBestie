@@ -35,7 +35,7 @@
 	    </div>
 
 	    <div class="user-info">
-	        <span>Hi, ${fname} ${lname} !</span>
+	        <span>${fname} ${lname} </span>
 	        <div class="links">
 	            <a href="viewprofile.jsp">My Account</a>
 	            <a href="logout">Logout</a>
