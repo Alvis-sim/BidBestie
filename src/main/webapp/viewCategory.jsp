@@ -50,13 +50,15 @@
                         double buyNowPrice = rs.getDouble("buyNowPrice");
         %>
         <tr>
-            <td><%= productName %></td>
+            <td><a href="viewlistingdesc.jsp?productName=<%= productName %>"><%= productName %></a></td>
             <td>
                 <%
                     if (image != null) {
                         String base64Image = java.util.Base64.getEncoder().encodeToString(image);
                 %>
+                <a href="viewlistingdesc.jsp?productName=<%= productName %>">
                 <img src="data:image/jpeg;base64,<%= base64Image %>" width="100" height="100" />
+                </a>
                 <%
                     }
                 %>
