@@ -79,7 +79,7 @@
                 <p>The XYZ Ultrabook is a sleek, powerful laptop designed for professionals and students alike. Featuring a 14-inch Full HD display, the Ultrabook delivers vibrant visuals and sharp details. Powered by the latest Intel Core i7 processor, 16GB of RAM, and a 512GB SSD, this laptop ensures smooth performance and fast data access.</p>
                 <br></br>
                 <button class="button bidbutton">Place Bid</button><br></br>
-                <button class="button buybutton">Buy for $123.45</button><br></br>
+                <button class="button buybutton" onclick="window.location.href='payment.jsp'">Buy for $123.45</button><br></br>
                 <button class="button cartbutton">Add to cart</button><br></br>
                 <button class="button watchbutton">Add to watchlist</button><br></br>
             </div>

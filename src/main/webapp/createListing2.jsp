@@ -18,7 +18,7 @@
 	        <form action="ProcessSellProductServlet" method="post" enctype="multipart/form-data">
 	            <label for="name">Name of Product:</label>
 	            <input type="text" id="name" name ="name" required>
-	            
+	            <input type="hidden" name="accountID" value="${accountID}"/>     
 	            <label for="category">Category:</label>
     			<select name="categories" id="categories" required>
         			<option value="searchByCat" selected disabled hidden>Search by category</option>
