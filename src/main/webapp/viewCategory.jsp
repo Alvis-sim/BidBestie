@@ -21,6 +21,28 @@
             background-color: #f2f2f2;
         }
     </style>
+    <script>
+        function startTimer(endDate, elementId) {
+            var countDownDate = new Date(endDate).getTime();
+
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(elementId).innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+    </script>
 </head>
 <body>
     <h1>Products</h1>
@@ -29,6 +51,7 @@
             <th>Product Name</th>
             <th>Image</th>
             <th>Buy Now Price</th>
+            <th>Ends In</th>
         </tr>
         <%
             String category = request.getParameter("category");
@@ -41,13 +64,14 @@
                     Class.forName("com.mysql.cj.jdbc.Driver");
                     conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
                     stmt = conn.createStatement();
-                    String sql = "SELECT productName, image, buyNowPrice FROM product WHERE productCategory='" + category + "'";
+                    String sql = "SELECT productName, image, buyNowPrice, eDate FROM product WHERE productCategory='" + category + "'";
                     rs = stmt.executeQuery(sql);
 
                     while (rs.next()) {
                         String productName = rs.getString("productName");
                         byte[] image = rs.getBytes("image");
                         double buyNowPrice = rs.getDouble("buyNowPrice");
+                        String eDate = rs.getString("eDate");
         %>
         <tr>
             <td><a href="viewlistingdesc.jsp?productName=<%= productName %>"><%= productName %></a></td>
@@ -64,6 +88,12 @@
                 %>
             </td>
             <td><%= buyNowPrice %></td>
+            <td>
+                <span id="timer-<%= productName %>"></span>
+                <script>
+                    startTimer("<%= eDate %>", "timer-<%= productName %>");
+                </script>
+            </td>
         </tr>
         <%
                     }
@@ -85,3 +115,4 @@
     </table>
 </body>
 </html>
+
