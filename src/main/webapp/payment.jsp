@@ -6,38 +6,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BidBestie - Payment</title>
     <link href="css/payment.css" rel="stylesheet" />
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <div class="payment-container">
         <h1>Payment Information</h1>
-        <form action="processPayment" method="post">
+        <form id="payment-form" action="processPayment" method="post">
             <div class="form-group">
-                <label for="cardNumber">Card Number</label>
-                <input type="text" id="cardNumber" name="cardNumber" required>
-            </div>
-            <div class="form-group">
-                <label for="cardName">Name on Card</label>
-                <input type="text" id="cardName" name="cardName" required>
-            </div>
-            <div class="form-group">
-                <label for="expiryDate">Expiry Date</label>
-                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
-            </div>
-            <div class="form-group">
-                <label for="cvv">CVV</label>
-                <input type="text" id="cvv" name="cvv" required>
-            </div>
-            <div class="form-group">
-                <label for="billingAddress">Billing Address</label>
-                <input type="text" id="billingAddress" name="billingAddress" required>
-            </div>
-            <div class="form-group">
-                <label for="billingZip">Billing ZIP Code</label>
-                <input type="text" id="billingZip" name="billingZip" required>
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
             </div>
             <button type="submit" class="submit-button">Submit Payment</button>
         </form>
     </div>
-    <script src="payment.js"></script>
+    <script src="js/payment.js"></script>
 </body>
 </html>

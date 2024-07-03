@@ -130,4 +130,12 @@
     <servlet-name>UpdateUserPasswordServlet</servlet-name>
     <url-pattern>/UpdateUserPasswordServlet</url-pattern>
   </servlet-mapping>
+    <servlet>
+        <servlet-name>ProcessPaymentServlet</servlet-name>
+        <servlet-class>ProcessPaymentServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProcessPaymentServlet</servlet-name>
+        <url-pattern>/processPayment</url-pattern>
+    </servlet-mapping>
 </web-app>
