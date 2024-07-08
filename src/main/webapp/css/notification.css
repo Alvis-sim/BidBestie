@@ -1,0 +1,201 @@
+@charset "UTF-8";
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: white;
+    background-image: url("images/bibackground.jpg");
+    font-family: 'Inter', sans-serif;
+}
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background-color: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+}
+.notification-header .left, .notification-header .right {
+    display: flex;
+    align-items: center;
+}
+.notification-header .right a {
+    margin-left: 15px;
+}
+.notification-header .right .batch-action {
+    margin-left: 30px; /* space between Batch Action & Reply Messages */
+}
+.notification-grid {
+     display: flex;
+     flex-wrap: wrap;
+     gap: 20px;
+     justify-content: center;
+}
+.notification-item {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: calc(33.333% - 20px);
+    margin-bottom: 20px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+}
+.notification-item h3 {
+    margin-top: 0;
+    font-size: 1.2em;
+}
+.notification-item p {
+    margin: 5px 0;
+    font-size: 0.9em;
+}
+.notification-item input[type="checkbox"] {
+        display: none; /* hide check box */
+    }
+.notification-item.selected {
+    border: 3px solid green !important; /* blue border when selected */
+}
+.notification-item:hover:not(.selected) {
+    border: 3px solid #bae0c4;
+}
+.notification-filter {
+    display: flex;
+    align-items: center;
+    margin-right: 15px;
+}
+.notification-filter select {
+    margin-right: 10px;
+    padding: 10px;
+    font-size: 1em; 
+    border-radius: 5px; 
+    border: 2px solid #ccc; 
+}
+.no-notification {
+    display: none;
+    text-align: center;
+    padding: 50px;
+    font-size: 6.5em;
+    color: #000000;
+}
+.no-notification img{
+	width: 150px;
+  	height: 150px;
+}
+/* Top bar styles */
+.top {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CBDDD1; /* Light greenish background color */
+    color: black;
+    padding: 10px 20px;
+}
+
+/* Logo styles */
+.logo {
+    text-align: left;
+}
+
+.logo img {
+    width: 150px;
+    height: 150px;
+}
+
+/* Search bar styles */
+.search {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* Light background color */
+    padding: 10px 15px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-right: 20px; /* Add space to the right */
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 10px; /* Add space between search container and button */
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #ccc;
+}
+
+.search input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Add padding to the left for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners for inputs */
+    outline: none;
+    background-color: #fff;
+}
+
+.search select {
+    margin-right: 10px; /* Add space between select and search container */
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners for inputs */
+    background-color: #fff;
+}
+
+.search button {
+    background-color: transparent; /* Transparent background */
+    color: #333; /* Dark text color */
+    border: 1px solid #ccc; /* Light border */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-left: 10px; /* Add space between buttons */
+    font-weight: bold;
+}
+
+.search button:hover {
+    background-color: lightgrey;
+}
+
+/* User info section styles */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CBDDD1; /* Light greenish background color */
+    padding: 10px 20px;
+}
+
+.user-info span {
+    margin-right: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.user-info .links {
+    display: flex;
+    gap: 10px;
+}
+
+.user-info a {
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold;
+    color: black; /* Black text color */
+}
+
+.user-info .links a img {
+    width: 30px; /* Adjust the width of the images */
+    height: auto;
+}
+
