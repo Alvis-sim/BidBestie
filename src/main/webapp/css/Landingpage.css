@@ -312,7 +312,7 @@ ul.categories li a:hover {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap; /* Allows items to wrap to the next line */
-    gap: 10px; /* Reduced gap between items */
+    gap: 20px; /* Reduced gap between items */
     margin-top: 20px; /* Adds space above the items */
 }
 

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="com.registration.Product" %>
+<%@ page import="java.sql.*" %>
+<%@ page import="java.net.URLEncoder" %>
 
 <!DOCTYPE html>
 <html>
@@ -97,49 +99,61 @@
         <span class="dot" onclick="currentSlide(3)"></span>
     </div>
 
-    <!-- Featured Lots Section -->
-    <div class="featured-lots">
+<!-- Featured Lots Section -->
+<%
+	Connection conn = null;
+	Statement stmt = null;
+	ResultSet rs = null;
+
+	try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+        stmt = conn.createStatement();
+        String sql = "SELECT productName, image, buyNowPrice FROM product";
+        rs = stmt.executeQuery(sql);
+
+   
+%>
+<div class="featured-lots">
     <h2>Featured Products</h2>
     <div class="featured-lots-container">
+        <%
+	        while (rs.next()) {
+	            String productName = rs.getString("productName");
+	            byte[] image = rs.getBytes("image");
+	            double buyNowPrice = rs.getDouble("buyNowPrice");
+        %>
         <div class="lot">
             <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-            <a href="product_page_iphone15.html">
-                <img src="images/iphone15.jpg" alt="iPhone 15 Pro">
+        <%
+                if (image != null) {
+                    String base64Image = java.util.Base64.getEncoder().encodeToString(image);
+        %>
+            <a href="product_page.jsp?productName=<%= URLEncoder.encode(productName, "UTF-8") %>">
+            <img src="data:image/jpeg;base64,<%= base64Image %>"/>
+                
             </a>
-            <p>iPhone 15 Pro, 256Gb - Blue Titanium</p>
-            <p class="price">SGD 1220</p>
+            <p><%= productName %></p>
+            <p class="price">SGD <%= buyNowPrice %></p>
             <p class="status closed">CLOSED</p>
         </div>
-        <div class="lot">
-            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-            <a href="product_page_jersey.html">
-                <img src="images/jersey.jpg" alt="mbappe">
-            </a>
-            <p>Mbappe # 10 Soccer Jersey, Shorts + Socks Jersey Kit</p>
-            <p class="price">SGD 220</p>
-            <p class="status closed">CLOSED</p>
-        </div>
-        <div class="lot">
-            <a href="product_page_cat_litter.html">
-                <img src="images/catlitter.jpg" alt="cat litter">
-            </a>
-            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-            <p>XLAIQ Smart Self-Cleaning Cat Litter Box, 1-10kg Cats</p>
-            <p class="price">SGD 1000</p>
-            <p class="status closed">CLOSED</p>
-        </div>
-        <div class="lot">
-            <a href="product_page_vancleef_earring.html">
-                <img src="images/vancleef_earring.jpg" alt="Van Cleef Arpels Alhambra earrings">
-            </a>
-            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-            <p>Van Cleef Arpels Alhambra earrings white-gold pearl</p>
-            <p class="price">SGD 3000</p>
-            <p class="status closed">CLOSED</p>
-        </div>
+        <%
+            }
+	        	}
+        %>
     </div>
     <a href="viewallfeature.jsp" class="see-all">See All</a>
 </div>
+<%
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (rs != null) try { rs.close(); } catch (SQLException e) {}
+        if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
+        if (conn != null) try { conn.close(); } catch (SQLException e) {}
+    }
+%>
+
 
 <!-- Upcoming Auctions Section -->
 <div class="upcoming-auctions">
