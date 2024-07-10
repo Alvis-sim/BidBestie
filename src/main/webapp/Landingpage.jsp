@@ -17,7 +17,7 @@
 <div class="sticky-top">
     <div class="top">
         <div class="logo">
-            <a href="UserLanding.jsp">
+            <a href="Landingpage.jsp">
                 <img src="images/bid_bestie.png" alt="Bid Bestie Logo">
             </a>
         </div>
@@ -129,7 +129,7 @@
                 if (image != null) {
                     String base64Image = java.util.Base64.getEncoder().encodeToString(image);
         %>
-            <a href="product_page.jsp?productName=<%= URLEncoder.encode(productName, "UTF-8") %>">
+            <a href="viewlistingdesc.jsp?productName=<%= URLEncoder.encode(productName, "UTF-8") %>">
             <img src="data:image/jpeg;base64,<%= base64Image %>"/>
                 
             </a>

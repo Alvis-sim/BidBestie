@@ -112,6 +112,9 @@
 	if(status == "invalidMobileLength"){
 		swal("Sorry", "Mobile number should be 8 digits or more", "error");
 	}
+	if(status == "taken"){
+		swal("Sorry", "Username or Email is taken", "error");
+	}
 </script>
 </body>
 </html>
