@@ -137,5 +137,12 @@
     <servlet-mapping>
         <servlet-name>ProcessPaymentServlet</servlet-name>
         <url-pattern>/processPayment</url-pattern>
+    </servlet-mapping>  
+     <servlet>
+        <servlet-name>javax.websocket.server.ServerContainer</servlet-name>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>javax.websocket.server.ServerContainer</servlet-name>
+        <url-pattern>/chat</url-pattern>
     </servlet-mapping>
 </web-app>
