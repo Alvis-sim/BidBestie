@@ -12,6 +12,7 @@
     <div class="payment-container">
         <h1>Payment Information</h1>
         <form id="payment-form" action="processPayment" method="post">
+            <input type="hidden" name="totalAmount" value="<%= request.getParameter("totalAmount") %>"> <!-- Amount in cents -->
             <div class="form-group">
                 <label for="card-element">Credit or debit card</label>
                 <div id="card-element">

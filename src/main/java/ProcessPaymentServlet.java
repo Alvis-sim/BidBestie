@@ -19,7 +19,9 @@ public class ProcessPaymentServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("stripeToken");
+        String amountString = request.getParameter("totalAmount");
         System.out.println("Received Stripe token: " + token);
+        System.out.println("Received total amount: " + amountString);
 
         if (token == null || token.isEmpty()) {
             System.out.println("No token received.");
@@ -27,10 +29,19 @@ public class ProcessPaymentServlet extends HttpServlet {
             return;
         }
 
+        long amount = 0;
+        try {
+            amount = (long) Double.parseDouble(amountString); // Convert to long
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            response.sendRedirect("paymentFailure.jsp");
+            return;
+        }
+
         ChargeCreateParams params = ChargeCreateParams.builder()
-            .setAmount(12345L) // Amount in cents
-            .setCurrency("usd")
-            .setDescription("Example charge")
+            .setAmount(amount)
+            .setCurrency("sgd")
+            .setDescription("BidBestie purchase")
             .setSource(token)
             .build();
 

@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
-    var stripe = Stripe('pk_test_51PYQCORpr2L9wI5un6zMRFL5IxvSp5n58ACRSLKNmKq2K0wF8mjQYadL3Ok5oUCxXnAvYPOOOROPSzbREllmzhKn001uCrkuQp'); // Replace with your Stripe public key
+    var stripe = Stripe('pk_test_51PYQCORpr2L9wI5un6zMRFL5IxvSp5n58ACRSLKNmKq2K0wF8mjQYadL3Ok5oUCxXnAvYPOOOROPSzbREllmzhKn001uCrkuQp'); // Replace with your actual publishable key
     var elements = stripe.elements();
-    
+
     var style = {
         base: {
             color: '#32325d',
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
     var card = elements.create('card', {style: style});
     card.mount('#card-element');
 
-    card.addEventListener('change', function(event) {
+    card.on('change', function(event) {
         var displayError = document.getElementById('card-errors');
         if (event.error) {
             displayError.textContent = event.error.message;
@@ -50,13 +50,21 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function stripeTokenHandler(token) {
         var form = document.getElementById('payment-form');
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', token.id);
-        form.appendChild(hiddenInput);
+        console.log("Form element: ", form);
+        console.log("Form methods: ", Object.keys(form));
 
-        console.log("Token added to form, submitting form...");
-        form.submit();
+        if (typeof form.submit === 'function') {
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            console.log("Token added to form, submitting form...");
+            form.submit();
+        } else {
+            console.error("Form submit is not a function. Element:", form);
+            console.dir(form);
+        }
     }
 });

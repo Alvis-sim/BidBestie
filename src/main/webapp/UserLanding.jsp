@@ -56,7 +56,7 @@
             <a href="Product">Load</a>
             <a href="notification.jsp"><img src="images/bell.png" alt="Image 1"></a>
             <a href="#"><img src="images/heart.png" alt="Image 2"></a>
-            <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>
+            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
         </div>
     </div>
     <br><br><br>
