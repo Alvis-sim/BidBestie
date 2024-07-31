@@ -10,6 +10,38 @@
     <link rel="stylesheet" href="css/shoppingcart.css">
     <title>BidBestie | Shopping Cart</title>
     <link rel="icon" type="image/png" href="path/to/your/favicon.png">
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Custom styling for Stripe Elements */
+        .StripeElement {
+            box-sizing: border-box;
+            height: 40px;
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: 0 1px 3px 0 #e6ebf1;
+            transition: box-shadow 150ms ease;
+
+            width: 100%;
+        }
+
+        .StripeElement--focus {
+            box-shadow: 0 1px 3px 0 #cfd7df;
+        }
+
+        .StripeElement--invalid {
+            border-color: #fa755a;
+        }
+
+        .StripeElement--webkit-autofill {
+            background-color: #fefde5 !important;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
 </head>
 <body>
 <div class="sticky-top">
@@ -115,15 +147,38 @@
     <hr><br>
     <h3>I'll Pay with:</h3>
     <br>
-    <label><input type="radio" name="payment" value="stripe"> <i class="fa fa-credit-card"></i> Credit/Debit Card (Stripe)</label>
+    <label><input type="radio" name="payment" value="stripe" onclick="showStripeForm()"> <i class="fa fa-credit-card"></i> Credit/Debit Card (Stripe)</label>
     <br><br>
-    <label><input type="radio" name="payment" value="paypal"> <i class="fa fa-paypal"></i> PayPal</label>
+    <label><input type="radio" name="payment" value="paypal" onclick="hideStripeForm()"> <i class="fa fa-paypal"></i> PayPal</label>
 
-    <form id="redirect-form" action="payment.jsp" method="post">
-        <input type="hidden" name="totalAmount" value="<%= (long)(cartItems != null ? cartItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum() * 100 : 0) %>"> <!-- Amount in cents -->
-        <button type="submit" class="button buybutton">Buy for $<%= cartItems != null ? cartItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum() : 0.00 %></button>
-    </form>
+    <!-- Stripe Payment Form -->
+    <div id="stripe-form" class="hidden">
+        <form id="payment-form" action="processPayment" method="post">
+            <input type="hidden" name="totalAmount" value="<%= (long)(cartItems != null ? cartItems.stream().mapToDouble(item -> item.getPrice() * item.getQuantity()).sum() * 100 : 0) %>"> <!-- Amount in cents -->
+            <div class="form-group">
+                <label for="card-element">Credit or debit card</label>
+                <div id="card-element">
+                    <!-- A Stripe Element will be inserted here. -->
+                </div>
+                <!-- Used to display form errors. -->
+                <div id="card-errors" role="alert"></div>
+            </div>
+            <button id="pay-button">Pay</button>
+        </form>
+    </div>
 </div>
+
+<script>
+    function showStripeForm() {
+        document.getElementById('stripe-form').classList.remove('hidden');
+    }
+
+    function hideStripeForm() {
+        document.getElementById('stripe-form').classList.add('hidden');
+    }
+</script>
+
+<script src="js/payment.js"></script>
 
 <!-- Footer Section -->
 <div class="footer">

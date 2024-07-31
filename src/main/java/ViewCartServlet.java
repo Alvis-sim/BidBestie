@@ -23,12 +23,29 @@ public class ViewCartServlet extends HttpServlet {
         String accountIDParam = request.getParameter("accountID");
         int accountID = -1;
         if (accountIDParam != null) {
-            accountID = Integer.parseInt(accountIDParam);
+            try {
+                accountID = Integer.parseInt(accountIDParam);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+                forwardWithError(request, response, "Invalid account ID.");
+                return;
             }
-        
+        }
         
         System.out.print(accountID);
 
+        List<CartItem> cartItems = getCartItems(accountID);
+
+        if (cartItems == null) {
+            forwardWithError(request, response, "No cart found for accountID: " + accountID);
+            return;
+        }
+
+        request.setAttribute("cartItems", cartItems);
+        request.getRequestDispatcher("viewCart.jsp").forward(request, response);
+    }
+
+    private List<CartItem> getCartItems(int accountID) {
         List<CartItem> cartItems = new ArrayList<>();
         Connection con = null;
         PreparedStatement statement = null;
@@ -38,7 +55,6 @@ public class ViewCartServlet extends HttpServlet {
             Class.forName("com.mysql.cj.jdbc.Driver");
             con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
 
-            // Fetch the cart ID for the logged-in user
             String cartIdSql = "SELECT cartID FROM Cart WHERE accountID = ?";
             statement = con.prepareStatement(cartIdSql);
             statement.setInt(1, accountID);
@@ -48,16 +64,12 @@ public class ViewCartServlet extends HttpServlet {
             if (rs.next()) {
                 cartID = rs.getInt("cartID");
             } else {
-                System.out.println("No cart found for accountID: " + accountID);
-                request.setAttribute("cartItems", cartItems);
-                request.getRequestDispatcher("viewCart.jsp").forward(request, response);
-                return;
+                return null;
             }
 
             rs.close();
             statement.close();
 
-            // Fetch cart items for the retrieved cart ID
             String itemsSql = "SELECT p.productName, ci.price, ci.quantity, ci.imageBase64, ci.cartItemID "
                             + "FROM CartItems ci "
                             + "JOIN product p ON ci.productID = p.productID "
@@ -76,19 +88,20 @@ public class ViewCartServlet extends HttpServlet {
                 cartItems.add(item);
             }
 
-            if (cartItems.isEmpty()) {
-                System.out.println("No items found in cartID: " + cartID);
-            }
-
-            request.setAttribute("cartItems", cartItems);
-            request.getRequestDispatcher("viewCart.jsp").forward(request, response);
+            return cartItems;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         } finally {
             if (rs != null) try { rs.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (statement != null) try { statement.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
         }
+    }
+
+    private void forwardWithError(HttpServletRequest request, HttpServletResponse response, String errorMessage) throws ServletException, IOException {
+        request.setAttribute("error", errorMessage);
+        request.getRequestDispatcher("errorPage.jsp").forward(request, response);
     }
 }
