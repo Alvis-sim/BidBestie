@@ -113,7 +113,7 @@
         Class.forName("com.mysql.cj.jdbc.Driver");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
         stmt = conn.createStatement();
-        String sql = "SELECT productName, image, buyNowPrice FROM product";
+        String sql = "SELECT productID, productName, image, buyNowPrice FROM product";
         rs = stmt.executeQuery(sql);
 
    
@@ -123,6 +123,7 @@
     <div class="featured-lots-container">
         <%
 	        while (rs.next()) {
+	        	String productID = rs.getString("productID");
 	            String productName = rs.getString("productName");
 	            byte[] image = rs.getBytes("image");
 	            double buyNowPrice = rs.getDouble("buyNowPrice");
@@ -133,7 +134,7 @@
                 if (image != null) {
                     String base64Image = java.util.Base64.getEncoder().encodeToString(image);
         %>
-            <a href="viewlistingdesc.jsp?productName=<%= URLEncoder.encode(productName, "UTF-8") %>">
+            <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
             <img src="data:image/jpeg;base64,<%= base64Image %>"/>
                 
             </a>
