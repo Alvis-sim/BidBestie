@@ -19,9 +19,12 @@ public class ProcessPaymentServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String token = request.getParameter("stripeToken");
-        String amountString = request.getParameter("totalAmount");
+        String totalAmountString = request.getParameter("totalAmount");
+        String bidAmountString = request.getParameter("bidAmount");
+
         System.out.println("Received Stripe token: " + token);
-        System.out.println("Received total amount: " + amountString);
+        System.out.println("Received total amount: " + totalAmountString);
+        System.out.println("Received bid amount: " + bidAmountString);
 
         if (token == null || token.isEmpty()) {
             System.out.println("No token received.");
@@ -29,9 +32,11 @@ public class ProcessPaymentServlet extends HttpServlet {
             return;
         }
 
-        long amount = 0;
+        long totalAmount = 0;
+        double bidAmount = 0;
         try {
-            amount = (long) Double.parseDouble(amountString); // Convert to long
+            totalAmount = Long.parseLong(totalAmountString); // Convert to long
+            bidAmount = Double.parseDouble(bidAmountString); // Convert to double
         } catch (NumberFormatException e) {
             e.printStackTrace();
             response.sendRedirect("paymentFailure.jsp");
@@ -39,7 +44,7 @@ public class ProcessPaymentServlet extends HttpServlet {
         }
 
         ChargeCreateParams params = ChargeCreateParams.builder()
-            .setAmount(amount)
+            .setAmount(totalAmount)
             .setCurrency("sgd")
             .setDescription("BidBestie purchase")
             .setSource(token)
@@ -48,6 +53,7 @@ public class ProcessPaymentServlet extends HttpServlet {
         try {
             Charge charge = Charge.create(params);
             System.out.println("Charge successful: " + charge.getId());
+            // You can store the bid amount and other necessary information in the database here
             response.sendRedirect("paymentSuccess.jsp");
         } catch (StripeException e) {
             e.printStackTrace();

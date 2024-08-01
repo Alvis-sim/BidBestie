@@ -5,6 +5,12 @@ import jakarta.websocket.Session;
 import jakarta.websocket.server.PathParam;
 import jakarta.websocket.server.ServerEndpoint;
 
+import jakarta.servlet.http.HttpSession;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import jakarta.servlet.ServletContext;
+import jakarta.websocket.server.HandshakeRequest;
+import jakarta.websocket.server.ServerEndpointConfig;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Connection;
@@ -19,7 +25,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-@ServerEndpoint("/auction/{username}")
+@ServerEndpoint(value = "/auction/{username}", configurator = AuctionEndpoint.Configurator.class)
 public class AuctionEndpoint {
 
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
@@ -27,11 +33,25 @@ public class AuctionEndpoint {
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
 
+    public static class Configurator extends ServerEndpointConfig.Configurator {
+        @Override
+        public void modifyHandshake(ServerEndpointConfig sec, HandshakeRequest request, jakarta.websocket.HandshakeResponse response) {
+            HttpSession httpSession = (HttpSession) request.getHttpSession();
+            sec.getUserProperties().put("httpSession", httpSession);
+        }
+    }
+
     @OnOpen
     public void onOpen(Session session, @PathParam("username") String username) throws IOException, SQLException {
         System.out.println("Connection opened for user: " + username);
         clients.add(session);
         session.getUserProperties().put("username", username);
+
+        HttpSession httpSession = (HttpSession) session.getUserProperties().get("httpSession");
+        if (httpSession != null) {
+            httpSession.setAttribute("username", username);
+        }
+
         sendAuctionHistory(session);
     }
 
@@ -77,6 +97,7 @@ public class AuctionEndpoint {
                 String username = resultSet.getString("username");
                 BigDecimal bidAmount = resultSet.getBigDecimal("bid_amount");
                 Timestamp timestamp = resultSet.getTimestamp("timestamp");
+                System.out.println("Retrieved timestamp: " + timestamp); // Debugging output
                 String timeAgo = formatTimestamp(timestamp);
                 session.getBasicRemote().sendText("[" + timeAgo + "] " + username + " bid: $" + bidAmount);
             }
@@ -103,6 +124,9 @@ public class AuctionEndpoint {
         Duration duration = Duration.between(bidTime, now);
 
         long seconds = duration.getSeconds();
+        if (seconds < 0) {
+            return "just now"; // Handle negative values
+        }
         if (seconds < 60) {
             return seconds + " seconds ago";
         }
@@ -125,4 +149,6 @@ public class AuctionEndpoint {
         long years = months / 12;
         return years + " years ago";
     }
+
+
 }
