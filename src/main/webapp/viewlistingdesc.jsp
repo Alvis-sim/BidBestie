@@ -14,130 +14,155 @@
     <title>View Product Listing</title>
     <link rel="stylesheet" href="css/viewlistingdesc.css">
     <script src="https://js.stripe.com/v3/"></script>
-    <script type="text/javascript">
-        var stripe, card;
+<script type="text/javascript">
+    var stripe, card, ws, username;
 
-        document.addEventListener("DOMContentLoaded", function() {
-            stripe = Stripe('pk_test_51PYQCORpr2L9wI5un6zMRFL5IxvSp5n58ACRSLKNmKq2K0wF8mjQYadL3Ok5oUCxXnAvYPOOOROPSzbREllmzhKn001uCrkuQp'); // Replace with your Stripe public key
-            var elements = stripe.elements();
+    document.addEventListener("DOMContentLoaded", function() {
+        stripe = Stripe('pk_test_51PYQCORpr2L9wI5un6zMRFL5IxvSp5n58ACRSLKNmKq2K0wF8mjQYadL3Ok5oUCxXnAvYPOOOROPSzbREllmzhKn001uCrkuQp'); // Replace with your Stripe public key
+        var elements = stripe.elements();
 
-            var style = {
-                base: {
-                    color: '#32325d',
-                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                    fontSmoothing: 'antialiased',
-                    fontSize: '16px',
-                    '::placeholder': {
-                        color: '#aab7c4'
-                    }
-                },
-                invalid: {
-                    color: '#fa755a',
-                    iconColor: '#fa755a'
+        var style = {
+            base: {
+                color: '#32325d',
+                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                fontSmoothing: 'antialiased',
+                fontSize: '16px',
+                '::placeholder': {
+                    color: '#aab7c4'
                 }
-            };
+            },
+            invalid: {
+                color: '#fa755a',
+                iconColor: '#fa755a'
+            }
+        };
 
-            card = elements.create('card', {style: style});
-            card.mount('#card-element');
+        card = elements.create('card', {style: style});
+        card.mount('#card-element');
 
-            card.addEventListener('change', function(event) {
-                var displayError = document.getElementById('card-errors');
-                if (event.error) {
-                    displayError.textContent = event.error.message;
-                } else {
-                    displayError.textContent = '';
-                }
-            });
-
-            var form = document.getElementById('payment-form');
-            form.addEventListener('submit', function(event) {
-                event.preventDefault();
-
-                stripe.createToken(card).then(function(result) {
-                    if (result.error) {
-                        var errorElement = document.getElementById('card-errors');
-                        errorElement.textContent = result.error.message;
-                    } else {
-                        stripeTokenHandler(result.token);
-                    }
-                });
-            });
-
-            function stripeTokenHandler(token) {
-                var form = document.getElementById('payment-form');
-                var hiddenInput = document.createElement('input');
-                hiddenInput.setAttribute('type', 'hidden');
-                hiddenInput.setAttribute('name', 'stripeToken');
-                hiddenInput.setAttribute('value', token.id);
-                form.appendChild(hiddenInput);
-
-                form.submit();
+        card.addEventListener('change', function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
             }
         });
 
-        function connect() {
-            var username = "<%= username %>";
-            if (!username) {
-                alert("Username is required to join the auction.");
-                return;
-            }
-            var ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
-            ws.onmessage = function(event) {
-                var log = document.getElementById("bidLog");
-                log.innerHTML += event.data + "<br>";
-            };
-            ws.onclose = function() {
-                console.log("WebSocket connection closed");
-            };
-            ws.onerror = function(error) {
-                console.error("WebSocket error: " + error);
-            };
-        }
+        var form = document.getElementById('payment-form');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
 
-        function handleBid() {
-        	var username = "<%= username %>";
-            if (!username || username === "null") {
-                window.location.href = "login.jsp";
-                return;
-            }
-            var bidAmount = document.getElementById("bidAmount").value;
-            if (!bidAmount || isNaN(bidAmount) || bidAmount <= 0) {
-                alert("Please enter a valid bid amount.");
-                return;
-            }
-
-            var bidAmountHidden = document.getElementById("bidAmountHidden");
-            var totalAmount = document.getElementById("totalAmount");
-
-            if (bidAmountHidden === null || totalAmount === null) {
-                console.error("Hidden input elements not found in the DOM.");
-                return;
-            }
-
-            bidAmountHidden.value = bidAmount;
-            totalAmount.value = bidAmount * 100; // Convert to cents for Stripe
-
-            // Create Stripe token before form submission
-            var form = document.getElementById('payment-form');
             stripe.createToken(card).then(function(result) {
                 if (result.error) {
                     var errorElement = document.getElementById('card-errors');
                     errorElement.textContent = result.error.message;
-                    console.error("Token creation error: ", result.error.message);
                 } else {
-                    var hiddenTokenInput = document.createElement('input');
-                    hiddenTokenInput.setAttribute('type', 'hidden');
-                    hiddenTokenInput.setAttribute('name', 'stripeToken');
-                    hiddenTokenInput.setAttribute('value', result.token.id);
-                    form.appendChild(hiddenTokenInput);
-
-                    console.log("Token and bid amount added to form, submitting form...");
-                    form.submit();
+                    stripeTokenHandler(result.token);
                 }
             });
+        });
+
+        function stripeTokenHandler(token) {
+            var form = document.getElementById('payment-form');
+            var hiddenInput = document.createElement('input');
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'stripeToken');
+            hiddenInput.setAttribute('value', token.id);
+            form.appendChild(hiddenInput);
+
+            form.submit();
         }
-        window.onload = connect;
-    </script>
+
+        username = "<%= username %>";
+        if (username && username !== "null") {
+            connect();
+        }
+    });
+
+    function connect() {
+        if (!username) {
+            alert("Username is required to join the auction.");
+            return;
+        }
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            return; // If WebSocket is already open, don't create a new connection
+        }
+        ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
+        ws.onmessage = function(event) {
+            var log = document.getElementById("bidLog");
+            log.innerHTML += event.data + "<br>";
+        };
+        ws.onclose = function() {
+            console.log("WebSocket connection closed");
+        };
+        ws.onerror = function(error) {
+            console.error("WebSocket error: " + error);
+        };
+    }
+
+    function handleBid() {
+        if (!username || username === "null") {
+            window.location.href = "login.jsp";
+            return;
+        }
+
+        var bidAmount = document.getElementById("bidAmount").value;
+        if (!bidAmount || isNaN(bidAmount) || bidAmount <= 0) {
+            alert("Please enter a valid bid amount.");
+            return;
+        }
+
+        var bidAmountHidden = document.getElementById("bidAmountHidden");
+        var totalAmount = document.getElementById("totalAmount");
+
+        if (bidAmountHidden === null || totalAmount === null) {
+            console.error("Hidden input elements not found in the DOM.");
+            return;
+        }
+
+        bidAmountHidden.value = bidAmount;
+        totalAmount.value = bidAmount * 100; // Convert to cents for Stripe
+
+        // Create Stripe token before form submission
+        var form = document.getElementById('payment-form');
+        stripe.createToken(card).then(function(result) {
+            if (result.error) {
+                var errorElement = document.getElementById('card-errors');
+                errorElement.textContent = result.error.message;
+                console.error("Token creation error: ", result.error.message);
+            } else {
+                var hiddenTokenInput = document.createElement('input');
+                hiddenTokenInput.setAttribute('type', 'hidden');
+                hiddenTokenInput.setAttribute('name', 'stripeToken');
+                hiddenTokenInput.setAttribute('value', result.token.id);
+                form.appendChild(hiddenTokenInput);
+
+                console.log("Token and bid amount added to form, submitting form...");
+                form.submit();
+
+                // Send bid to WebSocket server after successful payment
+                if (ws.readyState === WebSocket.OPEN) {
+                    ws.send(bidAmount);
+                } else {
+                    ws.onopen = function() {
+                        ws.send(bidAmount);
+                    };
+                }
+            }
+        });
+    }
+
+    window.onunload = function() {
+        if (ws) {
+            ws.close();
+        }
+    };
+
+    window.onload = connect;
+</script>
+
+
 </head>
 <body>
     <div class="sticky-top">
