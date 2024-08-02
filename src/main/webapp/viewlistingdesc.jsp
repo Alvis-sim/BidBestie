@@ -1,4 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="jakarta.servlet.http.HttpSession" %>
+<%
+    HttpSession httpSession = request.getSession(false);
+    String username = (httpSession != null) ? (String) httpSession.getAttribute("username") : null;
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,7 +13,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>View Product Listing</title>
     <link rel="stylesheet" href="css/viewlistingdesc.css">
-        <script src="https://js.stripe.com/v3/"></script>
     <script src="https://js.stripe.com/v3/"></script>
     <script type="text/javascript">
         var stripe, card;
@@ -72,12 +76,12 @@
         });
 
         function connect() {
-            username = prompt("Enter your username:");
+            var username = "<%= username %>";
             if (!username) {
                 alert("Username is required to join the auction.");
                 return;
             }
-            ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
+            var ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
             ws.onmessage = function(event) {
                 var log = document.getElementById("bidLog");
                 log.innerHTML += event.data + "<br>";
@@ -91,6 +95,11 @@
         }
 
         function handleBid() {
+        	var username = "<%= username %>";
+            if (!username || username === "null") {
+                window.location.href = "login.jsp";
+                return;
+            }
             var bidAmount = document.getElementById("bidAmount").value;
             if (!bidAmount || isNaN(bidAmount) || bidAmount <= 0) {
                 alert("Please enter a valid bid amount.");

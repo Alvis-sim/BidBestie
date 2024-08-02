@@ -88,7 +88,7 @@ public class AuctionEndpoint {
         }
     }
 
-    private void sendAuctionHistory(Session session) throws SQLException, IOException {
+    public void sendAuctionHistory(Session session) throws SQLException, IOException {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp FROM auction_bids ORDER BY timestamp")) {
 
@@ -104,7 +104,7 @@ public class AuctionEndpoint {
         }
     }
 
-    private void saveBidToDatabase(String username, BigDecimal bidAmount) {
+    public void saveBidToDatabase(String username, BigDecimal bidAmount) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement statement = connection.prepareStatement("INSERT INTO auction_bids (username, bid_amount, timestamp) VALUES (?, ?, ?)")) {
 
@@ -118,7 +118,7 @@ public class AuctionEndpoint {
         }
     }
 
-    private String formatTimestamp(Timestamp timestamp) {
+    public String formatTimestamp(Timestamp timestamp) {
         LocalDateTime bidTime = timestamp.toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
         Duration duration = Duration.between(bidTime, now);
