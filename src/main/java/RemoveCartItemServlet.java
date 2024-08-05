@@ -3,10 +3,13 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @WebServlet("/RemoveCartItemServlet")
@@ -14,6 +17,7 @@ public class RemoveCartItemServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
         String productIDParam = request.getParameter("productID");
         int productID = -1;
 
@@ -44,8 +48,11 @@ public class RemoveCartItemServlet extends HttpServlet {
             int rowsAffected = statement.executeUpdate();
 
             if (rowsAffected > 0) {
+            	
                 // Redirect to the ViewCartServlet after successful removal
-                String accountID = (String) request.getSession().getAttribute("accountID");
+                String accountIDParam = (String) request.getSession().getAttribute("accountID");       
+                int accountID = Integer.parseInt(accountIDParam);
+                updateItemCount(session, accountID, con);
                 response.sendRedirect("ViewCartServlet?accountID=" + accountID);
             } else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "Item not found in cart");
@@ -57,6 +64,26 @@ public class RemoveCartItemServlet extends HttpServlet {
         } finally {
             if (statement != null) try { statement.close(); } catch (SQLException e) { e.printStackTrace(); }
             if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            }
         }
+        private void updateItemCount(HttpSession session, int accountID, Connection con) throws SQLException {
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            try {
+                String countItemsSql = "SELECT COUNT(*) AS itemCount FROM CartItems WHERE cartID = (SELECT cartID FROM Cart WHERE accountID = ?)";
+                statement = con.prepareStatement(countItemsSql);
+                statement.setInt(1, accountID);
+                rs = statement.executeQuery();
+
+                int itemCount = 0;
+                if (rs.next()) {
+                    itemCount = rs.getInt("itemCount");
+                }
+
+                session.setAttribute("itemCount", itemCount);
+            } finally {
+                if (rs != null) rs.close();
+                if (statement != null) statement.close();
+            }
     }
 }

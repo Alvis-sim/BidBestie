@@ -13,6 +13,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 /**
  * Servlet implementation class login
@@ -67,6 +68,9 @@ public class login extends HttpServlet {
                 session.setAttribute("email", rs.getString("email"));
                 session.setAttribute("mobile", rs.getString("mobile"));
                 
+                
+                int itemCount = getItemCountForUser(accountID);
+                session.setAttribute("itemCount", itemCount);
 				dispatcher = request.getRequestDispatcher("UserLanding.jsp"); /* direct page after login*/
 				
 				
@@ -80,8 +84,22 @@ public class login extends HttpServlet {
 			pst.close();
 			con.close();
 		} catch (Exception e) {
-			dispatcher = request.getRequestDispatcher("login.jsp");
+			dispatcher = request.getRequestDispatcher("login.jsp");}
 		}
+		
+		private int getItemCountForUser(int accountID) {
+	        int itemCount = 0;
+	        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie", "root", "root");
+	             PreparedStatement statement = con.prepareStatement("SELECT SUM(quantity) FROM CartItems ci JOIN Cart c ON ci.cartID = c.cartID WHERE c.accountID = ?")) {
+	            statement.setInt(1, accountID);
+	            try (ResultSet rs = statement.executeQuery()) {
+	                if (rs.next()) {
+	                    itemCount = rs.getInt(1);
+	                }
+	            }
+	        } catch (SQLException e) {
+	            e.printStackTrace();
+	        }
+	        return itemCount;
+	    }
 	}
-
-}

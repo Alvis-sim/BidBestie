@@ -101,6 +101,7 @@ public class AddToCartServlet extends HttpServlet {
             int rowsAffected = statement.executeUpdate();
             
             if (rowsAffected > 0) {
+            	updateItemCount(session, accountID, con);
                 // Redirect to viewlistingdesc.jsp with success message
                 response.sendRedirect("viewlistingdesc?productID=" + productID + "&addedToCart=true");
             } else {
@@ -111,7 +112,26 @@ public class AddToCartServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "An error occurred while adding the product to the cart.");
         } finally {
             if (statement != null) try { statement.close(); } catch (SQLException e) { e.printStackTrace(); }
-            if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }
+            if (con != null) try { con.close(); } catch (SQLException e) { e.printStackTrace(); }}
         }
+        private void updateItemCount(HttpSession session, int accountID, Connection con) throws SQLException {
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            try {
+                String countItemsSql = "SELECT COUNT(*) AS itemCount FROM CartItems WHERE cartID = (SELECT cartID FROM Cart WHERE accountID = ?)";
+                statement = con.prepareStatement(countItemsSql);
+                statement.setInt(1, accountID);
+                rs = statement.executeQuery();
+
+                int itemCount = 0;
+                if (rs.next()) {
+                    itemCount = rs.getInt("itemCount");
+                }
+
+                session.setAttribute("itemCount", itemCount);
+            } finally {
+                if (rs != null) rs.close();
+                if (statement != null) statement.close();
+            }
     }
 }
