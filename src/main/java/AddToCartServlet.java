@@ -64,7 +64,7 @@ public class AddToCartServlet extends HttpServlet {
         try {
             // Database connection
             Class.forName("com.mysql.cj.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+            con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
 
             // Check if there is an existing cart for the accountID
             String getCartIDSql = "SELECT cartID FROM Cart WHERE accountID = ?";

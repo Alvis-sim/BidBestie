@@ -41,8 +41,8 @@ public class login extends HttpServlet {
 
 		}
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC","root", "root");
+			Class.forName("com.mysql.cj.jdbc.Driver");
+			Connection con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC","root", "root");
 			PreparedStatement pst = con.prepareStatement("select * from users where username = ? and password = ?");
 			pst.setString(1, username);
 			pst.setString(2, password);

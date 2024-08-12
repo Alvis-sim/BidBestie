@@ -71,7 +71,7 @@ public class RegistrationServlet extends HttpServlet {
 
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
-			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+			con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
 
 			// Check if username or email already exists
 			PreparedStatement pstCheckUserEmail = con.prepareStatement("SELECT * FROM users WHERE username = ? OR email = ?");
