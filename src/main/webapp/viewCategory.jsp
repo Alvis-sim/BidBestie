@@ -62,7 +62,7 @@
 
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+                    conn = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
                     stmt = conn.createStatement();
                     String sql = "SELECT productName, image, buyNowPrice, eDate FROM product WHERE productCategory='" + category + "'";
                     rs = stmt.executeQuery(sql);

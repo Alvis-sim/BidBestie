@@ -28,7 +28,7 @@ public class UpdateUserPasswordServlet extends HttpServlet {
                 Connection con = null;
                 try {
                     Class.forName("com.mysql.cj.jdbc.Driver");
-                    con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root");
+                    con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
 
                     String checkSql = "SELECT password FROM users WHERE accountID = ?";
                     PreparedStatement checkStmt = con.prepareStatement(checkSql);

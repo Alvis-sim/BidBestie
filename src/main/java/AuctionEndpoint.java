@@ -29,7 +29,7 @@ import java.util.Set;
 public class AuctionEndpoint {
 
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC";
+    private static final String DB_URL = "jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "root";
 

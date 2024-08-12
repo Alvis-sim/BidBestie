@@ -19,7 +19,7 @@ public class ProductServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<Product> products = new ArrayList<>();
 
-        try (Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/bidbestie?serverTimezone=UTC", "root", "root")) {
+        try (Connection con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root")) {
             System.out.println("Database connection successful");
 
             String sql = "SELECT productName, buyoutPrice, imageUrl FROM products ORDER BY RAND() LIMIT 3";
