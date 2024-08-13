@@ -15,48 +15,55 @@
 </head>
 <body>
 <div class="sticky-top">
-    <div class="top">
-        <div class="logo">
-            <a href="Landingpage.jsp">
-                <img src="images/bid_bestie.png" alt="Bid Bestie Logo">
-            </a>
-        </div>
-        <div class="search">
-            <select id="category">
-                <option value="">Search by Category</option>
-                <option value="electronics">Electronics</option>
-                <option value="women-fashion">Women Fashion</option>
-                <option value="men-fashion">Men Fashion</option>
-                <option value="living">Living</option>
-                <option value="accessories">Accessories</option>
-                <option value="beauty-health">Beauty and Health</option>
-                <option value="travel">Travel</option>
-                <option value="sporting-goods">Sporting Goods</option>
-                <option value="pet-supplies">Pet Supplies</option>
-            </select>
-            <div class="search-container">
-                <input type="text" placeholder="Search...">
-                <i class="fa fa-search search-icon"></i>
-            </div>
-            <button type="submit">Search</button>
-            <button type="submit">Advanced Search</button>
-        </div>
-    </div>
+	<div class= "top-header">
+		<div class="left-section">
+			<div class="logo">
+		        <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
+		     </div>		        	    	
+	        <div class="user-info">
+		        <span>Hi, Guest!</span>
+		        <div class="links">
+		            <a href="registration.jsp">Register</a>
+		            <a href="login.jsp">Login</a>
+		            <a href="login.jsp">Sell</a>
+		            <a href="Product">Load</a>
+		            <a href="login.jsp"><img src="images/bell.png" alt="Image 1"></a>
+		            <a href="login.jsp"><img src="images/heart.png" alt="Image 2"></a>
+		            <a href="login.jsp"><img src="images/shopping-cart.png" alt="Image 3"></a>
+		        </div>
+	    	</div>  
+	    </div>
+	    <div class="categories">
+	            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
+	            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
+	            <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
+	            <a href="DisplayCategoryServlet?category=living">Living</a>
+	            <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
+	            <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
+	            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
+	            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
+	    </div>	
+	</div>	  
+    <div class="search-container">
+    <select id="category">
+            <option value="">By Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="women-fashion">Women Fashion</option>
+            <option value="men-fashion">Men Fashion</option>
+            <option value="living">Living</option>
+            <option value="accessories">Accessories</option>
+            <option value="beauty-health">Beauty and Health</option>
+            <option value="travel">Travel</option>
+            <option value="sporting-goods">Sporting Goods</option>
+            <option value="pet-supplies">Pet Supplies</option>
+        </select>        
+        <input type="text" placeholder="Search for anything and everything">
+        <button type="submit" class="search-button">Search</button>
+        <a href="#" class="advanced-button">Advanced</a>
+    </div>     
+</div>
+<br><br><br>
 
-    <div class="user-info">
-        <span>Hi, Guest!</span>
-        <div class="links">
-            <a href="registration.jsp">Register</a>
-            <a href="login.jsp">Login</a>
-            <a href="login.jsp">Sell</a>
-            <a href="Product">Load</a>
-            <a href="notification.jsp"><img src="images/bell.png" alt="Image 1"></a>
-            <a href="index.jsp"><img src="images/heart.png" alt="Image 2"></a>
-            <a href="#"><img src="images/shopping-cart.png" alt="Image 3"></a>
-        </div>
-    </div>
-    <br><br><br>
-    </div>
 
     <div class="banner">
         <div class="banner-content">
@@ -98,6 +105,7 @@
         <span class="dot" onclick="currentSlide(2)"></span>
         <span class="dot" onclick="currentSlide(3)"></span>
     </div>
+
 
 <!-- Featured Lots Section -->
 <%
