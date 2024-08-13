@@ -164,47 +164,68 @@
 
 
 </head>
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style><%@include file="css/Landingpage.css"%></style>
+    <title>BidBestie | Home</title>
+    <link rel="icon" type="image/png" href="path/to/your/favicon.png">
+</head>
 <body>
-    <div class="sticky-top">
-        <div class="top">
-            <div class="logo">
-                <a href="UserLanding.jsp">
-                    <img src="images/bid_bestie.png" alt="Bid Bestie Logo">
-                </a>
-            </div>
-            <div class="search">
-                <select id="category">
-                    <option value="">Search by Category</option>
-                    <option value="electronics">Electronics</option>
-                    <option value="women-fashion">Women Fashion</option>
-                    <option value="men-fashion">Men Fashion</option>
-                    <option value="living">Living</option>
-                    <option value="accessories">Accessories</option>
-                    <option value="beauty-health">Beauty and Health</option>
-                    <option value="travel">Travel</option>
-                    <option value="sporting-goods">Sporting Goods</option>
-                    <option value="pet-supplies">Pet Supplies</option>
-                </select>
-                <div class="search-container">
-                    <input type="text" placeholder="Search...">
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-                <button type="submit">Search</button>
-                <button type="submit">Advanced Search</button>
-            </div>
-        </div>
+<div class="sticky-top">
+	<div class= "top-header">
+		<div class="left-section">
+			<div class="logo">
+		        <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
+		     </div>		        	    	
+	        <div class="user-info">
+			    <div class="dropdown">
+			        <span class="dropbtn">Hi, ${fname} ${lname}!</span>
+			        <div class="dropdown-content">
+			            <a href="profile.jsp">Profile</a>
+			            <a href="settings.jsp">Settings</a>
+			            <a href="orders.jsp">My Listings</a>
+			        </div>
+			    </div>
+		        <div class="links">
+		            <a href="login.jsp">Log out</a>
+		            <a href="createListing.jsp">Sell</a>
+		            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
+		            <a href="#"><img src="images/heart.png" alt="Image 2"></a>
+		            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
+		        </div>
+	    	</div>  
+	    </div>
+	    <div class="categories">
+	            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
+	            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
+	            <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
+	            <a href="DisplayCategoryServlet?category=living">Living</a>
+	            <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
+	            <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
+	            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
+	            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
+	    </div>	
+	</div>
+    <div class="search-container">
+    <select id="category">
+            <option value="">By Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="women-fashion">Women Fashion</option>
+            <option value="men-fashion">Men Fashion</option>
+            <option value="living">Living</option>
+            <option value="accessories">Accessories</option>
+            <option value="beauty-health">Beauty and Health</option>
+            <option value="travel">Travel</option>
+            <option value="sporting-goods">Sporting Goods</option>
+            <option value="pet-supplies">Pet Supplies</option>
+        </select>        
+        <input type="text" placeholder="Search for anything and everything">
+        <button type="submit" class="search-button">Search</button>
+        <a href="#" class="advanced-button">Advanced</a>
+    </div>     
+</div>
 
-        <div class="user-info">
-            <span>${fname} ${lname}!</span>
-            <div class="links">
-                <a href="viewaccount.jsp">My Account</a>
-                <a href="logout">Logout</a>
-                <a href="#"><i class="fa fa-bell"></i></a>
-                <a href="#"><i class="fa fa-heart"></i></a>
-                <a href="#"><i class="fa fa-shopping-cart"></i></a>
-            </div>
-        </div>
-    </div>
 
     <!-- Main Content -->
     <div class="main-content">
