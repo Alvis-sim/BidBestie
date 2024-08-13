@@ -14,7 +14,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import com.auction.AuctionItem;
 
-@WebServlet("/viewlistingdesc")
+
 public class ViewListingDescriptionServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = Logger.getLogger(ViewListingDescriptionServlet.class.getName());

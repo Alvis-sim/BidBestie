@@ -145,4 +145,13 @@
         <servlet-name>javax.websocket.server.ServerContainer</servlet-name>
         <url-pattern>/chat</url-pattern>
     </servlet-mapping>
+    <servlet>
+    <servlet-name>ViewListingDescriptionServlet</servlet-name>
+    <servlet-class>ViewListingDescriptionServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>ViewListingDescriptionServlet</servlet-name>
+    <url-pattern>/viewlistingdesc</url-pattern>
+</servlet-mapping>
+    
 </web-app>
