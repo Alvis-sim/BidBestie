@@ -10,6 +10,7 @@
     <style><%@include file="css/createlisting.css"%></style>
 </head>
 
+<body>
 <div class="sticky-top">
     <div class="top">
         <div class="logo">
@@ -52,186 +53,187 @@
         </div>
     </div>
     <br>
-    </div>
+</div>
 
-    <div class="createlisting-container">
-        <h2>Create Listing</h2>
+<div class="createlisting-container">
+    <h2>Create Listing</h2>
+    <br><br>
+    <form action="ProcessSellProductServlet" method="post" enctype="multipart/form-data">
+        <!-- Hidden field for accountID -->
+        <input type="hidden" id="accountID" name="accountID" value="${accountID}">
+        
+        <h3>Title</h3>
         <br><br>
-        <form>
-        	<h3>Title</h3>
-        	<br><br>
-            <label for="name">Name of Product:</label>
-            <input type="text" id="name" required>
-			<br><br>
-			<hr>
-			<br><br>
-			
-			<h3>Product Description</h3>
-			<br><br>
-            <label for="category">Category:</label>
-            <select name="categories" id="categories">
-                <option value="searchByCat" selected disabled hidden>Search by category</option>
-                <option value="electronics">Electronic</option>
-                <option value="women-fashion">Women Fashion</option>
-                <option value="men-fashion">Men Fashion</option>
-                <option value="living">Living</option>
-                <option value="accessories">Accessories</option>
-                <option value="beauty-health">Beauty & Health</option>
-                <option value="travel">Travel</option>
-                <option value="sporting-goods">Sporting Goods</option>
-                <option value="pet-supplies">Pet Supplies</option>
-            </select>
+        <label for="name">Name of Product:</label>
+        <input type="text" id="name" name="name" required>
+        <br><br>
+        <hr>
+        <br><br>
 
-            <label for="description">Description of Product:</label>
-            <textarea id="productDescription" rows="10" cols="50" required></textarea>
+        <h3>Product Description</h3>
+        <br><br>
+        <label for="category">Category:</label>
+        <select name="categories" id="categories">
+            <option value="searchByCat" selected disabled hidden>Search by category</option>
+            <option value="electronics">Electronics</option>
+            <option value="women-fashion">Women Fashion</option>
+            <option value="men-fashion">Men Fashion</option>
+            <option value="living">Living</option>
+            <option value="accessories">Accessories</option>
+            <option value="beauty-health">Beauty & Health</option>
+            <option value="travel">Travel</option>
+            <option value="sporting-goods">Sporting Goods</option>
+            <option value="pet-supplies">Pet Supplies</option>
+        </select>
 
-            <label for="quantity">Quantity:</label>
-            <input type="number" id="quantity" required>
+        <label for="description">Description of Product:</label>
+        <textarea id="productDescription" name="description" rows="10" cols="50" required></textarea>
 
-            <label for="buyitnow">Buy it Now price ($):</label>
-            <input type="number" id="buyitnow" required>
-			<br><br>
-			<hr>
-			<br><br>
-			<h3>Set Product for Auction</h3>
-			<br><br>
-            <div id="auctionToggleContainer">
-                <label for="auctionToggle">AUCTION:</label>
-                <label class="switch">
-                    <input type="checkbox" id="auctionToggle" name="auctionToggle">
-                    <span class="slider"></span>
-                </label>
-            </div>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
 
-            <div id="auctionFields" class="hidden">
-                <label for="startingBidPrice">Starting bid price ($):</label>
-                <input type="number" id="startingBidPrice" name="startingBidPrice">
+        <label for="buyitnow">Buy it Now price ($):</label>
+        <input type="number" id="buyitnow" name="buyitnow" required>
+        <br><br>
+        <hr>
+        <br><br>
+        <h3>Set Product for Auction</h3>
+        <br><br>
+        <div id="auctionToggleContainer">
+            <label for="auctionToggle">AUCTION:</label>
+            <label class="switch">
+                <input type="checkbox" id="auctionToggle" name="auctionToggle">
+                <span class="slider"></span>
+            </label>
+        </div>
 
-                <label for="startdate">Schedule start listing date:</label>
-                <input type="date" id="startdate" name="startdate">
+        <div id="auctionFields" class="hidden">
+            <label for="startingBidPrice">Starting bid price ($):</label>
+            <input type="number" id="startingBidPrice" name="startingBidPrice">
 
-                <label for="enddate">Schedule end listing date:</label>
-                <input type="date" id="enddate" name="enddate">
+            <label for="startdate">Schedule start listing date:</label>
+            <input type="date" id="startdate" name="startdate">
 
-                <label for="auctionDuration">Auction duration (days):</label>
-                <input type="number" id="auctionDuration" name="auctionDuration"><br><br>
-            </div>
-            <br><br>
-			<hr>
-			<br><br>
-			<h3>Pricing Details</h3>
-			<br><br>
-            
-            <label for="shipping">Shipping details:</label>
-            <textarea id="shippingdetails" rows="10" cols="50" required></textarea>
-			<br><br>
-			<hr>
-			<br><br>
-			<h3>Add Photos</h3>
-			<br><br>
-            
-            <p>You can add up to 3 photos. Buyers want to see all details and angles.</p>
-            <br>
-            <br>
-            <div class="photo-upload-container">
-            <br>
-                <input type="file" id="images" name="images" multiple onchange="previewImages(event)">
-                <label for="images" class="photo-upload-label">
-                    <div class="photo-upload-instructions">
-                        <i class="fa fa-camera"></i>
-                        <span>Add photos</span>
-                        <p>Click to add up to 3 photos</p>
-                    </div>
-                </label>
-                <div id="imagePreviews" class="image-previews"></div>
-            </div>
-            
-            <br></br>
-            <br><br>
-            <button type="submit" class="form-button">Submit</button><br></br>
-            <a href="viewlisting.jsp" class="form-button cancel-button">Cancel</a>
-        </form>
-    </div>
+            <label for="enddate">Schedule end listing date:</label>
+            <input type="date" id="enddate" name="enddate">
 
-    <div class="footer">
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Company</h3>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Auction Rules</a></li>
-                    <li><a href="#">Refund Return Policy</a></li>
-                    <li><a href="#">User Agreement</a></li>
-                    <li><a href="#">Personal Data Protection</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Distance Sales Contract</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Preliminary Information Form</a></li>
-                    <li><a href="#">Bank Transfer Information</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Product</h3>
-                <ul>
-                    <li><a href="#">Buy With Us</a></li>
-                    <li><a href="#">Sell With Us</a></li>
-                    <li><a href="#">Reviews</a></li>
-                </ul>
-                <br>
-                <p>Email: tphelp@tpauctions.net</p>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
-                    <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
-                    <a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
-                    <a href="https://www.whatsapp.com"><i class="fa fa-whatsapp"></i></a>
+            <label for="auctionDuration">Auction duration (days):</label>
+            <input type="number" id="auctionDuration" name="auctionDuration"><br><br>
+        </div>
+        <br><br>
+        <hr>
+        <br><br>
+        <h3>Pricing Details</h3>
+        <br><br>
+        
+        <label for="shipping">Shipping details:</label>
+        <textarea id="shippingdetails" name="shipping" rows="10" cols="50" required></textarea>
+        <br><br>
+        <hr>
+        <br><br>
+        <h3>Add Photos</h3>
+        <br><br>
+        
+        <p>You can add up to 3 photos. Buyers want to see all details and angles.</p>
+        <br>
+        <br>
+        <div class="photo-upload-container">
+        <br>
+            <input type="file" id="images" name="image" multiple onchange="previewImages(event)">
+            <label for="images" class="photo-upload-label">
+                <div class="photo-upload-instructions">
+                    <i class="fa fa-camera"></i>
+                    <span>Add photos</span>
+                    <p>Click to add up to 3 photos</p>
                 </div>
+            </label>
+            <div id="imagePreviews" class="image-previews"></div>
+        </div>
+        
+        <br></br>
+        <br><br>
+        <button type="submit" class="form-button">Submit</button><br></br>
+        <a href="viewlisting.jsp" class="form-button cancel-button">Cancel</a>
+    </form>
+</div>
+
+<div class="footer">
+    <div class="footer-container">
+        <div class="footer-column">
+            <h3>Company</h3>
+            <ul>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Auction Rules</a></li>
+                <li><a href="#">Refund Return Policy</a></li>
+                <li><a href="#">User Agreement</a></li>
+                <li><a href="#">Personal Data Protection</a></li>
+                <li><a href="#">Cookie Policy</a></li>
+                <li><a href="#">Distance Sales Contract</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Support</h3>
+            <ul>
+                <li><a href="#">Contact Us</a></li>
+                <li><a href="#">Preliminary Information Form</a></li>
+                <li><a href="#">Bank Transfer Information</a></li>
+                <li><a href="#">FAQs</a></li>
+                <li><a href="#">Terms and Conditions</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+            </ul>
+        </div>
+        <div class="footer-column">
+            <h3>Product</h3>
+            <ul>
+                <li><a href="#">Buy With Us</a></li>
+                <li><a href="#">Sell With Us</a></li>
+                <li><a href="#">Reviews</a></li>
+            </ul>
+            <br>
+            <p>Email: tphelp@tpauctions.net</p>
+            <div class="social-icons">
+                <a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
+                <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
+                <a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
+                <a href="https://www.whatsapp.com"><i class="fa fa-whatsapp"></i></a>
             </div>
         </div>
     </div>
+</div>
 
-    <script>
-    document.getElementById('auctionToggle').addEventListener('change', function() {
-        const auctionFields = document.getElementById('auctionFields');
-        if (this.checked) {
-            auctionFields.classList.remove('hidden');
-        } else {
-            auctionFields.classList.add('hidden');
-        }
-    });
-
-    function previewImages(event) {
-        const previewsContainer = document.getElementById('imagePreviews');
-        const imageCount = document.getElementById('imageCount');
-        const files = event.target.files;
-
-        if (files.length > 3) {
-            alert('You can upload a maximum of 3 images.');
-            event.target.value = ''; // Clear the input
-            return;
-        }
-
-        previewsContainer.innerHTML = '';
-        for (let i = 0; i < files.length; i++) {
-            const file = files[i];
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = document.createElement('img');
-                img.src = e.target.result;
-                img.style.maxWidth = '200px';
-                previewsContainer.appendChild(img);
-            };
-            reader.readAsDataURL(file);
-        }
-        
+<script>
+document.getElementById('auctionToggle').addEventListener('change', function() {
+    const auctionFields = document.getElementById('auctionFields');
+    if (this.checked) {
+        auctionFields.classList.remove('hidden');
+    } else {
+        auctionFields.classList.add('hidden');
     }
-    </script>
+});
+
+function previewImages(event) {
+    const previewsContainer = document.getElementById('imagePreviews');
+    const files = event.target.files;
+
+    if (files.length > 3) {
+        alert('You can upload a maximum of 3 images.');
+        event.target.value = ''; // Clear the input
+        return;
+    }
+
+    previewsContainer.innerHTML = '';
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.style.maxWidth = '200px';
+            previewsContainer.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 </body>
 </html>

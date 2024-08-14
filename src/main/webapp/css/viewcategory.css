@@ -1,0 +1,382 @@
+@charset "UTF-8";
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body styles */
+body {
+    background-color: white;
+    background-image: url("images/bibackground.jpg");
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* Adjust main container to accommodate sticky navbar */
+.main-container {
+  margin-top: 130px; /* Adjust according to the height of the sticky navbar */
+}
+
+.sticky-top {
+  position: -webkit-sticky; /* For Safari */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Ensures it stays on top of other content */
+}
+
+/* Top bar styles */
+.top {
+    display: flex;
+    position: sticky;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CBDDD1; /* Light greenish background color */
+    color: black;
+    padding: 10px 20px;
+}
+
+/* Logo styles */
+.logo {
+    text-align: left;
+    
+}
+
+.logo img {
+    width: 120px;
+    height: 120px;
+}
+
+/* Search bar styles */
+.search {
+    display: flex;
+    align-items: center;
+    background-color: #f0f0f0; /* Light background color */
+    padding: 10px 15px;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-right: 20px; /* Add space to the right */
+}
+
+.search-container {
+    position: relative;
+    flex-grow: 1;
+    margin-right: 10px; /* Add space between search container and button */
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #ccc;
+}
+
+.search input {
+    width: 100%;
+    padding: 10px 10px 10px 35px; /* Add padding to the left for the icon */
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners for inputs */
+    outline: none;
+    background-color: #fff;
+}
+
+.search select {
+    margin-right: 10px; /* Add space between select and search container */
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    border-radius: 5px; /* Rounded corners for inputs */
+    background-color: #fff;
+}
+
+.search button {
+    background-color: transparent; /* Transparent background */
+    color: #333; /* Dark text color */
+    border: 1px solid #ccc; /* Light border */
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 30px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-left: 10px; /* Add space between buttons */
+    font-weight: bold;
+}
+
+.search button:hover {
+    background-color: lightgrey;
+}
+
+/* User info section styles */
+.user-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #CBDDD1; /* Light greenish background color */
+    padding: 10px 20px;
+}
+
+.user-info span {
+    margin-right: 20px;
+    color: black;
+    font-weight: bold;
+}
+
+.user-info .links {
+    display: flex;
+    gap: 10px;
+}
+
+.user-info a {
+    text-decoration: none; /* Remove underline from links */
+    font-weight: bold;
+    color: black; /* Black text color */
+}
+
+.user-info .links a img {
+    width: 30px; /* Adjust the width of the images */
+    height: auto;
+}
+
+/* view category contents */
+.breadcrumb {
+    margin: 20px;
+}
+
+.breadcrumb a {
+    color: #333;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.breadcrumb span {
+    color: #666;
+}
+
+h1 {
+    text-align: left;
+    margin: 20px;
+    font-size: 2em;
+}
+
+.filters {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.filters input[type="text"] {
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    flex-grow: 1;
+    margin-right: 10px;
+}
+
+.filter-buttons button {
+    padding: 10px 20px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.bags-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 20px;
+}
+
+.bag-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: calc(50% - 40px);
+    margin: 20px;
+    display: flex;
+    padding: 20px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.bag-item:hover {
+    transform: scale(1.02);
+}
+
+.bag-item img {
+    max-width: 150px;
+    margin-right: 20px;
+}
+
+.bag-details {
+    flex-grow: 1;
+}
+
+.bag-details h2 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+}
+
+.bag-details p {
+    margin: 5px 0;
+    color: #555;
+    font-size: 1.1em;
+}
+
+.status-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.accepting-bids {
+    background-color: #28a745;
+}
+
+.closed {
+    background-color: #dc3545;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.icon {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: 5px;
+    font-size: 1.1em;
+}
+
+.icon img {
+    width: 24px;
+    height: 24px;
+    margin-right: 5px;
+}
+
+.icon[data-tooltip]:hover:after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    white-space: nowrap;
+    font-size: 0.9em;
+    margin-bottom: 5px;
+    opacity: 1;
+    transition: opacity 0.3s;
+}
+
+/* footer */
+.footer {
+    background-color: #CBDDD1;
+    color: white;
+    padding: 50px 0;
+    text-align: left;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+    flex-wrap: wrap;
+}
+
+.footer-column {
+    flex: 1;
+    margin: 20px;
+}
+
+.footer-column h3 {
+    color: #457D58;
+    margin-bottom: 15px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-column ul li {
+    margin-bottom: 10px;
+}
+
+.footer-column ul li a {
+    color: #253439;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.footer-column ul li a:hover {
+    color: #00aaff;
+}
+
+.footer-column p {
+    margin-top: 15px;
+    margin-bottom: 2px;
+    color: #253439;
+}
+.social-icons a {
+    color: #253439;
+    font-size: 20px;
+    margin-right: 10px;
+    transition: color 0.3s;
+}
+
+.social-icons a:hover {
+    color: #00aaff;
+}
+
+/* Filter Side bar */
+.filter-sidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+}
+
+.filter-sidebar-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.filter-sidebar h2 {
+    margin-top: 0;
+}
+
+.filter-list {
+    list-style: none;
+    padding: 0;
+}
+
+.filter-list li {
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+}
