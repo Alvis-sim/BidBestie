@@ -274,7 +274,7 @@
                                 <input type="hidden" name="productName" value="${productName}">
                                 <input type="hidden" name="price" value="${buyNowPrice}">
                                 <input type="hidden" name="imageBase64" value="${base64Image}">
-                                <button id="addToCartButton" type="submit" class="button cartbutton">Buy Now</button>
+                                <button id="addToCartButton" type="submit" class="place-bid">Add to cart</button>
                             </form>
                             <p class="last-sale">Last Sale: $147</p>
                         </div>

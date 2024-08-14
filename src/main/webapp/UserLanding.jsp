@@ -31,7 +31,7 @@
 			        <div class="dropdown-content">
 			            <a href="profile.jsp">Profile</a>
 			            <a href="settings.jsp">Settings</a>
-			            <a href="orders.jsp">My Listings</a>
+			            <a href="viewlisting.jsp">My Listings</a>
 			        </div>
 			    </div>
 		        <div class="links">
