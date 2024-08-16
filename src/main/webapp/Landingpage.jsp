@@ -19,20 +19,11 @@
 		<div class="left-section">
 			<div class="logo">
 		        <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
-		     </div>		        	    	
+		    </div>		        	    	
 	        <div class="user-info">
-		        <span>Hi, Guest!</span>
-		        <div class="links">
-		            <a href="registration.jsp">Register</a>
-		            <a href="login.jsp">Login</a>
-		            <a href="login.jsp">Sell</a>
-		            <a href="Product">Load</a>
-		            <a href="login.jsp"><img src="images/bell.png" alt="Image 1"></a>
-		            <a href="login.jsp"><img src="images/heart.png" alt="Image 2"></a>
-		            <a href="login.jsp"><img src="images/shopping-cart.png" alt="Image 3"></a>
-		        </div>
+			    <span class="dropbtn">Hi, Guest!</span>		         	        
 	    	</div>  
-	    </div>
+	 	</div>
 	    <div class="categories">
 	            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
 	            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
@@ -45,7 +36,7 @@
 	    </div>	
 	</div>	  
     <div class="search-container">
-    <select id="category">
+    	<select id="category">
             <option value="">By Categories</option>
             <option value="electronics">Electronics</option>
             <option value="women-fashion">Women Fashion</option>
@@ -58,11 +49,19 @@
             <option value="pet-supplies">Pet Supplies</option>
         </select>        
         <input type="text" placeholder="Search for anything and everything">
-        <button type="submit" class="search-button">Search</button>
-        <a href="#" class="advanced-button">Advanced</a>
+        <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
+        <div class="user-func">
+            <a href="registration.jsp">Register</a>
+            <a href="login.jsp">Login</a>
+            <a href="login.jsp">Sell</a>
+            <a href="Product">Load</a>
+            <a href="login.jsp"><img src="images/bell.png" alt="Image 1"></a>
+            <a href="login.jsp"><img src="images/heart.png" alt="Image 2"></a>
+            <a href="login.jsp"><img src="images/shopping-cart.png" alt="Image 3"></a>
+		</div>
     </div>     
 </div>
-<br><br><br>
+<br>
 
 
     <div class="banner">

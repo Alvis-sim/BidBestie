@@ -24,25 +24,18 @@
 		<div class="left-section">
 			<div class="logo">
 		        <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
-		     </div>		        	    	
+		    </div>		        	    	
 	        <div class="user-info">
 			    <div class="dropdown">
-			        <span class="dropbtn">Hi, ${fname} ${lname}!</span>
+			        <span class="dropbtn">Hi, ${fname} ${lname} !<span class="arrow-down"></span></span> <!-- Trigger element -->
 			        <div class="dropdown-content">
-			            <a href="profile.jsp">Profile</a>
-			            <a href="settings.jsp">Settings</a>
-			            <a href="viewlisting.jsp">My Listings</a>
-			        </div>
-			    </div>
-		        <div class="links">
-		            <a href="login.jsp">Log out</a>
-		            <a href="createListing.jsp">Sell</a>
-		            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
-		            <a href="#"><img src="images/heart.png" alt="Image 2"></a>
-		            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
-		        </div>
+			            <a href="viewaccount.jsp">Profile</a>
+			            <a href="viewaccount.jsp">Settings</a>
+			            <a href="viewlisting.jsp">My Listings</a>			        
+			    	</div>		        
+				</div> 	        
 	    	</div>  
-	    </div>
+	 	</div>
 	    <div class="categories">
 	            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
 	            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
@@ -53,9 +46,9 @@
 	            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
 	            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
 	    </div>	
-	</div>
+	</div>	  
     <div class="search-container">
-    <select id="category">
+    	<select id="category">
             <option value="">By Categories</option>
             <option value="electronics">Electronics</option>
             <option value="women-fashion">Women Fashion</option>
@@ -68,13 +61,18 @@
             <option value="pet-supplies">Pet Supplies</option>
         </select>        
         <input type="text" placeholder="Search for anything and everything">
-        <button type="submit" class="search-button">Search</button>
-        <a href="#" class="advanced-button">Advanced</a>
+        <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
+        <div class="user-func">
+            <a href="createListing.jsp">Sell</a>         
+            <a href="Product">Load</a>
+            <a href="logout">Logout</a>
+            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
+            <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>
+            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
+		</div>
     </div>     
 </div>
-
-
-    
+ 
     <!-- Notification drop down container -->
     <div id="notificationDropdown" class="notification-dropdown">
         <!-- Header and Filters -->
@@ -88,7 +86,7 @@
                 </select>
             </div>
             <div class="right">
-                <a href="#">View order details</a>
+                <a href="viewlisting.jsp">View order details</a>
                 <a href="viewfeedback.jsp">Reply Messages</a>
                 <div class="batch-action">
                     <a href="#"><span id="batchAction">[Mark as read</span></a><a href="#">Delete</a>]
@@ -132,7 +130,7 @@
             No Notifications
         </div>
     </div>
-    <br><br><br>
+    <br>
 	
 
     <div class="banner">
@@ -169,6 +167,7 @@
         </div>
     </div>
     <br>
+
 
     <div style="text-align:center">
         <span class="dot" onclick="currentSlide(1)"></span>
@@ -435,5 +434,55 @@
     // Initialize the slideshow
     showSlides();
     </script>
+    	<script>
+	//JavaScript to toggle notification dropdown
+	document.addEventListener("DOMContentLoaded", function() {
+	    const bellIcon = document.getElementById("bell-icon");
+	    const notificationDropdown = document.getElementById("notificationDropdown");
+	
+	    bellIcon.addEventListener("click", function(event) {
+	        event.preventDefault();
+	        notificationDropdown.classList.toggle("show");
+	    });
+	
+	    // Close the dropdown if the user clicks outside of it
+	    window.addEventListener("click", function(event) {
+	        if (!bellIcon.contains(event.target) && !notificationDropdown.contains(event.target)) {
+	            notificationDropdown.classList.remove("show");
+	        }
+	    });
+	});
+	
+	function filterNotifications() {
+	    const filter = document.getElementById('notificationFilter').value;
+	    const notifications = document.querySelectorAll('.notification-item');
+	
+	    notifications.forEach(notification => {
+	        if (filter === 'all' || notification.getAttribute('data-category') === filter) {
+	            notification.style.display = 'block';
+	        } else {
+	            notification.style.display = 'none';
+	        }
+	    });
+	
+	    checkNotifications();
+	}
+	
+	function checkNotifications() {
+	    const notifications = document.querySelectorAll('.notification-item');
+	    const noNotificationMessage = document.getElementById('noNotification');
+	    if (notifications.length === 0 || Array.from(notifications).every(notification => notification.style.display === 'none')) {
+	        noNotificationMessage.style.display = 'block';
+	    } else {
+	        noNotificationMessage.style.display = 'none';
+	    }
+	}
+	
+	function toggleSelection(notificationItem) {
+	    const checkbox = notificationItem.querySelector('input[type="checkbox"]');
+	    checkbox.checked = !checkbox.checked;
+	    notificationItem.classList.toggle('selected', checkbox.checked);
+	}
+	</script>
 </body>
 </html>
