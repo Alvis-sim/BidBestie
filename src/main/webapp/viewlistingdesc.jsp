@@ -9,7 +9,10 @@
         httpSession.setAttribute("productID", productID);
         System.out.println("Setting productID in session: " + productID);
     }
+
+    String auctionWinner = (httpSession != null) ? (String) httpSession.getAttribute("auctionWinner") : null;
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -188,17 +191,25 @@
         var eDate = new Date("<%= request.getAttribute("eDate") %>");
         var now = new Date();
         var nowUtc = new Date(Date.UTC(
-                now.getUTCFullYear(), 
-                now.getUTCMonth(), 
-                now.getUTCDate(), 
-                now.getUTCHours(), 
-                now.getUTCMinutes(), 
-                now.getUTCSeconds()
-            ));
+            now.getUTCFullYear(), 
+            now.getUTCMonth(), 
+            now.getUTCDate(), 
+            now.getUTCHours(), 
+            now.getUTCMinutes(), 
+            now.getUTCSeconds()
+        ));
         var timeDifference = eDate - nowUtc;
 
         if (timeDifference <= 0) {
             document.getElementById('countdown').innerHTML = "Auction Ended";
+            // Hide the bidding elements when the auction has ended
+            document.getElementById('bidAmount').style.display = 'none';
+            document.querySelector('.bidding button').style.display = 'none';
+
+            // Optionally, you can also disable the form submission
+            document.getElementById('payment-form').style.display = 'none';
+            // Trigger finalization when countdown reaches zero
+            finalizeAuction();
             return;
         }
 
@@ -214,11 +225,24 @@
             seconds + "s ";
     }
 
-    // Update countdown every second
+    // Call the function every second
     setInterval(updateCountdown, 1000);
 
     // Initial call to display immediately
     updateCountdown();
+
+    function finalizeAuction() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "FinalizeAuctionServlet", true); // The servlet URL to finalize the auction
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Auction finalized.");
+            }
+        };
+        xhr.send("productID=" + encodeURIComponent("<%= productID %>"));
+    }
+
 </script>
 
 
@@ -428,6 +452,14 @@
             <h1>Auction Bidding System with Payment</h1>
             <h1 id="highestBid">Current Highest Bid: $<span id="highestBidAmount"><%= request.getAttribute("currentBid") %></span></h1>
             <h1><div class="countdown" id="countdown"></div></h1>
+                <!-- Display the winner if auction has ended -->
+                <%
+                    if (auctionWinner != null) {
+                %>
+                    <h2>Auction Ended. Winner: <%= auctionWinner %></h2>
+                <%
+                    }
+                %>
             <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
             <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
             <button onclick="handleBid()">Place Bid</button>

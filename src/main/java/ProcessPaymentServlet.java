@@ -4,6 +4,10 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
@@ -22,6 +26,7 @@ public class ProcessPaymentServlet extends HttpServlet {
         String token = request.getParameter("stripeToken");
         String totalAmountString = request.getParameter("totalAmount");
         String bidAmountString = request.getParameter("bidAmount"); // This can be null during checkout
+        String username = request.getParameter("username"); // Make sure to pass the username from the form
 
         // Logging the received values for debugging
         System.out.println("Received Stripe token: " + token);
@@ -62,6 +67,9 @@ public class ProcessPaymentServlet extends HttpServlet {
             return;
         }
 
+        // Store the Stripe token in your database associated with the user
+        storeStripeToken(username, token);
+
         // Stripe charge creation
         ChargeCreateParams params = ChargeCreateParams.builder()
             .setAmount(totalAmount)
@@ -79,6 +87,30 @@ public class ProcessPaymentServlet extends HttpServlet {
             System.out.println("Stripe error: " + e.getMessage());
             e.printStackTrace();
             response.sendRedirect("paymentFailure.jsp");
+        }
+    }
+
+    private void storeStripeToken(String username, String token) {
+        String dbUrl = "jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC";
+        String dbUser = "root";
+        String dbPassword = "root";
+
+        try (Connection connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
+             PreparedStatement statement = connection.prepareStatement(
+                 "UPDATE users SET stripe_token = ? WHERE username = ?")) {
+
+            statement.setString(1, token);
+            statement.setString(2, username);
+            int rowsUpdated = statement.executeUpdate();
+
+            if (rowsUpdated > 0) {
+                System.out.println("Stripe token successfully stored for user: " + username);
+            } else {
+                System.out.println("Failed to store Stripe token for user: " + username);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error storing Stripe token: " + e.getMessage());
         }
     }
 }

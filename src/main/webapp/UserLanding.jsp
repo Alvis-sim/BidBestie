@@ -179,109 +179,108 @@
 
 
 <!-- Featured Lots Section -->
+<%
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
 
-    <%
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
-            stmt = conn.createStatement();
-            
-            // First query: Newest products
-            String sqlNewest = "SELECT productID, productName, image, buyNowPrice, eDate FROM product ORDER BY eDate DESC";
-            rs = stmt.executeQuery(sqlNewest);
-    %>
-    <div class="featured-lots">
-        <h2>Newest Products</h2>
-        <div class="featured-lots-container">
+    try {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        conn = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
+        stmt = conn.createStatement();
+        
+        // First query: Newest products
+        String sqlNewest = "SELECT productID, productName, image, buyNowPrice, eDate FROM product ORDER BY eDate DESC";
+        rs = stmt.executeQuery(sqlNewest);
+%>
+<div class="featured-lots">
+    <h2>Newest Products</h2>
+    <div class="featured-lots-container">
+        <%
+            int counter = 0;
+            while (rs.next() && counter < 8) {
+                String productID = rs.getString("productID");
+                String productName = rs.getString("productName");
+                byte[] image = rs.getBytes("image");
+                double buyNowPrice = rs.getDouble("buyNowPrice");
+                String eDate = rs.getString("eDate");
+                counter++;
+        %>
+        <div class="lot">
+            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
             <%
-                int counter = 0;
-                while (rs.next() && counter < 8) {
-                    String productID = rs.getString("productID");
-                    String productName = rs.getString("productName");
-                    byte[] image = rs.getBytes("image");
-                    double buyNowPrice = rs.getDouble("buyNowPrice");
-                    String eDate = rs.getString("eDate");
-                    counter++;
+                if (image != null) {
+                    String base64Image = java.util.Base64.getEncoder().encodeToString(image);
             %>
-            <div class="lot">
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <%
-                    if (image != null) {
-                        String base64Image = java.util.Base64.getEncoder().encodeToString(image);
-                %>
-                <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
-                    <img src="data:image/jpeg;base64,<%= base64Image %>"/>
-                </a>
-                <p><%= productName %></p>
-                <p class="price">SGD <%= buyNowPrice %></p>
-                <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
-                <script>
-                    startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
-                </script>
-            </div>
-            <%
-                    }
-                }
-            %>
+            <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>" onclick="openWebSocket('<%= productID %>')">
+                <img src="data:image/jpeg;base64,<%= base64Image %>"/>
+            </a>
+            <p><%= productName %></p>
+            <p class="price">SGD <%= buyNowPrice %></p>
+            <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
+            <script>
+                startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
+            </script>
         </div>
-        <a href="viewallfeature.jsp" class="see-all">See more newest products</a>
-    </div>
-
-    <%
-            // Second query: Ending soon products
-            String sqlEndingSoon = "SELECT productID, productName, image, buyNowPrice, eDate FROM product WHERE eDate > NOW() ORDER BY eDate ASC";
-            rs = stmt.executeQuery(sqlEndingSoon);
-    %>
-    <div class="featured-lots">
-        <h2>Ending Soon!</h2>
-        <div class="featured-lots-container">
-            <%
-                counter = 0;
-                while (rs.next() && counter < 8) {
-                    String productID = rs.getString("productID");
-                    String productName = rs.getString("productName");
-                    byte[] image = rs.getBytes("image");
-                    double buyNowPrice = rs.getDouble("buyNowPrice");
-                    String eDate = rs.getString("eDate");
-                    counter++;
-            %>
-            <div class="lot">
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <%
-                    if (image != null) {
-                        String base64Image = java.util.Base64.getEncoder().encodeToString(image);
-                %>
-                <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
-                    <img src="data:image/jpeg;base64,<%= base64Image %>"/>
-                </a>
-                <p><%= productName %></p>
-                <p class="price">SGD <%= buyNowPrice %></p>
-                <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
-                <script>
-                    startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
-                </script>
-            </div>
-            <%
-                    }
+        <%
                 }
-            %>
-        </div>
-        <a href="viewallfeature.jsp" class="see-all">See more products ending soon</a>
+            }
+        %>
     </div>
+    <a href="viewallfeature.jsp" class="see-all">See more newest products</a>
+</div>
 
-    <%
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (rs != null) try { rs.close(); } catch (SQLException e) {}
-            if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
-            if (conn != null) try { conn.close(); } catch (SQLException e) {}
-        }
-    %>
+<%
+        // Second query: Ending soon products
+        String sqlEndingSoon = "SELECT productID, productName, image, buyNowPrice, eDate FROM product WHERE eDate > NOW() ORDER BY eDate ASC";
+        rs = stmt.executeQuery(sqlEndingSoon);
+%>
+<div class="featured-lots">
+    <h2>Ending Soon!</h2>
+    <div class="featured-lots-container">
+        <%
+            counter = 0;
+            while (rs.next() && counter < 8) {
+                String productID = rs.getString("productID");
+                String productName = rs.getString("productName");
+                byte[] image = rs.getBytes("image");
+                double buyNowPrice = rs.getDouble("buyNowPrice");
+                String eDate = rs.getString("eDate");
+                counter++;
+        %>
+        <div class="lot">
+            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
+            <%
+                if (image != null) {
+                    String base64Image = java.util.Base64.getEncoder().encodeToString(image);
+            %>
+            <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>" onclick="openWebSocket('<%= productID %>')">
+                <img src="data:image/jpeg;base64,<%= base64Image %>"/>
+            </a>
+            <p><%= productName %></p>
+            <p class="price">SGD <%= buyNowPrice %></p>
+            <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
+            <script>
+                startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
+            </script>
+        </div>
+        <%
+                }
+            }
+        %>
+    </div>
+    <a href="viewallfeature.jsp" class="see-all">See more products ending soon</a>
+</div>
+
+<%
+    } catch (Exception e) {
+        e.printStackTrace();
+    } finally {
+        if (rs != null) try { rs.close(); } catch (SQLException e) {}
+        if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
+        if (conn != null) try { conn.close(); } catch (SQLException e) {}
+    }
+%>
 
 
     <div class="Categories">

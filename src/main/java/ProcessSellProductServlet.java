@@ -12,9 +12,12 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
- * Servlet implementation class ProcessSell
+ * Servlet implementation class ProcessSellProductServlet
  */
 @MultipartConfig(maxFileSize = 16177215) // upload file up to 16MB
 public class ProcessSellProductServlet extends HttpServlet {
@@ -43,13 +46,11 @@ public class ProcessSellProductServlet extends HttpServlet {
         String startingBidPrice = null;
         String sDate = null;
         String eDate = null;
-        String duration = null;
 
         if (auctionToggle != null && auctionToggle.equals("on")) {
             startingBidPrice = request.getParameter("startingBidPrice");
             sDate = request.getParameter("startdate");
             eDate = request.getParameter("enddate");
-            duration = request.getParameter("auctionDuration");
         }
 
         InputStream inputStream = null;
@@ -59,6 +60,7 @@ public class ProcessSellProductServlet extends HttpServlet {
 
         Connection con = null;
         String message = null;
+        int productID = 0;
 
         try {
             // connects to the database
@@ -66,8 +68,8 @@ public class ProcessSellProductServlet extends HttpServlet {
             con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
 
             // constructs SQL statement
-            String sql = "INSERT INTO product (accountID, productName, productCategory, productDescription, Quantity, buyNowPrice, sDate, eDate, duration, Shipping, Image, startingBidPrice, currentBid, highestBidderID, auctionStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-            PreparedStatement statement = con.prepareStatement(sql);
+            String sql = "INSERT INTO product (accountID, productName, productCategory, productDescription, Quantity, buyNowPrice, sDate, eDate, Shipping, Image, startingBidPrice, currentBid, highestBidderID, auctionStatus) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            PreparedStatement statement = con.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS);
             statement.setInt(1, accountID);
             statement.setString(2, productName);
             statement.setString(3, productCategory);
@@ -77,34 +79,40 @@ public class ProcessSellProductServlet extends HttpServlet {
             statement.setString(7, sDate);
             statement.setString(8, eDate);
 
-            if (duration != null && !duration.isEmpty()) {
-                statement.setInt(9, Integer.parseInt(duration));
-            } else {
-                statement.setNull(9, java.sql.Types.INTEGER);
-            }
-
-            statement.setString(10, shipping);
+            statement.setString(9, shipping);
 
             if (inputStream != null) {
-                statement.setBlob(11, inputStream);
+                statement.setBlob(10, inputStream);
             } else {
-                statement.setNull(11, java.sql.Types.BLOB);
+                statement.setNull(10, java.sql.Types.BLOB);
             }
 
             if (startingBidPrice != null && !startingBidPrice.isEmpty()) {
-                statement.setString(12, startingBidPrice);
+                statement.setString(11, startingBidPrice);
             } else {
-                statement.setNull(12, java.sql.Types.DECIMAL);
+                statement.setNull(11, java.sql.Types.DECIMAL);
             }
 
             // Assuming currentBid, highestBidderID, auctionStatus are not part of form submission
-            statement.setNull(13, java.sql.Types.DECIMAL); // currentBid
-            statement.setNull(14, java.sql.Types.INTEGER); // highestBidderID
-            statement.setNull(15, java.sql.Types.VARCHAR); // auctionStatus
+            statement.setNull(12, java.sql.Types.DECIMAL); // currentBid
+            statement.setNull(13, java.sql.Types.INTEGER); // highestBidderID
+            statement.setNull(14, java.sql.Types.VARCHAR); // auctionStatus
 
             int row = statement.executeUpdate();
             if (row > 0) {
                 message = "File uploaded and saved into database";
+
+                // Retrieve the generated product ID
+                ResultSet generatedKeys = statement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    productID = generatedKeys.getInt(1);
+
+                    // If the listing is for an auction, schedule the finalization
+                    if (auctionToggle != null && auctionToggle.equals("on") && eDate != null) {
+                        Timestamp endTimestamp = Timestamp.valueOf(eDate.replace("T", " ") + ":00");
+                        AuctionScheduler.scheduleAuctionFinalization(productID, new Date(endTimestamp.getTime()));
+                    }
+                }
             }
 
         } catch (Exception ex) {

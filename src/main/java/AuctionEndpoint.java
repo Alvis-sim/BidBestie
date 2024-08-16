@@ -22,8 +22,14 @@ import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
+
+import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
+import com.stripe.model.Charge;
 
 @ServerEndpoint(value = "/auction/{username}", configurator = AuctionEndpoint.Configurator.class)
 public class AuctionEndpoint {
@@ -63,7 +69,6 @@ public class AuctionEndpoint {
             session.getBasicRemote().sendText("HttpSession is not available, cannot retrieve auction history.");
         }
     }
-
 
     @OnClose
     public void onClose(Session session) {
@@ -108,6 +113,7 @@ public class AuctionEndpoint {
             }
         }
     }
+
     public void sendAuctionHistory(Session session, int productID) throws SQLException, IOException {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
              PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp, productID FROM auction_bids WHERE productID = ? ORDER BY timestamp")) {
@@ -141,6 +147,102 @@ public class AuctionEndpoint {
         }
     }
 
+    public String finalizeAuction(int productID) {
+        String winner = null;
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement checkStatusStmt = connection.prepareStatement(
+                 "SELECT status FROM product WHERE productID = ?");
+             PreparedStatement statement = connection.prepareStatement(
+                 "SELECT username, bid_amount FROM auction_bids WHERE productID = ? ORDER BY bid_amount DESC LIMIT 1")) {
+
+            // Check if the auction has already been finalized
+            checkStatusStmt.setInt(1, productID);
+            ResultSet statusResultSet = checkStatusStmt.executeQuery();
+            if (statusResultSet.next()) {
+                String status = statusResultSet.getString("status");
+                if ("Sold".equalsIgnoreCase(status)) {
+                    System.out.println("Auction already finalized for product: " + productID);
+                    return null; // Exit early to prevent double charging
+                }
+            }
+
+            // Proceed with auction finalization if not already finalized
+            statement.setInt(1, productID);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                winner = resultSet.getString("username");
+                BigDecimal winningBid = resultSet.getBigDecimal("bid_amount");
+
+                // Charge the winner using Stripe
+                chargeWinner(winner, winningBid);
+
+                // Notify the winner (optional)
+                notifyWinner(winner, productID, winningBid);
+
+                // Update the product status to sold
+                updateProductStatus(productID, "Sold");
+
+                System.out.println("Auction finalized. Winner: " + winner + ", Bid: " + winningBid);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error finalizing auction: " + e.getMessage());
+        }
+
+        return winner;
+    }
+    public void chargeWinner(String username, BigDecimal amount) {
+        // Retrieve the Stripe token associated with the user (you should store this during the bidding process)
+        String stripeToken = getStripeTokenForUser(username);
+
+        // Use Stripe's API to charge the user
+        if (stripeToken != null) {
+            try {
+                // Set your secret key. Remember to replace this with your actual key.
+                Stripe.apiKey = "sk_test_51PYQCORpr2L9wI5uzqOTYCHr2wFE1Cvdjj8457Bov2JZmIzm2telIyYeM3l6z8gablhFQusLgUpESZK0ob1n2Rdg00h9om4eGh";
+
+                // Prepare the parameters for the charge
+                Map<String, Object> chargeParams = new HashMap<>();
+                chargeParams.put("amount", amount.multiply(new BigDecimal(100)).intValueExact()); // Convert to cents
+                chargeParams.put("currency", "usd"); // Replace "usd" with your actual currency if needed
+                chargeParams.put("source", stripeToken);
+                chargeParams.put("description", "Payment for winning auction by " + username);
+
+                // Create the charge using the Stripe API
+                Charge charge = Charge.create(chargeParams);
+
+                // Log the successful payment
+                System.out.println("Payment successful for user: " + username + ", Charge ID: " + charge.getId());
+
+            } catch (StripeException e) {
+                // Handle Stripe API errors
+                System.err.println("Error charging user: " + e.getMessage());
+            }
+        } else {
+            // Log the case where no Stripe token is found for the user
+            System.err.println("Stripe token not found for user: " + username);
+        }
+    }
+
+
+    public void updateProductStatus(int productID, String status) {
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(
+                 "UPDATE product SET status = ? WHERE productID = ?")) {
+             
+            statement.setString(1, status);
+            statement.setInt(2, productID);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Error updating product status: " + e.getMessage());
+        }
+    }
+
+    public void notifyWinner(String username, int productID, BigDecimal winningBid) {
+        // Implement notification logic, such as sending an email
+        System.out.println("Notifying winner: " + username + " for product " + productID + " with bid " + winningBid);
+    }
+
     public String formatTimestamp(Timestamp timestamp) {
         LocalDateTime bidTime = timestamp.toLocalDateTime();
         LocalDateTime now = LocalDateTime.now();
@@ -169,4 +271,28 @@ public class AuctionEndpoint {
         long years = months / 12;
         return years + " years ago";
     }
-}
+
+    private String getStripeTokenForUser(String username) {
+        String stripeToken = null;
+
+        String sql = "SELECT stripe_token FROM users WHERE username = ?";
+        try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+             PreparedStatement statement = connection.prepareStatement(sql)) {
+
+            statement.setString(1, username);
+            ResultSet resultSet = statement.executeQuery();
+
+            if (resultSet.next()) {
+                stripeToken = resultSet.getString("stripe_token");
+            } else {
+                System.err.println("No Stripe token found for user: " + username);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving Stripe token for user " + username + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return stripeToken;
+    }
+ }

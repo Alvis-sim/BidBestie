@@ -4,6 +4,7 @@
 <%@ page import="jakarta.servlet.http.*" %>
 <%@ page import="java.util.Base64" %>
 <%@ page import="java.util.Optional" %>
+<%@ page import="java.net.URLEncoder" %>
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Inter&display=swap" rel="stylesheet" />
@@ -172,11 +173,12 @@
                         "jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", 
                         "root", 
                         "root");
-                     PreparedStatement stmt = conn.prepareStatement("SELECT productName, image, buyNowPrice, eDate FROM product WHERE productCategory=?")) {
+                     PreparedStatement stmt = conn.prepareStatement("SELECT productID, productName, image, buyNowPrice, eDate FROM product WHERE productCategory=?")) {
 
                     stmt.setString(1, category);
                     try (ResultSet rs = stmt.executeQuery()) {
                         while (rs.next()) {
+                        	String productID = rs.getString("productID");
                             String productName = rs.getString("productName");
                             byte[] image = rs.getBytes("image");
                             double buyNowPrice = rs.getDouble("buyNowPrice");
@@ -185,7 +187,10 @@
                             String base64Image = image != null ? Base64.getEncoder().encodeToString(image) : "";
         %>
 		<div class="bag-item">
-		    <img src="<%= image != null ? "data:image/jpeg;base64," + base64Image : "images/default.jpg" %>" alt="<%= productName %>">
+		     <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>" onclick="openWebSocket('<%= productID %>')">
+                <img src="<%= image != null ? "data:image/jpeg;base64," + base64Image : "images/default.jpg" %>" alt="<%= productName %>">
+            </a>
+		    
 		    <div class="bag-details">
 		        <h2><%= productName %></h2>
 		        <p>Buy Now Price: <%= buyNowPrice %></p>
