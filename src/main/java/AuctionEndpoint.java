@@ -64,25 +64,33 @@ public class AuctionEndpoint {
     @OnMessage
     public void onMessage(String message, Session session) throws IOException, SQLException {
         String username = (String) session.getUserProperties().get("username");
-        System.out.println("Received bid from user: " + username + " - " + message);
+        System.out.println("Received message from user: " + username + " - " + message);
         if (username == null) {
             throw new RuntimeException("Username is not set in session properties");
         }
-        
+
+        // Expecting message format: {"bidAmount": "100.00", "productID": "123"}
+        String[] parts = message.replace("\"", "").replace("{", "").replace("}", "").split(",");
+        String bidAmountStr = parts[0].split(":")[1].trim();
+        String productIDStr = parts[1].split(":")[1].trim();
+
         BigDecimal bidAmount;
+        int productID;
         try {
-            bidAmount = new BigDecimal(message);
+            bidAmount = new BigDecimal(bidAmountStr);
+            productID = Integer.parseInt(productIDStr);
         } catch (NumberFormatException e) {
-            session.getBasicRemote().sendText("Invalid bid amount");
+            session.getBasicRemote().sendText("Invalid bid data");
             return;
         }
-        
-        saveBidToDatabase(username, bidAmount);
+
+        saveBidToDatabase(username, bidAmount, productID);
+
+        // Broadcast bid to all clients
         synchronized (clients) {
             for (Session client : clients) {
                 if (client.isOpen()) {
-                    System.out.println("Sending bid to client: " + client.getUserProperties().get("username"));
-                    client.getBasicRemote().sendText(username + " bid: $" + bidAmount);
+                    client.getBasicRemote().sendText(username + " bid $" + bidAmount + " on product " + productID);
                 }
             }
         }
@@ -90,29 +98,30 @@ public class AuctionEndpoint {
 
     public void sendAuctionHistory(Session session) throws SQLException, IOException {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp FROM auction_bids ORDER BY timestamp")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp, productID FROM auction_bids ORDER BY timestamp")) {
 
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 String username = resultSet.getString("username");
                 BigDecimal bidAmount = resultSet.getBigDecimal("bid_amount");
                 Timestamp timestamp = resultSet.getTimestamp("timestamp");
-                System.out.println("Retrieved timestamp: " + timestamp); // Debugging output
+                int productID = resultSet.getInt("productID");
                 String timeAgo = formatTimestamp(timestamp);
-                session.getBasicRemote().sendText("[" + timeAgo + "] " + username + " bid: $" + bidAmount);
+                session.getBasicRemote().sendText("[" + timeAgo + "] " + username + " bid $" + bidAmount + " on product " + productID);
             }
         }
     }
 
-    public void saveBidToDatabase(String username, BigDecimal bidAmount) {
+    public void saveBidToDatabase(String username, BigDecimal bidAmount, int productID) {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement("INSERT INTO auction_bids (username, bid_amount, timestamp) VALUES (?, ?, ?)")) {
+             PreparedStatement statement = connection.prepareStatement("INSERT INTO auction_bids (username, bid_amount, timestamp, productID) VALUES (?, ?, ?, ?)")) {
 
             statement.setString(1, username);
             statement.setBigDecimal(2, bidAmount);
             statement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+            statement.setInt(4, productID);
             statement.executeUpdate();
-            System.out.println("Bid saved to database: " + username + " - " + bidAmount);
+            System.out.println("Bid saved to database: " + username + " - " + bidAmount + " on product " + productID);
         } catch (SQLException e) {
             System.err.println("Error saving bid to database: " + e.getMessage());
         }
@@ -124,9 +133,6 @@ public class AuctionEndpoint {
         Duration duration = Duration.between(bidTime, now);
 
         long seconds = duration.getSeconds();
-        if (seconds < 0) {
-            return "just now"; // Handle negative values
-        }
         if (seconds < 60) {
             return seconds + " seconds ago";
         }
@@ -149,6 +155,4 @@ public class AuctionEndpoint {
         long years = months / 12;
         return years + " years ago";
     }
-
-
 }

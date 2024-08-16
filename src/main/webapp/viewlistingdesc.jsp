@@ -108,6 +108,8 @@
         }
 
         var bidAmount = document.getElementById("bidAmount").value;
+        var productID = document.getElementById("productIDHidden").value;
+
         if (!bidAmount || isNaN(bidAmount) || bidAmount <= 0) {
             alert("Please enter a valid bid amount.");
             return;
@@ -141,12 +143,12 @@
                 console.log("Token and bid amount added to form, submitting form...");
                 form.submit();
 
-                // Send bid to WebSocket server after successful payment
+                // Send bid and product ID to WebSocket server after successful payment
                 if (ws.readyState === WebSocket.OPEN) {
-                    ws.send(bidAmount);
+                    ws.send(JSON.stringify({bidAmount: bidAmount, productID: productID}));
                 } else {
                     ws.onopen = function() {
-                        ws.send(bidAmount);
+                        ws.send(JSON.stringify({bidAmount: bidAmount, productID: productID}));
                     };
                 }
             }
@@ -172,62 +174,62 @@
     <link rel="icon" type="image/png" href="path/to/your/favicon.png">
 </head>
 <body>
-	<div class="sticky-top">
-		<div class= "top-header">
-			<div class="left-section">
-				<div class="logo">
-			        <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
-			    </div>		        	    	
-		        <div class="user-info">
-				    <div class="dropdown">
-				        <span class="dropbtn">Hi, ${fname} ${lname} !<span class="arrow-down"></span></span> <!-- Trigger element -->
-				        <div class="dropdown-content">
-				            <a href="viewaccount.jsp">Profile</a>
-				            <a href="viewaccount.jsp">Settings</a>
-				            <a href="viewlisting.jsp">My Listings</a>			        
-				    	</div>		        
-					</div> 	        
-		    	</div>  
-		 	</div>
-		    <div class="categories">
-		            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
-		            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
-		            <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
-		            <a href="DisplayCategoryServlet?category=living">Living</a>
-		            <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
-		            <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
-		            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
-		            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
-		    </div>	
-		</div>	  
-	    <div class="search-container">
-	    	<select id="category">
-	            <option value="">By Categories</option>
-	            <option value="electronics">Electronics</option>
-	            <option value="women-fashion">Women Fashion</option>
-	            <option value="men-fashion">Men Fashion</option>
-	            <option value="living">Living</option>
-	            <option value="accessories">Accessories</option>
-	            <option value="beauty-health">Beauty and Health</option>
-	            <option value="travel">Travel</option>
-	            <option value="sporting-goods">Sporting Goods</option>
-	            <option value="pet-supplies">Pet Supplies</option>
-	        </select>        
-	        <input type="text" placeholder="Search for anything and everything">
-	        <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
-	        <div class="user-func">
-	            <a href="createListing.jsp">Sell</a>         
-	            <a href="Product">Load</a>
-	            <a href="logout">Logout</a>
-	            <a href="login.jsp"><img src="images/bell.png" alt="Image 1"></a>
-	            <a href="login.jsp"><img src="images/heart.png" alt="Image 2"></a>
-	            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
-			</div>
-	    </div>     
-	</div>
-	
-	
-	    
+    <div class="sticky-top">
+        <div class= "top-header">
+            <div class="left-section">
+                <div class="logo">
+                    <a href="UserLanding.jsp"><img src="images/bid_bestie.png" alt="Bid Bestie Logo"></a> 
+                </div>                          
+                <div class="user-info">
+                    <div class="dropdown">
+                        <span class="dropbtn">Hi, ${fname} ${lname} !<span class="arrow-down"></span></span> <!-- Trigger element -->
+                        <div class="dropdown-content">
+                            <a href="viewaccount.jsp">Profile</a>
+                            <a href="viewaccount.jsp">Settings</a>
+                            <a href="viewlisting.jsp">My Listings</a>               
+                        </div>          
+                    </div>          
+                </div>  
+            </div>
+            <div class="categories">
+                    <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
+                    <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
+                    <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
+                    <a href="DisplayCategoryServlet?category=living">Living</a>
+                    <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
+                    <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
+                    <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
+                    <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
+            </div>  
+        </div>    
+        <div class="search-container">
+            <select id="category">
+                <option value="">By Categories</option>
+                <option value="electronics">Electronics</option>
+                <option value="women-fashion">Women Fashion</option>
+                <option value="men-fashion">Men Fashion</option>
+                <option value="living">Living</option>
+                <option value="accessories">Accessories</option>
+                <option value="beauty-health">Beauty and Health</option>
+                <option value="travel">Travel</option>
+                <option value="sporting-goods">Sporting Goods</option>
+                <option value="pet-supplies">Pet Supplies</option>
+            </select>        
+            <input type="text" placeholder="Search for anything and everything">
+            <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
+            <div class="user-func">
+                <a href="createListing.jsp">Sell</a>         
+                <a href="Product">Load</a>
+                <a href="logout">Logout</a>
+                <a href="login.jsp"><img src="images/bell.png" alt="Image 1"></a>
+                <a href="login.jsp"><img src="images/heart.png" alt="Image 2"></a>
+                <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
+            </div>
+        </div>     
+    </div>
+    
+    
+        
     <!-- Notification drop down container -->
     <div id="notificationDropdown" class="notification-dropdown">
         <!-- Header and Filters -->
@@ -369,104 +371,14 @@
             <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
             <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
             <button onclick="handleBid()">Place Bid</button>
-			<form id="payment-form" action="processPayment" method="post">
-			    <div id="card-element"></div>
-			    <div id="card-errors" role="alert"></div>
-			    <input type="hidden" name="totalAmount" id="totalAmount">
-			    <input type="hidden" name="bidAmount" id="bidAmountHidden">
-			    <button type="submit" style="display: none;">Submit Payment</button>
-			</form>
-        </div>
-    </div>
-    <!-- Featured Lots Section -->
-    <div class="related-lots">
-        <h2>Related Products</h2>
-        <div class="related-lots-container">
-            <div class="lot">
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <a href="product_page_iphone15.html">
-                    <img src="images/iphone15.jpg" alt="iPhone 15 Pro">
-                </a>
-                <p>iPhone 15 Pro, 256Gb - Blue Titanium</p>
-                <p>Lowest Ask</p>
-                <p class="price">SGD 1220</p>
-                <div class="last-sale">Last Sale: $91</div>
-            </div>
-            <div class="lot">
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <a href="product_page_jersey.html">
-                    <img src="images/jersey.jpg" alt="mbappe">
-                </a>
-                <p>Mbappe # 10 Soccer Jersey, Shorts + Socks Jersey Kit</p>
-                <p>Lowest Ask</p>
-                <p class="price">SGD 220</p>
-                <div class="last-sale">Last Sale: $91</div>
-            </div>
-            <div class="lot">
-                <a href="product_page_cat_litter.html">
-                    <img src="images/catlitter.jpg" alt="cat litter">
-                </a>
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <p>XLAIQ Smart Self-Cleaning Cat Litter Box, 1-10kg Cats</p>
-                <p>Lowest Ask</p>
-                <p class="price">SGD 1000</p>
-                <div class="last-sale">Last Sale: $91</div>
-            </div>
-            <div class="lot">
-                <a href="product_page_vancleef_earring.html">
-                    <img src="images/vancleef_earring.jpg" alt="Van Cleef Arpels Alhambra earrings">
-                </a>
-                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-                <p>Van Cleef Arpels Alhambra earrings white-gold pearl</p>
-                <p>Lowest Ask</p>
-                <p class="price">SGD 3000</p>
-                <div class="last-sale">Last Sale: $91</div>
-            </div>
-        </div>
-        <a href="AllFeaturedLots.jsp" class="see-all">See All</a>
-    </div>
-    <!-- Footer Section -->
-    <div class="footer">
-        <div class="footer-container">
-            <div class="footer-column">
-                <h3>Company</h3>
-                <ul>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Auction Rules</a></li>
-                    <li><a href="#">Refund Return Policy</a></li>
-                    <li><a href="#">User Agreement</a></li>
-                    <li><a href="#">Personal Data Protection</a></li>
-                    <li><a href="#">Cookie Policy</a></li>
-                    <li><a href="#">Distance Sales Contract</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Preliminary Information Form</a></li>
-                    <li><a href="#">Bank Transfer Information</a></li>
-                    <li><a href="#">FAQs</a></li>
-                    <li><a href="#">Terms and Conditions</a></li>
-                    <li><a href="#">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-column">
-                <h3>Product</h3>
-                <ul>
-                    <li><a href="#">Buy With Us</a></li>
-                    <li><a href="#">Sell With Us</a></li>
-                    <li><a href="#">Reviews</a></li>
-                </ul>
-                <br>
-                <p>Email: tphelp@tpauctions.net</p>
-                <div class="social-icons">
-                    <a href="https://www.facebook.com"><i class="fa fa-facebook"></i></a>
-                    <a href="https://www.instagram.com"><i class="fa fa-instagram"></i></a>
-                    <a href="https://www.youtube.com"><i class="fa fa-youtube"></i></a>
-                    <a href="https://www.whatsapp.com"><i class="fa fa-whatsapp"></i></a>
-                </div>
-            </div>
+            <form id="payment-form" action="processPayment" method="post">
+                <div id="card-element"></div>
+                <div id="card-errors" role="alert"></div>
+                <input type="hidden" name="totalAmount" id="totalAmount">
+                <input type="hidden" name="bidAmount" id="bidAmountHidden">
+                <input type="hidden" name="productID" id="productIDHidden" value="${productID}">
+                <button type="submit" style="display: none;">Submit Payment</button>
+            </form>
         </div>
     </div>
 
@@ -494,7 +406,7 @@
             if (n > slides.length) { slideIndex = 1 }
             if (n < 1) { slideIndex = slides.length }
             for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
+                slides[i.style.display = "none"];
             }
             for (i = 0; i < dots.length; i++) {
                 dots[i].className = dots[i].className.replace(" active", "");
