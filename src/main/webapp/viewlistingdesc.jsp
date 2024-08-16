@@ -3,6 +3,12 @@
 <%
     HttpSession httpSession = request.getSession(false);
     String username = (httpSession != null) ? (String) httpSession.getAttribute("username") : null;
+    String productID = request.getParameter("productID");
+
+    if (httpSession != null && productID != null) {
+        httpSession.setAttribute("productID", productID);
+        System.out.println("Setting productID in session: " + productID);
+    }
 %>
 <!DOCTYPE html>
 <html>
@@ -293,6 +299,7 @@
     <div class="main-content">
         <div class="product-details">
             <h1>${productName}</h1>
+            <h1>${productID}</h1>
             <div class="slideshow-and-buy-now-container">
                 <div class="slideshow-container">
                     <div class="mySlides fade">
@@ -381,6 +388,7 @@
             </form>
         </div>
     </div>
+
 
     <script>
         function toggleLike(element) {

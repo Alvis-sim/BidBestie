@@ -50,10 +50,20 @@ public class AuctionEndpoint {
         HttpSession httpSession = (HttpSession) session.getUserProperties().get("httpSession");
         if (httpSession != null) {
             httpSession.setAttribute("username", username);
-        }
 
-        sendAuctionHistory(session);
+            // Retrieve productID from the HttpSession
+            String productIDStr = (String) httpSession.getAttribute("productID");
+            if (productIDStr != null) {
+                int productID = Integer.parseInt(productIDStr);
+                sendAuctionHistory(session, productID);
+            } else {
+                session.getBasicRemote().sendText("Product ID is missing from session, cannot retrieve auction history.");
+            }
+        } else {
+            session.getBasicRemote().sendText("HttpSession is not available, cannot retrieve auction history.");
+        }
     }
+
 
     @OnClose
     public void onClose(Session session) {
@@ -84,6 +94,9 @@ public class AuctionEndpoint {
             return;
         }
 
+        // Save the productID to session properties to use in the onOpen method
+        session.getUserProperties().put("productID", String.valueOf(productID));
+
         saveBidToDatabase(username, bidAmount, productID);
 
         // Broadcast bid to all clients
@@ -95,17 +108,18 @@ public class AuctionEndpoint {
             }
         }
     }
-
-    public void sendAuctionHistory(Session session) throws SQLException, IOException {
+    public void sendAuctionHistory(Session session, int productID) throws SQLException, IOException {
         try (Connection connection = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
-             PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp, productID FROM auction_bids ORDER BY timestamp")) {
+             PreparedStatement statement = connection.prepareStatement("SELECT username, bid_amount, timestamp, productID FROM auction_bids WHERE productID = ? ORDER BY timestamp")) {
 
+            statement.setInt(1, productID);
             ResultSet resultSet = statement.executeQuery();
+
             while (resultSet.next()) {
+
                 String username = resultSet.getString("username");
                 BigDecimal bidAmount = resultSet.getBigDecimal("bid_amount");
                 Timestamp timestamp = resultSet.getTimestamp("timestamp");
-                int productID = resultSet.getInt("productID");
                 String timeAgo = formatTimestamp(timestamp);
                 session.getBasicRemote().sendText("[" + timeAgo + "] " + username + " bid $" + bidAmount + " on product " + productID);
             }

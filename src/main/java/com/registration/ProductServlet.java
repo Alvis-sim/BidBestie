@@ -22,14 +22,15 @@ public class ProductServlet extends HttpServlet {
         try (Connection con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root")) {
             System.out.println("Database connection successful");
 
-            String sql = "SELECT productName, buyoutPrice, imageUrl FROM products ORDER BY RAND() LIMIT 3";
+            String sql = "SELECT productID, productName, buyoutPrice, imageUrl FROM products ORDER BY RAND() LIMIT 3";
             try (PreparedStatement statement = con.prepareStatement(sql)) {
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
+                    	int id = resultSet.getInt("productID");
                         String name = resultSet.getString("productName");
                         double price = resultSet.getDouble("buyoutPrice");
                         String imagePath = resultSet.getString("imageUrl");
-                        products.add(new Product(name, price, imagePath));
+                        products.add(new Product(id,name, price, imagePath));
                     }
                 }
             }

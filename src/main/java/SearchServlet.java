@@ -44,11 +44,12 @@ public class SearchServlet extends HttpServlet {
             
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
+                	int productID = rs.getInt("productID");
                     String productName = rs.getString("productName");
                     double buyNowPrice = rs.getDouble("buyNowPrice");
                     byte[] imageBytes = rs.getBytes("image");
                     String imagePath = imageBytes != null ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(imageBytes) : null;
-                    products.add(new Product(productName, buyNowPrice, imagePath));
+                    products.add(new Product(productID,productName, buyNowPrice, imagePath));
                 }
             }
         } catch (Exception e) {
