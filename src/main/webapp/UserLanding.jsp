@@ -48,30 +48,32 @@
 	    </div>	
 	</div>	  
     <div class="search-container">
-    	<select id="category">
-            <option value="">By Categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="women-fashion">Women Fashion</option>
-            <option value="men-fashion">Men Fashion</option>
-            <option value="living">Living</option>
-            <option value="accessories">Accessories</option>
-            <option value="beauty-health">Beauty and Health</option>
-            <option value="travel">Travel</option>
-            <option value="sporting-goods">Sporting Goods</option>
-            <option value="pet-supplies">Pet Supplies</option>
-        </select>        
-        <input type="text" placeholder="Search for anything and everything">
-        <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
-        <div class="user-func">
-            <a href="createListing.jsp">Sell</a>         
-            <a href="Product">Load</a>
-            <a href="logout">Logout</a>
-            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
-            <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>
-            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
-		</div>
-    </div>     
-</div>
+            <form action="SearchServlet" method="get">
+                <select name="category">
+                    <option value="">Search by Category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="women-fashion">Women Fashion</option>
+                    <option value="men-fashion">Men Fashion</option>
+                    <option value="living">Living</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="beauty-health">Beauty and Health</option>
+                    <option value="travel">Travel</option>
+                    <option value="sporting-goods">Sporting Goods</option>
+                    <option value="pet-supplies">Pet Supplies</option>
+                </select>
+                <input type="text" name="query" placeholder="Search for anything and everything...">
+                <button type="submit">Search</button>
+            </form>
+            <div class="user-func">
+	            <a href="createListing.jsp">Sell</a>                     
+	            <a href="logout">Logout</a>
+	            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
+	            <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>
+	            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
+			</div>
+     </div>
+</div>  
+
  
     <!-- Notification drop down container -->
     <div id="notificationDropdown" class="notification-dropdown">
@@ -177,113 +179,109 @@
 
 
 <!-- Featured Lots Section -->
-<%
-	Connection conn = null;
-	Statement stmt = null;
-	ResultSet rs = null;
 
-	try {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-        conn = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
-        stmt = conn.createStatement();
-        String sql = "SELECT productID, productName, image, buyNowPrice FROM product";
-        rs = stmt.executeQuery(sql);
+    <%
+        Connection conn = null;
+        Statement stmt = null;
+        ResultSet rs = null;
 
-   
-%>
-<div class="featured-lots">
-    <h2>Featured Products</h2>
-    <div class="featured-lots-container">
-        <%
-	        while (rs.next()) {
-	        	String productID = rs.getString("productID");
-	            String productName = rs.getString("productName");
-	            byte[] image = rs.getBytes("image");
-	            double buyNowPrice = rs.getDouble("buyNowPrice");
-        %>
-        <div class="lot">
-            <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
-        <%
-                if (image != null) {
-                    String base64Image = java.util.Base64.getEncoder().encodeToString(image);
-        %>
-            <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
-            <img src="data:image/jpeg;base64,<%= base64Image %>"/>
-                
-            </a>
-            <p><%= productName %></p>
-            <p class="price">SGD <%= buyNowPrice %></p>
-            <p class="status closed">CLOSED</p>
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            conn = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
+            stmt = conn.createStatement();
+            
+            // First query: Newest products
+            String sqlNewest = "SELECT productID, productName, image, buyNowPrice, eDate FROM product ORDER BY eDate DESC";
+            rs = stmt.executeQuery(sqlNewest);
+    %>
+    <div class="featured-lots">
+        <h2>Newest Products</h2>
+        <div class="featured-lots-container">
+            <%
+                int counter = 0;
+                while (rs.next() && counter < 8) {
+                    String productID = rs.getString("productID");
+                    String productName = rs.getString("productName");
+                    byte[] image = rs.getBytes("image");
+                    double buyNowPrice = rs.getDouble("buyNowPrice");
+                    String eDate = rs.getString("eDate");
+                    counter++;
+            %>
+            <div class="lot">
+                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
+                <%
+                    if (image != null) {
+                        String base64Image = java.util.Base64.getEncoder().encodeToString(image);
+                %>
+                <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
+                    <img src="data:image/jpeg;base64,<%= base64Image %>"/>
+                </a>
+                <p><%= productName %></p>
+                <p class="price">SGD <%= buyNowPrice %></p>
+                <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
+                <script>
+                    startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
+                </script>
+            </div>
+            <%
+                    }
+                }
+            %>
         </div>
-        <%
-            }
-	        	}
-        %>
+        <a href="viewallfeature.jsp" class="see-all">See more newest products</a>
     </div>
-    <a href="viewallfeature.jsp" class="see-all">See All</a>
-</div>
-<%
-    } catch (Exception e) {
-        e.printStackTrace();
-    } finally {
-        if (rs != null) try { rs.close(); } catch (SQLException e) {}
-        if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
-        if (conn != null) try { conn.close(); } catch (SQLException e) {}
-    }
-%>
 
-
-<!-- Upcoming Auctions Section -->
-<div class="upcoming-auctions">
-    <h2>Upcoming Auctions</h2>
-    <div class="upcoming-auctions-container">
-        <div class="auction">
-            <a href="viewproductreminder.jsp">
-                <img src="images/ipad.jpg" alt="ipad">
-            </a>
-            <div class="auction-details">
-                <p class="auction-title">Bids Starting</p>
-                <p class="auction-timer">13d 6hrs 56mins 45sec</p>
-                <p>Ipad Air Gen 2 9.7 inch display 128gb rose gold wifi</p>
+    <%
+            // Second query: Ending soon products
+            String sqlEndingSoon = "SELECT productID, productName, image, buyNowPrice, eDate FROM product WHERE eDate > NOW() ORDER BY eDate ASC";
+            rs = stmt.executeQuery(sqlEndingSoon);
+    %>
+    <div class="featured-lots">
+        <h2>Ending Soon!</h2>
+        <div class="featured-lots-container">
+            <%
+                counter = 0;
+                while (rs.next() && counter < 8) {
+                    String productID = rs.getString("productID");
+                    String productName = rs.getString("productName");
+                    byte[] image = rs.getBytes("image");
+                    double buyNowPrice = rs.getDouble("buyNowPrice");
+                    String eDate = rs.getString("eDate");
+                    counter++;
+            %>
+            <div class="lot">
+                <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
+                <%
+                    if (image != null) {
+                        String base64Image = java.util.Base64.getEncoder().encodeToString(image);
+                %>
+                <a href="viewlistingdesc?productID=<%= URLEncoder.encode(productID, "UTF-8") %>">
+                    <img src="data:image/jpeg;base64,<%= base64Image %>"/>
+                </a>
+                <p><%= productName %></p>
+                <p class="price">SGD <%= buyNowPrice %></p>
+                <p>Ends: <span id="timer-<%= productName.hashCode() %>"></span></p>
+                <script>
+                    startTimer("<%= eDate %>", "timer-<%= productName.hashCode() %>");
+                </script>
             </div>
-            <a href="#" class="remind-me">Remind me »</a>
+            <%
+                    }
+                }
+            %>
         </div>
-        <div class="auction">
-            <a href="viewproductreminder.jsp">
-                <img src="images/nintendoswitch.jpg" alt="nintendo switch">
-            </a>
-            <div class="auction-details">
-                <p class="auction-title">Bids Starting</p>
-                <p class="auction-timer">6d 6hrs 56mins 45sec</p>
-                <p>Nintendo Console OLED Switch - White</p>
-            </div>
-            <a href="#" class="remind-me">Remind me »</a>
-        </div>
-        <div class="auction">
-            <a href="viewproductreminder.jsp">
-                <img src="images/chanelbag.jpg" alt="chanel bags">
-            </a>
-            <div class="auction-details">
-                <p class="auction-title">Bids Starting</p>
-                <p class="auction-timer">2d 4hrs 12mins 33sec</p>
-                <p>CHANEL Pre-Owned 1992-1994 Diana shoulder bag</p>
-            </div>
-            <a href="#" class="remind-me">Remind me »</a>
-        </div>
-        <div class="auction">
-            <a href="viewproductreminder.jsp">
-                <img src="images/guccishoe.jpg" alt="guccishoe">
-            </a>
-            <div class="auction-details">
-                <p class="auction-title">Bids Starting</p>
-                <p class="auction-timer">2d 4hrs 12mins 33sec</p>
-                <p>WOMEN'S RHYTON GUCCI LOGO LEATHER TRAINER size US 36</p>
-            </div>
-            <a href="#" class="remind-me">Remind me »</a>
-        </div>
+        <a href="viewallfeature.jsp" class="see-all">See more products ending soon</a>
     </div>
-    <a href="viewupcomingauction.jsp" class="see-more">See More Upcoming Auctions</a>
-</div>
+
+    <%
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException e) {}
+            if (stmt != null) try { stmt.close(); } catch (SQLException e) {}
+            if (conn != null) try { conn.close(); } catch (SQLException e) {}
+        }
+    %>
 
 
     <div class="Categories">
