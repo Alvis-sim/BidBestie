@@ -184,6 +184,41 @@
     };
 
     window.onload = connect;
+    function updateCountdown() {
+        var eDate = new Date("<%= request.getAttribute("eDate") %>");
+        var now = new Date();
+        var nowUtc = new Date(Date.UTC(
+                now.getUTCFullYear(), 
+                now.getUTCMonth(), 
+                now.getUTCDate(), 
+                now.getUTCHours(), 
+                now.getUTCMinutes(), 
+                now.getUTCSeconds()
+            ));
+        var timeDifference = eDate - nowUtc;
+
+        if (timeDifference <= 0) {
+            document.getElementById('countdown').innerHTML = "Auction Ended";
+            return;
+        }
+
+        var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+        document.getElementById('countdown').innerHTML =
+            days + "d " +
+            hours + "h " +
+            minutes + "m " +
+            seconds + "s ";
+    }
+
+    // Update countdown every second
+    setInterval(updateCountdown, 1000);
+
+    // Initial call to display immediately
+    updateCountdown();
 </script>
 
 
@@ -392,6 +427,7 @@
         <div class="bidding">
             <h1>Auction Bidding System with Payment</h1>
             <h1 id="highestBid">Current Highest Bid: $<span id="highestBidAmount"><%= request.getAttribute("currentBid") %></span></h1>
+            <h1><div class="countdown" id="countdown"></div></h1>
             <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
             <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
             <button onclick="handleBid()">Place Bid</button>
