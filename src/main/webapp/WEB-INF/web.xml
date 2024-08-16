@@ -153,5 +153,13 @@
     <servlet-name>ViewListingDescriptionServlet</servlet-name>
     <url-pattern>/viewlistingdesc</url-pattern>
 </servlet-mapping>
+<servlet>
+    <servlet-name>AdminLoginServlet</servlet-name>
+    <servlet-class>AdminLoginServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>AdminLoginServlet</servlet-name>
+    <url-pattern>/AdminLoginServlet</url-pattern>
+</servlet-mapping>
     
 </web-app>

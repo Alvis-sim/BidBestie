@@ -183,13 +183,10 @@
             <input type="number" id="startingBidPrice" name="startingBidPrice">
 
             <label for="startdate">Schedule start listing date:</label>
-            <input type="date" id="startdate" name="startdate">
+            <input type="datetime-local" id="startdate" name="startdate">
 
             <label for="enddate">Schedule end listing date:</label>
-            <input type="date" id="enddate" name="enddate">
-
-            <label for="auctionDuration">Auction duration (days):</label>
-            <input type="number" id="auctionDuration" name="auctionDuration"><br><br>
+            <input type="datetime-local" id="enddate" name="enddate">
         </div>
         <br><br>
         <hr>
