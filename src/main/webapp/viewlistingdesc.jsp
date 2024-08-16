@@ -98,6 +98,22 @@
         ws.onmessage = function(event) {
             var log = document.getElementById("bidLog");
             log.innerHTML += event.data + "<br>";
+
+            // Extract the bid amount from the message
+            var message = event.data;
+            var bidAmountRegex = /\$([0-9]+(\.[0-9]{1,2})?)/;
+            var match = message.match(bidAmountRegex);
+
+            if (match) {
+                var bidAmount = parseFloat(match[1]);
+                var highestBidElement = document.getElementById("highestBidAmount");
+                var currentHighestBid = parseFloat(highestBidElement.innerText);
+
+                // Update the highest bid if the new bid is higher
+                if (bidAmount > currentHighestBid) {
+                    highestBidElement.innerText = bidAmount.toFixed(2);
+                }
+            }
         };
         ws.onclose = function() {
             console.log("WebSocket connection closed");
@@ -375,6 +391,7 @@
         <!-- Bidding Section -->
         <div class="bidding">
             <h1>Auction Bidding System with Payment</h1>
+            <h1 id="highestBid">Current Highest Bid: $<span id="highestBidAmount"><%= request.getAttribute("currentBid") %></span></h1>
             <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
             <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
             <button onclick="handleBid()">Place Bid</button>

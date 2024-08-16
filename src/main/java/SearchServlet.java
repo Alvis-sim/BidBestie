@@ -4,7 +4,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,7 +27,8 @@ public class SearchServlet extends HttpServlet {
 
         List<Product> products = new ArrayList<>();
         
-        String sql = "SELECT productName, buyNowPrice, image FROM product WHERE productName LIKE ?";
+        // Include productID in the SELECT clause
+        String sql = "SELECT productID, productName, buyNowPrice, image FROM product WHERE productName LIKE ?";
 
         if (category != null && !category.isEmpty()) {
             sql += " AND productCategory = ?";
@@ -44,12 +44,13 @@ public class SearchServlet extends HttpServlet {
             
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                	int productID = rs.getInt("productID");
+                    // Retrieve the productID from the ResultSet
+                    int productID = rs.getInt("productID");
                     String productName = rs.getString("productName");
                     double buyNowPrice = rs.getDouble("buyNowPrice");
                     byte[] imageBytes = rs.getBytes("image");
                     String imagePath = imageBytes != null ? "data:image/jpeg;base64," + java.util.Base64.getEncoder().encodeToString(imageBytes) : null;
-                    products.add(new Product(productID,productName, buyNowPrice, imagePath));
+                    products.add(new Product(productID, productName, buyNowPrice, imagePath));
                 }
             }
         } catch (Exception e) {

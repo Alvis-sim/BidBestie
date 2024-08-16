@@ -27,8 +27,9 @@ public class ViewListingDescriptionServlet extends HttpServlet {
 
             // Database connection and query
             try (Connection con = DriverManager.getConnection("jdbc:mysql://database-2.cvyg86uued8z.ap-southeast-1.rds.amazonaws.com:3306/bidbestie?enabledTLSProtocols=TLSv1.2&serverTimezone=UTC", "root", "root");
-                 PreparedStatement statement = con.prepareStatement("SELECT productName, buyNowPrice, startingBidPrice, productDescription, currentBid, eDate, Image FROM product WHERE productID = ?")) {
-                
+                 PreparedStatement statement = con.prepareStatement("SELECT productName, buyNowPrice, startingBidPrice, productDescription, eDate, Image FROM product WHERE productID = ?");
+                 PreparedStatement bidStatement = con.prepareStatement("SELECT MAX(bid_amount) AS highestBid FROM auction_bids WHERE productID = ?")) {
+
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 statement.setInt(1, productID);
                 try (ResultSet rs = statement.executeQuery()) {
@@ -38,13 +39,25 @@ public class ViewListingDescriptionServlet extends HttpServlet {
                         request.setAttribute("buyNowPrice", rs.getDouble("buyNowPrice"));
                         request.setAttribute("startingBidPrice", rs.getDouble("startingBidPrice"));
                         request.setAttribute("productDescription", rs.getString("productDescription"));
-                        request.setAttribute("currentBid", rs.getDouble("currentBid"));
                         request.setAttribute("eDate", rs.getString("eDate"));
-                        
+
                         // Retrieve the image as a byte array
                         byte[] imageData = rs.getBytes("Image");
                         String base64Image = Base64.getEncoder().encodeToString(imageData);
                         request.setAttribute("base64Image", base64Image);
+
+                        double currentBid = rs.getDouble("startingBidPrice");
+
+                        // Get the current highest bid
+                        bidStatement.setInt(1, productID);
+                        try (ResultSet bidResultSet = bidStatement.executeQuery()) {
+                            if (bidResultSet.next()) {
+                                double highestBid = bidResultSet.getDouble("highestBid");
+                                currentBid = highestBid > 0 ? highestBid : currentBid;
+                            }
+                        }
+
+                        request.setAttribute("currentBid", currentBid);
 
                         auctionItem = new AuctionItem(
                                 productID,
@@ -52,7 +65,7 @@ public class ViewListingDescriptionServlet extends HttpServlet {
                                 rs.getDouble("buyNowPrice"),
                                 rs.getDouble("startingBidPrice"),
                                 rs.getString("productDescription"),
-                                rs.getDouble("currentBid"),
+                                currentBid,
                                 rs.getString("eDate"),
                                 base64Image
                         );
