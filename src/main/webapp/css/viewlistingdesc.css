@@ -14,6 +14,7 @@ body {
 /* Adjust main container to accommodate sticky navbar */
 .main-container {
   margin-top: 130px; /* Adjust according to the height of the sticky navbar */
+  margin:0;
 }
 
 .sticky-top {
@@ -53,18 +54,17 @@ body {
 /* Search bar styles */
 .search-container {
     display: flex;
-    justify-content: center;
+    justify-content: space-between; /* Adjust to space out the form and user-func */
     align-items: center;
     width: 100%;
-    padding: 5px 10px;
-    margin: 0;
+    padding: 10px 20px;
     background-color: #CBDDD1;
 }
 
-.search-container a {
-    text-decoration: none; /* Remove underline from links */
-    color: gray; /* Black text color */
-    margin-left: 15px;
+.search-container form {
+    display: flex;    
+    align-items: center;
+    width: 80%; /* Adjust width of the form as needed */
 }
 
 .search-container select, 
@@ -73,19 +73,23 @@ body {
     border: 1px solid #ccc;
     border-radius: 5px;
     outline: none;
-    width: 90%;
     margin-right: 10px;
     font-size: 16px;
+    flex-grow: 1; /* Allow elements to grow to fill available space */
 }
 
 .search-container select {
-    width: 200px;
+    width: 150px; /* Set a fixed width for the select dropdown */
     background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMCA2Ij48cGF0aCBkPSJNNSAwTDkuOSAzLjcgNSAwWiIgZmlsbD0iI2NjYyIvPjwvc3ZnPg==') no-repeat right 10px center;
     background-size: 12px;
     cursor: pointer;
 }
 
-.search-button{
+.search-container input {
+    flex-grow: 2; /* Make input field take up more space */
+}
+
+.search-container button {
     padding: 10px 20px;
     border: none;
     background-color: rgb(98, 164, 149);
@@ -95,7 +99,7 @@ body {
     font-size: 16px;
 }
 
-.search-button:hover{
+.search-container button:hover {
     background-color: #78b1a4;
 }
 
@@ -306,7 +310,8 @@ h1 {
   border-radius: 20px;
   display: block;
   margin: auto;
-  max-width: 100%;
+  width: 400px;
+  height: 400px;
 }
 
 .slideshow-container {
@@ -362,7 +367,7 @@ h1 {
   background-color: rgba(0,0,0,0.8);
 }
 
-.slideshow-and-buy-now-container {
+.slideshow-and-bidding {
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -394,7 +399,7 @@ h1 {
   color: red;
 }
 
-.slideshow-container, .buy-now-container {
+.slideshow-container, .bidding {
   flex: 1;
   display: flex;
   flex-direction: column;
