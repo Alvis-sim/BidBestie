@@ -367,20 +367,31 @@
                     <img src="data:image/jpeg;base64,${base64Image}" class="slide-img" alt="Product Image"/>
                     <!-- img src="images/laptop.jpg" class="slide-img" alt="NoNotification"-->
                 </div>
-                <!-- Bidding Section -->
+		        <!-- Bidding Section -->
 		        <div class="bidding">
 		            <h1>Auction Bidding System with Payment</h1>
+		            <h1 id="highestBid">Current Highest Bid: $<span id="highestBidAmount"><%= request.getAttribute("currentBid") %></span></h1>
+		            <h1><div class="countdown" id="countdown"></div></h1>
+		                <!-- Display the winner if auction has ended -->
+		                <%
+		                    if (auctionWinner != null) {
+		                %>
+		                    <h2>Auction Ended. Winner: <%= auctionWinner %></h2>
+		                <%
+		                    }
+		                %>
 		            <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
 		            <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
 		            <button onclick="handleBid()">Place Bid</button>
-					<form id="payment-form" action="processPayment" method="post">
-					    <div id="card-element"></div>
-					    <div id="card-errors" role="alert"></div>
-					    <input type="hidden" name="totalAmount" id="totalAmount">
-					    <input type="hidden" name="bidAmount" id="bidAmountHidden">
-					    <button type="submit" style="display: none;">Submit Payment</button>
-					</form>
-		        </div>
+		            <form id="payment-form" action="processPayment" method="post">
+		                <div id="card-element"></div>
+		                <div id="card-errors" role="alert"></div>
+		                <input type="hidden" name="totalAmount" id="totalAmount">
+		                <input type="hidden" name="bidAmount" id="bidAmountHidden">
+		                <input type="hidden" name="productID" id="productIDHidden" value="${productID}">
+		                <button type="submit" style="display: none;">Submit Payment</button>
+		            </form>
+
 		        <!-- to put buttons (place bid, buy, add to cart, add to watchlist -->
         		<div class="buy-now-container">
                     <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
