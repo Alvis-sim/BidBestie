@@ -161,5 +161,35 @@
     <servlet-name>AdminLoginServlet</servlet-name>
     <url-pattern>/AdminLoginServlet</url-pattern>
 </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddToWatchlistServlet</display-name>
+    <servlet-name>AddToWatchlistServlet</servlet-name>
+    <servlet-class>AddToWatchlistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddToWatchlistServlet</servlet-name>
+    <url-pattern>/AddToWatchlistServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>RemoveFromWatchlistServlet</display-name>
+    <servlet-name>RemoveFromWatchlistServlet</servlet-name>
+    <servlet-class>RemoveFromWatchlistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>RemoveFromWatchlistServlet</servlet-name>
+    <url-pattern>/RemoveFromWatchlistServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>WatchlistServlet</display-name>
+    <servlet-name>WatchlistServlet</servlet-name>
+    <servlet-class>WatchlistServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>WatchlistServlet</servlet-name>
+    <url-pattern>/WatchlistServlet</url-pattern>
+  </servlet-mapping>
     
 </web-app>

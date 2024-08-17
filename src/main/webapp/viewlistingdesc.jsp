@@ -408,7 +408,12 @@
                                 <input type="hidden" name="imageBase64" value="${base64Image}">
                                 <button id="addToCartButton" type="submit" class="place-bid">Add to cart</button>
                             </form>
-                            <p class="last-sale">Last Sale: $147</p>
+                           	<form action="AddToWatchlistServlet" method="post">
+    							<input type="hidden" name="productID" value="${productID}">
+    							<input type="hidden" name="productName" value="${productName}"> <!-- Ensure productName is available -->
+   								<button type="submit">Add to Watchlist</button>
+							</form>
+
                         </div>
                     </div>
                 </div>
