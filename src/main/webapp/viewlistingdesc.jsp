@@ -231,18 +231,6 @@
     // Initial call to display immediately
     updateCountdown();
 
-    function finalizeAuction() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "FinalizeAuctionServlet", true); // The servlet URL to finalize the auction
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log("Auction finalized.");
-            }
-        };
-        xhr.send("productID=" + encodeURIComponent("<%= productID %>"));
-    }
-
 </script>
 
 
