@@ -89,7 +89,6 @@
         <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
         <div class="user-func">
             <a href="createlisting2.jsp">Sell</a>         
-            <a href="Product">Load</a>
             <a href="logout">Logout</a>
             <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
             <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>

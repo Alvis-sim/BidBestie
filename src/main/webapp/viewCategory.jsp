@@ -35,7 +35,7 @@
     </script>
 </head>
 <body>
-	<div class="sticky-top">
+<div class="sticky-top">
 	<div class= "top-header">
 		<div class="left-section">
 			<div class="logo">
@@ -49,48 +49,47 @@
 			            <a href="viewaccount.jsp">Settings</a>
 			            <a href="viewlisting.jsp">My Listings</a>			        
 			    	</div>		        
-				</div> 	        
-	    	</div>  
+				</div>				 		 	        
+	    	</div> 	    	 	
 	 	</div>
-	    <div class="categories">
-	            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
-	            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
-	            <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
-	            <a href="DisplayCategoryServlet?category=living">Living</a>
-	            <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
-	            <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
-	            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
-	            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
-	    </div>	
+	 	<div class="categories">
+            <a href="DisplayCategoryServlet?category=electronics">Electronics</a>
+            <a href="DisplayCategoryServlet?category=women-fashion">Women Fashion</a>
+            <a href="DisplayCategoryServlet?category=men-fashion">Men Fashion</a>
+            <a href="DisplayCategoryServlet?category=living">Living</a>
+            <a href="DisplayCategoryServlet?category=accessories">Accessories</a>
+            <a href="DisplayCategoryServlet?category=beauty-health">Beauty & Health</a>
+            <a href="DisplayCategoryServlet?category=sporting-goods">Sporting Goods</a>
+            <a href="DisplayCategoryServlet?category=pet-supplies">Pet Supplies</a>
+	    </div>		    	
 	</div>	  
     <div class="search-container">
-    	<select id="category">
-            <option value="">By Categories</option>
-            <option value="electronics">Electronics</option>
-            <option value="women-fashion">Women Fashion</option>
-            <option value="men-fashion">Men Fashion</option>
-            <option value="living">Living</option>
-            <option value="accessories">Accessories</option>
-            <option value="beauty-health">Beauty and Health</option>
-            <option value="travel">Travel</option>
-            <option value="sporting-goods">Sporting Goods</option>
-            <option value="pet-supplies">Pet Supplies</option>
-        </select>        
-        <input type="text" placeholder="Search for anything and everything">
-        <a href="searchResults.jsp"><button type="submit" class="search-button">Search</button></a>
-        <div class="user-func">
-            <a href="createlisting2.jsp">Sell</a>         
-            <a href="Product">Load</a>
-            <a href="logout">Logout</a>
-            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
-            <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>
-            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
-		</div>
-    </div>     
+            <form action="SearchServlet" method="get">
+                <select name="category">
+                    <option value="">Search by Category</option>
+                    <option value="electronics">Electronics</option>
+                    <option value="women-fashion">Women Fashion</option>
+                    <option value="men-fashion">Men Fashion</option>
+                    <option value="living">Living</option>
+                    <option value="accessories">Accessories</option>
+                    <option value="beauty-health">Beauty and Health</option>
+                    <option value="travel">Travel</option>
+                    <option value="sporting-goods">Sporting Goods</option>
+                    <option value="pet-supplies">Pet Supplies</option>
+                </select>
+                <input type="text" name="query" placeholder="Search for anything and everything...">
+                <button type="submit">Search</button>
+            </form>
+            <div class="user-func">
+	            <a href="createListing.jsp">Sell</a>                     
+	            <a href="logout">Logout</a>
+	            <a href="#" id="bell-icon"><img src="images/bell.png" alt="Notifications"></a>
+	            <a href="watchlist.jsp"><img src="images/heart.png" alt="Image 2"></a>
+	            <a href="ViewCartServlet?accountID=${accountID}"><img src="images/shopping-cart.png" alt="Image 3"></a>
+			</div>
+     </div>
 </div>
 
-
-    
     <!-- Notification drop down container -->
     <div id="notificationDropdown" class="notification-dropdown">
         <!-- Header and Filters -->

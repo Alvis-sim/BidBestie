@@ -16,6 +16,52 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style><%@include file="css/Landingpage.css"%></style>
     <title>BidBestie | Home</title>
+    <script>
+        function startTimer(endDate, elementId) {
+            var countDownDate = new Date(endDate).getTime();
+
+            var x = setInterval(function() {
+                var now = new Date().getTime();
+                var distance = countDownDate - now;
+
+                var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                var minutes = Math.floor((distance % (1000 * 60)) / (1000 * 60));
+                var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                document.getElementById(elementId).innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+
+                if (distance < 0) {
+                    clearInterval(x);
+                    document.getElementById(elementId).innerHTML = "EXPIRED";
+                }
+            }, 1000);
+        }
+
+        function openWebSocket(productID) {
+            // Initialize WebSocket
+            let ws = new WebSocket("ws://" + document.location.host + "/auction/" + productID);
+
+            ws.onopen = function () {
+                ws.send(JSON.stringify({ action: "subscribe", productID: productID }));
+            };
+
+            ws.onmessage = function (event) {
+                var log = document.getElementById("bidLog");
+                if (log) {
+                    log.innerHTML += event.data + "<br>";
+                }
+            };
+
+            ws.onclose = function () {
+                console.log("WebSocket connection closed");
+            };
+
+            ws.onerror = function (error) {
+                console.error("WebSocket error: " + error);
+            };
+        }
+    </script>
     <link rel="icon" type="image/png" href="path/to/your/favicon.png">
 </head>
 <body>
