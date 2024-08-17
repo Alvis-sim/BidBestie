@@ -125,7 +125,6 @@
             console.error("WebSocket error: " + error);
         };
     }
-
     function handleBid() {
         if (!username || username === "null") {
             window.location.href = "login.jsp";
@@ -165,10 +164,9 @@
                 hiddenTokenInput.setAttribute('value', result.token.id);
                 form.appendChild(hiddenTokenInput);
 
-                console.log("Token and bid amount added to form, submitting form...");
-                form.submit();
+                console.log("Token creation successful, but form submission is skipped.");
 
-                // Send bid and product ID to WebSocket server after successful payment
+                // Send bid and product ID to WebSocket server after token creation
                 if (ws.readyState === WebSocket.OPEN) {
                     ws.send(JSON.stringify({bidAmount: bidAmount, productID: productID}));
                 } else {
@@ -176,9 +174,13 @@
                         ws.send(JSON.stringify({bidAmount: bidAmount, productID: productID}));
                     };
                 }
+
+                // Prevent the form from being submitted
+                // form.submit(); // This line is commented out to skip payment processing
             }
         });
     }
+
 
     window.onunload = function() {
         if (ws) {
