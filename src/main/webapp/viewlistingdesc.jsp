@@ -97,6 +97,8 @@
         if (ws && ws.readyState === WebSocket.OPEN) {
             return; // If WebSocket is already open, don't create a new connection
         }
+        // Log the WebSocket URL to the console for debugging
+        console.log("WebSocket URL: ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
         ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
         ws.onmessage = function(event) {
             var log = document.getElementById("bidLog");
@@ -232,6 +234,7 @@
 
     // Initial call to display immediately
     updateCountdown();
+
 
 </script>
 
