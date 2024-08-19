@@ -88,7 +88,7 @@
             connect();
         }
     });
-
+    var productID = "<%= productID %>";
     function connect() {
         if (!username) {
             alert("Username is required to join the auction.");
@@ -97,9 +97,11 @@
         if (ws && ws.readyState === WebSocket.OPEN) {
             return; // If WebSocket is already open, don't create a new connection
         }
+
+
         // Log the WebSocket URL to the console for debugging
-        console.log("WebSocket URL: ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
-        ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(username));
+        console.log("WebSocket URL: ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(productID) + "/" + encodeURIComponent(username));
+        ws = new WebSocket("ws://" + document.location.host + "<%= request.getContextPath() %>/auction/" + encodeURIComponent(productID) + "/" + encodeURIComponent(username));
         ws.onmessage = function(event) {
             var log = document.getElementById("bidLog");
             log.innerHTML += event.data + "<br>";
@@ -151,7 +153,15 @@
 
         bidAmountHidden.value = bidAmount;
         totalAmount.value = bidAmount * 100; // Convert to cents for Stripe
+        
+        // Disable the button for 2 seconds
+        var placeBidButton = document.getElementById("placeBidButton");
+        placeBidButton.disabled = true;
 
+        setTimeout(function() {
+            placeBidButton.disabled = false;
+        }, 2000);
+        
         // Create Stripe token before form submission
         var form = document.getElementById('payment-form');
         stripe.createToken(card).then(function(result) {
@@ -191,6 +201,8 @@
     };
 
     window.onload = connect;
+    var auctionFinalized = false;
+
     function updateCountdown() {
         var eDate = new Date("<%= request.getAttribute("eDate") %>");
         var now = new Date();
@@ -204,7 +216,7 @@
         ));
         var timeDifference = eDate - nowUtc;
 
-        if (timeDifference <= 0) {
+        if (timeDifference <= 0 && !auctionFinalized) {
             document.getElementById('countdown').innerHTML = "Auction Ended";
             // Hide the bidding elements when the auction has ended
             document.getElementById('bidAmount').style.display = 'none';
@@ -212,11 +224,14 @@
 
             // Optionally, you can also disable the form submission
             document.getElementById('payment-form').style.display = 'none';
+
+            // Set the auction as finalized to prevent further calls
+            auctionFinalized = true;
+
             // Trigger finalization when countdown reaches zero
             finalizeAuction();
             return;
         }
-
         var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
         var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
@@ -235,7 +250,17 @@
     // Initial call to display immediately
     updateCountdown();
 
-
+    function finalizeAuction() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "FinalizeAuctionServlet", true); // The servlet URL to finalize the auction
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                console.log("Auction finalized.");
+            }
+        };
+        xhr.send("productID=" + encodeURIComponent("<%= productID %>"));
+    }
 </script>
 
 
@@ -385,7 +410,7 @@
 		                %>
 		            <div id="bidLog" style="border:1px solid black; height:300px; overflow:auto;"></div>
 		            <input type="text" id="bidAmount" placeholder="Enter your bid amount" />
-		            <button onclick="handleBid()">Place Bid</button>
+		            <button id="placeBidButton" onclick="handleBid()">Place Bid</button>
 		            <form id="payment-form" action="processPayment" method="post">
 		                <div id="card-element"></div>
 		                <div id="card-errors" role="alert"></div>

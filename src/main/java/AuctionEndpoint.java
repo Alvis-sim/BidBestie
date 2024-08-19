@@ -31,7 +31,7 @@ import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
 import com.stripe.model.Charge;
 
-@ServerEndpoint(value = "/auction/{username}", configurator = AuctionEndpoint.Configurator.class)
+@ServerEndpoint(value = "/auction/{productID}/{username}", configurator = AuctionEndpoint.Configurator.class)
 public class AuctionEndpoint {
 
     private static Set<Session> clients = Collections.synchronizedSet(new HashSet<>());
@@ -48,23 +48,20 @@ public class AuctionEndpoint {
     }
 
     @OnOpen
-    public void onOpen(Session session, @PathParam("username") String username) throws IOException, SQLException {
-        System.out.println("Connection opened for user: " + username);
+    public void onOpen(Session session, @PathParam("productID") int productID, @PathParam("username") String username) throws IOException, SQLException {
+        System.out.println("Connection opened for user: " + username + " on product: " + productID);
         clients.add(session);
         session.getUserProperties().put("username", username);
+        session.getUserProperties().put("productID", productID);
 
         HttpSession httpSession = (HttpSession) session.getUserProperties().get("httpSession");
         if (httpSession != null) {
             httpSession.setAttribute("username", username);
-
-            // Retrieve productID from the HttpSession
-            String productIDStr = (String) httpSession.getAttribute("productID");
-            if (productIDStr != null) {
-                int productID = Integer.parseInt(productIDStr);
-                sendAuctionHistory(session, productID);
-            } else {
-                session.getBasicRemote().sendText("Product ID is missing from session, cannot retrieve auction history.");
-            }
+            
+            // Optional: store productID in HttpSession as a fallback
+            httpSession.setAttribute("productID", String.valueOf(productID));
+            
+            sendAuctionHistory(session, productID);
         } else {
             session.getBasicRemote().sendText("HttpSession is not available, cannot retrieve auction history.");
         }
