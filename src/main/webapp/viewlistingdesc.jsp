@@ -394,7 +394,7 @@
 		                <input type="hidden" name="productID" id="productIDHidden" value="${productID}">
 		                <button type="submit" style="display: none;">Submit Payment</button>
 		            </form>
-
+				</div>
 		        <!-- to put buttons (place bid, buy, add to cart, add to watchlist -->
         		<div class="buy-now-container">
                     <i class="fa fa-heart heart-icon" onclick="toggleLike(this)"></i>
@@ -414,6 +414,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <div class="description-container">
                 <h3> Product Description </h3>
